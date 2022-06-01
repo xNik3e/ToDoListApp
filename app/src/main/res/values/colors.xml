@@ -7,4 +7,28 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="cardBackground">#141922</color>
+    <color name="defaultColor">#5D9CEC</color>
+    <color name="categoryColor">#78909C</color>
+    <color name="titleColor">#2F2F2F</color>
+    <color name="accentColor">@color/white</color>
+    <color name="activeCardBackground">#4B4B4B</color>
+    <color name="lineBreak">#131A29</color>
+    <color name="error">#B00020</color>
+    <color name="category1Main">#7E57C2</color>
+    <color name="category2Main">#EC407A</color>
+    <color name="category3Main">#EF5350</color>
+    <color name="category4Main">#FFCA28</color>
+    <color name="category5Main">#9CCC65</color>
+    <color name="category6Main">#42A5F5</color>
+    <color name="category7Main">#26A69A</color>
+    <color name="category1Shadow">#47316E</color>
+    <color name="category2Shadow">#EC407A</color>
+    <color name="category3Shadow">#EF5350</color>
+    <color name="category4Shadow">#FFCA28</color>
+    <color name="category5Shadow">#9CCC65</color>
+    <color name="category6Shadow">#42A5F5</color>
+    <color name="category7Shadow">#26A69A</color>
+
 </resources>
