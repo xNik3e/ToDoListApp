@@ -16,6 +16,4 @@
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_more"
         android:title="@string/settings" />
-
-
 </menu>
