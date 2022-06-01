@@ -3,19 +3,19 @@
     <item
         android:id="@+id/todoFragment"
         android:icon="@drawable/ic_check"
-        android:title="TODO" />
+        android:title="@string/todo" />
     <item
         android:id="@+id/searchFragment"
         android:icon="@drawable/ic_search"
-        android:title="Search" />
+        android:title="@string/search" />
     <item
         android:id="@+id/categoryFragment"
         android:icon="@drawable/ic_bookmark"
-        android:title="Categories" />
+        android:title="@string/categories" />
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_more"
-        android:title="Settings" />
+        android:title="@string/settings" />
 
 
 </menu>
