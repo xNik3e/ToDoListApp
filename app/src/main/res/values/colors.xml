@@ -30,5 +30,6 @@
     <color name="category5Shadow">#9CCC65</color>
     <color name="category6Shadow">#42A5F5</color>
     <color name="category7Shadow">#26A69A</color>
+    <color name="transparent">#00000000</color>
 
 </resources>
