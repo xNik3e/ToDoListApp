@@ -25,14 +25,14 @@
     <color name="category3Main">#EF5350</color>
     <color name="category4Main">#FFCA28</color>
     <color name="category5Main">#9CCC65</color>
-    <color name="category6Main">#42A5F5</color>
+    <color name="category6Main">#5D9CEC</color>
     <color name="category7Main">#208D83</color>
     <color name="category1Shadow">#47316E</color>
-    <color name="category2Shadow">#EC407A</color>
-    <color name="category3Shadow">#EF5350</color>
-    <color name="category4Shadow">#FFCA28</color>
-    <color name="category5Shadow">#9CCC65</color>
-    <color name="category6Shadow">#42A5F5</color>
+    <color name="category2Shadow">#852445</color>
+    <color name="category3Shadow">#872F2D</color>
+    <color name="category4Shadow">#51400D</color>
+    <color name="category5Shadow">#324120</color>
+    <color name="category6Shadow">#355885</color>
     <color name="category7Shadow">#155E57</color>
     <color name="transparent">#00000000</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/defaultColor</color>

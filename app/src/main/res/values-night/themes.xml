@@ -9,6 +9,7 @@
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSurface" tools:override="true">@color/cardBackground</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 
@@ -22,15 +23,6 @@
         <item name="itemTextAppearanceInactive">@color/white</item>
     </style>
 
-    <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="colorPrimary">@color/defaultColorBackup</item>
-        <item name="colorSecondary">@color/accentColor</item>
-        <item name="colorSurface">@color/bkgColor</item>
-        <item name="colorOnSurface">@color/defaultColorBackup</item>
-        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
-        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text</item>
-        <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button</item>
-        <item name="buttonBarNeutralButtonStyle">@style/Widget.App.Button</item>
-    </style>
+
 
 </resources>

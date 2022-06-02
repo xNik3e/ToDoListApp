@@ -50,7 +50,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         lobsterPicker.setHistory(color);
         lobsterPicker.setColor(color);
 
-        new MaterialAlertDialogBuilder(getActivity(), R.style.ThemeOverlay_App_MaterialAlertDialog)
+        new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
                 .setView(colorView)
                 .setTitle("Choose Color")
                 .setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
