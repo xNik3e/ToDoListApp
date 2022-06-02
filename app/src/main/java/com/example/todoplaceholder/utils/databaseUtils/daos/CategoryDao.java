@@ -1,10 +1,11 @@
-package com.example.todoplaceholder.utils.databaseUtils;
+package com.example.todoplaceholder.utils.databaseUtils.daos;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.todoplaceholder.models.CategoryModel;
 
@@ -27,4 +28,7 @@ public interface CategoryDao {
 
     @Query("SELECT * FROM CATEGORY_TABLE WHERE categoryName = :catName")
     LiveData<List<CategoryModel>> getCategoriesByName(String catName);
+
+    @Update
+    void updateCategory(CategoryModel model);
 }

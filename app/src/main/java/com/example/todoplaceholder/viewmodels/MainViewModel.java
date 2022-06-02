@@ -5,14 +5,11 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.repositories.MainRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class MainViewModel extends AndroidViewModel {
 
@@ -37,7 +34,7 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public void setCategoryModels(List<CategoryModel> list){
-        mRepository.insertAll(list);
+        mRepository.insertAllCategories(list);
     }
     public void addCategoryModel(CategoryModel model){
         mRepository.insert(model);
@@ -54,5 +51,9 @@ public class MainViewModel extends AndroidViewModel {
 
     public void removeAllCategories(){
         mRepository.deleteAll();
+    }
+
+    public void updateCategory(CategoryModel model){
+        mRepository.updateCategory(model);
     }
 }

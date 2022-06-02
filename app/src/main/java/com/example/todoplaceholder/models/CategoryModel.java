@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.example.todoplaceholder.R;
@@ -26,12 +27,14 @@ public class CategoryModel {
     @ColumnInfo(name = "shadowColor")
     private int shadowColor;
 
+
+
     public CategoryModel(String categoryName, int colorId) {
         this.categoryName = categoryName;
         this.colorId = colorId;
         createColorResources();
     }
-
+    @Ignore
     public CategoryModel(String categoryName){
         this.categoryName = categoryName;
         this.colorId = 0;
@@ -95,5 +98,20 @@ public class CategoryModel {
 
     public int getShadowColor() {
         return shadowColor;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setBaseColor(int baseColor) {
+        this.baseColor = baseColor;
+    }
+
+    public void setShadowColor(int shadowColor) {
+        this.shadowColor = shadowColor;
     }
 }

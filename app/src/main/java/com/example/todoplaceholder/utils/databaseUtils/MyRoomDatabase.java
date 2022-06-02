@@ -6,21 +6,27 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.todoplaceholder.models.CategoryModel;
+import com.example.todoplaceholder.models.TaskModel;
+import com.example.todoplaceholder.utils.databaseUtils.daos.CategoryDao;
+import com.example.todoplaceholder.utils.databaseUtils.daos.TaskDao;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(
-        entities = {CategoryModel.class},
+        entities = {CategoryModel.class, TaskModel.class},
         version = 1,
-        exportSchema = true
+        exportSchema = false
 )
+@TypeConverters({Converters.class})
 public abstract class MyRoomDatabase extends androidx.room.RoomDatabase {
 
     public abstract CategoryDao categoryDao();
+    public abstract TaskDao taskDao();
 
 
     private static volatile MyRoomDatabase INSTANCE;
@@ -33,6 +39,7 @@ public abstract class MyRoomDatabase extends androidx.room.RoomDatabase {
                 if(INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), MyRoomDatabase.class, "room_database")
                             .addCallback(sRoomDatabaseCallback)
+                            .addTypeConverter(Converters.class)
                             .build();
                 }
             }
