@@ -176,10 +176,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:clickable="true"
+        android:textColor="@color/accentColor"
         android:gravity="center"
         android:text="Attach photo"
         android:textAlignment="center"
-        android:textSize="@dimen/helperString"
+        android:textSize="@dimen/alarmSize"
         app:drawableEndCompat="@drawable/ic_add"
         app:layout_constraintEnd_toStartOf="@id/hg96"
         app:layout_constraintTop_toBottomOf="@id/recycler_view_photos" />
@@ -195,7 +196,6 @@
         android:backgroundTint="@color/lineBreak"
         app:layout_constraintEnd_toStartOf="@id/hg96"
         app:layout_constraintStart_toEndOf="@id/hg4"
-        app:layout_constraintBottom_toTopOf="da"
         app:layout_constraintTop_toBottomOf="@id/attach_photo" />
 
 
@@ -208,7 +208,7 @@
         android:layout_marginEnd="6dp"
         android:onClick="chooseDate"
         android:textColorHint="@color/hintColor"
-        android:visibility="visible"
+        android:visibility="gone"
         app:boxStrokeColor="@color/defaultColor"
         app:counterTextColor="@color/activeCardBackground"
         app:endIconMode="clear_text"
@@ -237,6 +237,7 @@
         android:layout_marginTop="12dp"
         android:checked="false"
         android:layoutDirection="rtl"
+        android:textSize="@dimen/alarmSize"
         android:text="Set alarm"
         android:textColor="@color/accentColor"
         app:layout_constraintRight_toLeftOf="@id/hg96"
@@ -253,11 +254,14 @@
         android:clickable="true"
         android:padding="16dp"
         android:text="Add"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:textAlignment="center"
         android:textColor="@color/accentColor"
         app:layout_constraintEnd_toStartOf="@id/hg96"
         app:layout_constraintStart_toEndOf="@id/hg4"
-        app:layout_constraintTop_toBottomOf="@id/checkAlarm" />
+        android:layout_marginBottom="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     <androidx.constraintlayout.widget.Guideline
