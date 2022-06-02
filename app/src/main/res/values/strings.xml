@@ -8,5 +8,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_new_task">Add new task</string>
     <string name="add_new_category">Add new category</string>
+    <string name="pref_title">Color scheme</string>
+    <string name="pref_summary">Choose your desired default color</string>
+    <string name="pref_key">colorPref</string>
+    <string name="about">About</string>
 
 </resources>

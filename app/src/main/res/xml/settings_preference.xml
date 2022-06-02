@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.kizitonwose.colorpreferencecompat.ColorPreferenceCompat
+        android:defaultValue="@color/defaultColor"
+        android:key="@string/pref_key"
+        android:summary="@string/pref_summary"
+        android:title="@string/pref_title"
+        app:colorShape="circle"
+        app:viewSize="large"
+        app:showDialog="false"/>
+
+    <Preference
+        android:key="settings_preference_about"
+        android:title="@string/about"
+        />
+
+</androidx.preference.PreferenceScreen>
