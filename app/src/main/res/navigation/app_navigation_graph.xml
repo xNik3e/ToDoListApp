@@ -3,25 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation_graph"
-    app:startDestination="@id/todoFragment2">
-
+    app:startDestination="@id/todoFragment3">
     <fragment
-        android:id="@+id/todoFragment2"
+        android:id="@+id/todoFragment3"
         android:name="com.example.todoplaceholder.fragments.todoFragment"
         android:label="fragment_todo"
         tools:layout="@layout/fragment_todo" />
     <fragment
-        android:id="@+id/searchFragment2"
+        android:id="@+id/searchFragment3"
         android:name="com.example.todoplaceholder.fragments.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
     <fragment
-        android:id="@+id/categoriesFragment"
+        android:id="@+id/categoriesFragment2"
         android:name="com.example.todoplaceholder.fragments.CategoriesFragment"
         android:label="fragment_categories"
         tools:layout="@layout/fragment_categories" />
     <fragment
-        android:id="@+id/mySettingsFragment"
+        android:id="@+id/mySettingsFragment2"
         android:name="com.example.todoplaceholder.fragments.mySettingsFragment"
         android:label="fragment_my_settings"
         tools:layout="@layout/fragment_my_settings" />

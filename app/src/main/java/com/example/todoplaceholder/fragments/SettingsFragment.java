@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,13 +43,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         int color = PreferenceManager.getDefaultSharedPreferences(getActivity()).getInt(getString(R.string.pref_key), getResources().getColor(R.color.defaultColor));
         final LobsterPicker lobsterPicker = (LobsterPicker) colorView.findViewById(R.id.lobsterPicker);
         LobsterShadeSlider shadeSlider = (LobsterShadeSlider) colorView.findViewById(R.id.shadeSlider);
+        final TextView resetButton = (TextView) colorView.findViewById(R.id.reset);
 
         lobsterPicker.addDecorator(shadeSlider);
         lobsterPicker.setColorHistoryEnabled(true);
         lobsterPicker.setHistory(color);
         lobsterPicker.setColor(color);
 
-        new AlertDialog.Builder(getActivity())
+        new MaterialAlertDialogBuilder(getActivity(), R.style.ThemeOverlay_App_MaterialAlertDialog)
                 .setView(colorView)
                 .setTitle("Choose Color")
                 .setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
@@ -59,5 +61,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 })
                 .setNegativeButton("CLOSE", null)
                 .show();
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lobsterPicker.setColor(getResources().getColor(R.color.defaultColorBackup));
+            }
+        });
     }
 }

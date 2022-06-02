@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="titleSize">64sp</dimen>
+    <dimen name="titleSize">27sp</dimen>
     <dimen name="addNewItemSize">24sp</dimen>
     <dimen name="categoryNameSize">18sp</dimen>
     <dimen name="dayOfTheWeek">15sp</dimen>

@@ -11,13 +11,26 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
         <!-- Customize your theme here. -->
     </style>
 
 
     <style name="Widget.MaterialComponents.BottomNavigationView.BottomNavView">
-        <item name="colorPrimary">@color/cardBackground</item>
+        <item name="colorPrimary">@color/bkgColor</item>
         <item name="itemTextAppearanceActive">@color/defaultColor</item>
         <item name="itemTextAppearanceInactive">@color/white</item>
     </style>
+
+    <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">@color/defaultColorBackup</item>
+        <item name="colorSecondary">@color/accentColor</item>
+        <item name="colorSurface">@color/bkgColor</item>
+        <item name="colorOnSurface">@color/defaultColorBackup</item>
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.App.Button</item>
+    </style>
+
 </resources>

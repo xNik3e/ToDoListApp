@@ -12,7 +12,6 @@
 
     <Preference
         android:key="settings_preference_about"
-        android:title="@string/about"
-        />
+        android:title="@string/about" />
 
 </androidx.preference.PreferenceScreen>

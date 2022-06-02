@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         NavController navController = Navigation.findNavController(this, R.id.container);

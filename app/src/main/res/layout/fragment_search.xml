@@ -63,6 +63,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_marginTop="8dp"
+            android:visibility="gone"
             android:layout_height="0dp"
             android:id="@+id/recycler_view_search"
             app:layout_constraintTop_toBottomOf="@id/line_break"
@@ -73,6 +74,21 @@
             android:fadingEdgeLength="25dp"
             android:scrollbars="none"
             tools:listitem="@layout/search_item_layout"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toEndOf="@id/vg8"
+                app:layout_constraintEnd_toStartOf="@id/vg92"
+                app:layout_constraintTop_toBottomOf="@id/line_break"
+                app:layout_constraintBottom_toTopOf="@id/hg92"
+                android:text="Nothing's here"
+                android:visibility="visible"
+                android:textColor="@color/defaultColor"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:id="@+id/text_nothing"
+                android:textSize="@dimen/titleSize"/>
 
 
         <androidx.constraintlayout.widget.Guideline
