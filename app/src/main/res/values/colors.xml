@@ -10,6 +10,7 @@
 
     <color name="cardBackground">#141922</color>
     <color name="confirmation">#61E757</color>
+    <color name="bkgColor">#060E1E</color>
     <color name="defaultColor" tools:override="true">#5D9CEC</color>
     <color name="hintColor">#595D9CEC</color>
     <color name="categoryColor">#78909C</color>

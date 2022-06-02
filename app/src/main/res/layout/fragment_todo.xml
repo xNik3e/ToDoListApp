@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mvc"
+    android:background="@color/bkgColor"
     tools:context=".fragments.todoFragment">
 
     <View
@@ -84,12 +84,13 @@
             app:layout_constraintTop_toBottomOf="@id/hg44"
             app:layout_constraintBottom_toTopOf="@id/hg92"
             android:scrollbars="none"
-            android:fadingEdgeLength="15dp"
+            android:fadingEdgeLength="5dp"
             android:requiresFadingEdge="vertical"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
+            tools:listitem="@layout/todo_item_card"
             />
 
 
@@ -141,7 +142,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.92" />
+        app:layout_constraintGuide_percent="0.95" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/vg6"

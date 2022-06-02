@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="18dp">
+    android:paddingBottom="20dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/whole_container"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="125dp"
         android:backgroundTint="@color/cardBackground"
         android:clickable="true"
         android:focusable="true"
@@ -17,15 +17,15 @@
         <RelativeLayout
             android:id="@+id/front"
             android:layout_width="match_parent"
-            android:layout_height="110dp">
+            android:layout_height="125dp">
 
             <View
                 android:id="@+id/category_indicator"
-                android:layout_width="5dp"
+                android:layout_width="8dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="27dp"
+                android:layout_marginBottom="27dp"
                 android:background="@drawable/category_indicator"
                 android:backgroundTint="@color/defaultColor" />
 
@@ -35,11 +35,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/category_indicator"
                 android:layout_alignTop="@id/category_indicator"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
                 android:layout_toEndOf="@id/category_indicator"
-                android:layout_toRightOf="@id/category_indicator"
                 android:singleLine="true"
+                android:textStyle="bold"
                 android:text="TEST"
                 android:textColor="@color/defaultColor"
                 android:textSize="@dimen/itemTitle" />
@@ -49,7 +49,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignBottom="@id/category_indicator"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginBottom="4dp"
                 android:layout_toEndOf="@id/category_indicator"
                 android:layout_toRightOf="@id/category_indicator"
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/alarm_image_view"
                 android:layout_alignBottom="@id/category_indicator"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="2dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="4dp"
                 android:layout_toStartOf="@id/placeholder"
@@ -76,7 +76,7 @@
                 android:textSize="@dimen/itemDescription" />
 
             <View
-                android:layout_width="64dp"
+                android:layout_width="78dp"
                 android:layout_height="32dp"
                 android:id="@+id/placeholder"
                 android:visibility="invisible"
@@ -84,25 +84,25 @@
                 android:focusable="false"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="24dp"/>
+                android:layout_marginEnd="14dp"/>
 
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/button_check"
                 android:layout_width="64dp"
-                android:layout_height="32dp"
+                android:layout_height="48dp"
                 android:layout_alignStart="@id/placeholder"
                 android:layout_alignEnd="@id/placeholder"
                 android:layout_centerVertical="true"
                 android:clickable="true"
                 android:focusable="true"
-                android:visibility="gone"
-                app:cardBackgroundColor="@color/error"
+                android:visibility="visible"
+                app:cardBackgroundColor="@color/defaultColor"
                 app:cardCornerRadius="8dp">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_check"
                     app:tint="@color/accentColor" />
@@ -114,7 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Done!"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:gravity="center"
                 android:layout_alignStart="@id/placeholder"
                 android:layout_alignEnd="@id/placeholder"

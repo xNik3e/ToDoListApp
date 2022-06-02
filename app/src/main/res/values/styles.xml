@@ -6,4 +6,9 @@
         <item name="boxStrokeWidth">2dp</item>
     </style>
 
+
+    <style name="Widget.App.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/button_tint</item>
+    </style>
+
 </resources>

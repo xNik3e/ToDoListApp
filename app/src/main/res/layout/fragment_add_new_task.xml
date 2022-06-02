@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/add_item_card"
+    android:orientation="vertical"
+    tools:context=".fragments.addNewTaskFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="24dp"
+        android:text="@string/add_new_task"
+        android:textColor="@color/accentColor"
+        android:textSize="@dimen/addNewItemSize" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="6dp"
+            android:fadingEdge="horizontal"
+            android:fadingEdgeLength="5dp"
+            android:orientation="horizontal"
+            android:paddingBottom="15dp"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/category_item_view" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/search_container"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:textColorHint="@color/hintColor"
+            app:boxStrokeColor="@color/defaultColor"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/categoryColor"
+
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintTop_toBottomOf="@id/recycler_view_category">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Add your task title"
+                android:inputType="" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/description_container"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="6dp"
+            android:textColorHint="@color/hintColor"
+            app:boxStrokeColor="@color/defaultColor"
+            app:counterEnabled="true"
+            app:counterMaxLength="500"
+            app:counterTextColor="@color/activeCardBackground"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/categoryColor"
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintTop_toBottomOf="@id/search_container">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Add your task description"
+                android:minLines="4"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/date_container"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:visibility="visible"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            app:startIconDrawable="@drawable/ic_calendar"
+            app:startIconTint="@color/defaultColor"
+            android:layout_marginEnd="6dp"
+            android:textColorHint="@color/hintColor"
+            app:boxStrokeColor="@color/defaultColor"
+            app:counterTextColor="@color/activeCardBackground"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/categoryColor"
+            app:layout_constraintEnd_toStartOf="@id/checkAlarm"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            android:onClick="chooseDate"
+            app:layout_constraintTop_toTopOf="@id/checkAlarm"
+            app:layout_constraintBottom_toBottomOf="@id/checkAlarm">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/date"
+                android:editable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Choose notification date"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set alarm"
+            android:layoutDirection="rtl"
+            android:textColor="@color/accentColor"
+            style="@style/Widget.App.CheckBox"
+            android:id="@+id/checkAlarm"
+            android:checked="false"
+            app:layout_constraintTop_toBottomOf="@id/description_container"
+            app:layout_constraintRight_toLeftOf="@id/vg92"
+            android:layout_marginTop="12dp"
+            />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            android:text="Add"
+            app:layout_constraintTop_toBottomOf="@id/checkAlarm"
+            android:textAlignment="center"
+            android:padding="16dp"
+            android:id="@+id/addButton"
+            android:clickable="true"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/add_button"
+            android:backgroundTint="@color/defaultColor"
+            android:textColor="@color/accentColor" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@id/addButton"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            android:layout_marginTop="24dp"/>
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vg8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.08" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vg92"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.92" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
