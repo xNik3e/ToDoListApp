@@ -35,7 +35,7 @@
             app:endIconMode="clear_text"
             app:endIconTint="@color/categoryColor"
 
-            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintEnd_toStartOf="@id/delete_trigger"
             app:layout_constraintStart_toEndOf="@id/vg8"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -47,6 +47,20 @@
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_delete"
+            android:id="@+id/delete_trigger"
+
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintTop_toTopOf="@id/name_container"
+            app:layout_constraintBottom_toBottomOf="@id/name_container"
+            app:layout_constraintStart_toEndOf="@id/name_container"
+
+            app:tint="@color/accentColor" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_color"

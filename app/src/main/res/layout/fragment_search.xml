@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="24dp"
+        android:padding="30dp"
         android:text="Search"
         android:textAlignment="center"
         android:textColor="@color/accentColor"

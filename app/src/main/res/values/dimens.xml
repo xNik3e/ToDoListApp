@@ -3,7 +3,7 @@
 
     <dimen name="titleSize">64sp</dimen>
     <dimen name="addNewItemSize">24sp</dimen>
-    <dimen name="categoryNameSize">42sp</dimen>
+    <dimen name="categoryNameSize">18sp</dimen>
     <dimen name="dayOfTheWeek">15sp</dimen>
     <dimen name="buttonLabel">16sp</dimen>
     <dimen name="hintSize">28sp</dimen>

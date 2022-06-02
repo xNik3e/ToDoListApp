@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bkgColor"
+    android:orientation="vertical"
     tools:context=".fragments.CategoriesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:text="Categories"
+        android:textAlignment="center"
+        android:textColor="@color/accentColor"
+        android:textSize="@dimen/addNewItemSize" />
 
-</FrameLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <GridView
+            android:id="@+id/grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:horizontalSpacing="12dp"
+            android:numColumns="2"
+            android:padding="6dp"
+            android:layout_marginTop="8dp"
+            android:verticalSpacing="16dp"
+            tools:listitem="@layout/category_item_view_bigpicture" />
+    </ScrollView>
+</LinearLayout>
