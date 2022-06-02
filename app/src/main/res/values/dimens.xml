@@ -5,7 +5,7 @@
     <dimen name="addNewItemSize">24sp</dimen>
     <dimen name="categoryNameSize">42sp</dimen>
     <dimen name="dayOfTheWeek">15sp</dimen>
-    <dimen name="buttonLabel">32sp</dimen>
+    <dimen name="buttonLabel">16sp</dimen>
     <dimen name="hintSize">28sp</dimen>
     <dimen name="categoryItemSize">10sp</dimen>
     <dimen name="alarmSize">9sp</dimen>

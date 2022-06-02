@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bkgColor"
+    android:orientation="vertical"
+    tools:context=".fragments.SearchFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:text="Search"
+        android:textAlignment="center"
+        android:textColor="@color/accentColor"
+        android:textSize="@dimen/addNewItemSize" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/search_container"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="6dp"
+            android:textColorHint="@color/hintColor"
+            app:boxStrokeColor="@color/defaultColor"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/categoryColor"
+
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Search tasks by title"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:id="@+id/line_break"
+            android:layout_height="3dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/category_indicator"
+            android:backgroundTint="@color/lineBreak"
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintTop_toBottomOf="@id/search_container" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_height="0dp"
+            android:id="@+id/recycler_view_search"
+            app:layout_constraintTop_toBottomOf="@id/line_break"
+            app:layout_constraintBottom_toTopOf="@id/hg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            android:fadingEdge="vertical"
+            android:fadingEdgeLength="25dp"
+            android:scrollbars="none"
+            tools:listitem="@layout/search_item_layout"/>
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vg8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.08" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vg92"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.92" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/hg92"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.92" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
