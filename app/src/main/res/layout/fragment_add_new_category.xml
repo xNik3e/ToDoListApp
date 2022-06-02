@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/add_item_card"
+    android:orientation="vertical"
+    tools:context=".fragments.addNewCategoryFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="24dp"
+        android:text="@string/add_new_category"
+        android:textAlignment="center"
+        android:textColor="@color/accentColor"
+        android:textSize="@dimen/addNewItemSize" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/name_container"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:textColorHint="@color/hintColor"
+            app:boxStrokeColor="@color/defaultColor"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/categoryColor"
+
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name your category"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_color"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fadingEdge="horizontal"
+            android:fadingEdgeLength="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:orientation="horizontal"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintTop_toBottomOf="@id/name_container"
+            tools:listitem="@layout/color_circle_layout" />
+
+
+        <TextView
+            android:id="@+id/addButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/add_button"
+            android:backgroundTint="@color/defaultColor"
+            android:clickable="true"
+            android:padding="16dp"
+            android:text="Add"
+            android:textAlignment="center"
+            android:textColor="@color/accentColor"
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintTop_toBottomOf="@id/recycler_view_color" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintTop_toBottomOf="@id/addButton" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vg8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.08" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vg92"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.92" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
