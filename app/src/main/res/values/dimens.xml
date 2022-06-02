@@ -12,7 +12,7 @@
     <dimen name="settingTitle">@dimen/addNewItemSize</dimen>
     <dimen name="settingsSubtitle">@dimen/hintSize</dimen>
     <dimen name="searchItemName">@dimen/buttonLabel</dimen>
-    <dimen name="helperString">@dimen/categoryItemSize</dimen>
+    <dimen name="helperString">@dimen/alarmSize</dimen>
     <dimen name="simplifiedDate">@dimen/dayOfTheWeek</dimen>
     <dimen name="itemTitle">@dimen/dayOfTheWeek</dimen>
     <dimen name="itemDescription">@dimen/dayOfTheWeek</dimen>

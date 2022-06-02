@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/delete_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/card_container"
+        android:elevation="8dp"
+        android:paddingTop="3dp"
+        android:src="@drawable/ic_remove"
+        app:tint="@color/error" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_container"
+        android:layout_width="124dp"
+        android:layout_height="124dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardElevation="0dp">
+
+        <ImageView
+            android:id="@+id/attached_photo"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginEnd="12dp"
+            android:clickable="true"
+            android:elevation="4dp"
+            tools:src="@tools:sample/avatars" />
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

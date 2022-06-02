@@ -77,7 +77,7 @@
             android:textColorHint="@color/hintColor"
             app:boxStrokeColor="@color/defaultColor"
             app:counterEnabled="true"
-            app:counterMaxLength="500"
+            app:counterMaxLength="300"
             app:counterTextColor="@color/activeCardBackground"
             app:endIconMode="clear_text"
             app:endIconTint="@color/categoryColor"
@@ -117,10 +117,10 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/date"
-                android:editable="false"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Choose notification date"
+                android:editable="false"
+                android:layout_width="match_parent"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
