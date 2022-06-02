@@ -11,6 +11,7 @@
         android:id="@+id/viewBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/defaultColor"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/hg207"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,8 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:fadingEdgeLength="25dp"
-        android:requiresFadingEdge="horizontal"
         android:orientation="horizontal"
+        android:requiresFadingEdge="horizontal"
         android:scrollbars="none"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/hg246"
@@ -35,23 +36,46 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_category"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:fadingEdgeLength="25dp"
+        android:orientation="horizontal"
         android:requiresFadingEdge="horizontal"
         android:scrollbars="none"
-        android:orientation="horizontal"
-        android:id="@+id/recycler_view_category"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/hg32"
         app:layout_constraintLeft_toRightOf="@id/vg6"
         app:layout_constraintRight_toLeftOf="@id/vg96"
         app:layout_constraintTop_toBottomOf="@id/hg27"
-        app:layout_constraintBottom_toTopOf="@id/hg32"
-        tools:listitem="@layout/category_item_view"
-        />
+        tools:listitem="@layout/category_item_view" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/TextInputLayoutStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:textColorHint="@color/hintColor"
+        app:boxStrokeColor="@color/defaultColor"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/categoryColor"
+        app:layout_constraintBottom_toTopOf="@id/hg44"
+        app:layout_constraintEnd_toEndOf="@id/vg96"
+        app:layout_constraintStart_toStartOf="@id/vg6"
+        app:layout_constraintTop_toBottomOf="@id/hg32">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search task by title"
+            android:inputType="text" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -88,6 +112,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.322" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hg44"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.44" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hg92"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.92" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/vg6"

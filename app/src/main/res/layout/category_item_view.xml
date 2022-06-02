@@ -16,8 +16,6 @@
         android:textColor="@color/categoryColor"
         android:textSize="@dimen/categoryItemSize"
         android:textStyle="bold"
-        android:background="@drawable/background_transparent"
-
-        />
+        android:background="@drawable/background_transparent" />
 
 </LinearLayout>
