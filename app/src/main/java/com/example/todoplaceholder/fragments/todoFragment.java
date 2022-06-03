@@ -1,6 +1,8 @@
 package com.example.todoplaceholder.fragments;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,11 +16,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.todoplaceholder.MainActivity;
 import com.example.todoplaceholder.R;
+import com.example.todoplaceholder.adapters.CategoryAdapter;
+import com.example.todoplaceholder.models.CategoryModel;
+import com.example.todoplaceholder.models.TaskModel;
+import com.example.todoplaceholder.utils.Globals;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class todoFragment extends Fragment {
 
@@ -29,6 +37,10 @@ public class todoFragment extends Fragment {
     private TextInputLayout searchContainer;
     private TextInputEditText searchEditText;
     private int appColor;
+    private CategoryAdapter categoryAdapter;
+
+    private List<CategoryModel> categoryModelList = new ArrayList<>();
+    private List<TaskModel> taskModels = new ArrayList<>();
 
     private MainViewModel mainViewModel;
 
@@ -70,11 +82,28 @@ public class todoFragment extends Fragment {
             }
         });
 
+        mainViewModel.getCategoryModels().observe(getActivity(), new Observer<List<CategoryModel>>() {
+            @Override
+            public void onChanged(List<CategoryModel> categoryModels) {
+                if(categoryModels != null && !categoryModels.isEmpty()){
+                    categoryModelList.clear();
+                    categoryModelList.addAll(categoryModels);
+                }
+            }
+        });
+
+        categoryAdapter = new CategoryAdapter(context, categoryModelList);
+        categoryRV.setAdapter(categoryAdapter);
 
     }
 
-    private void setUIColors(){
+    private void setUIColors() {
         topBackground.setBackgroundColor(appColor);
         searchContainer.setBoxStrokeColor(appColor);
+
+        searchContainer.setBoxStrokeColorStateList(new ColorStateList(Globals.boxStates(), Globals.boxColors(appColor)));
+        searchContainer.setDefaultHintTextColor(new ColorStateList(Globals.hintStates(), Globals.hintColors(appColor)));
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            searchEditText.setTextCursorDrawable(null);}*/
     }
 }

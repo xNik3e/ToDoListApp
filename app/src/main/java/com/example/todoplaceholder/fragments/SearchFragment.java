@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.ContentInfo;
@@ -12,10 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.todoplaceholder.R;
+import com.example.todoplaceholder.viewmodels.MainViewModel;
 
 public class SearchFragment extends Fragment {
 
     private Context context;
+    private MainViewModel mainViewModel;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -32,5 +35,12 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
     }
 }

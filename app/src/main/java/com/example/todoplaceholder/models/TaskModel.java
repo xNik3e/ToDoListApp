@@ -17,16 +17,11 @@ public class TaskModel {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @NonNull
-    @ColumnInfo(name = "taskName")
     private String taskName;
-    @ColumnInfo(name = "model")
     private CategoryModel model;
-    @ColumnInfo(name = "description")
     private String description;
-    @ColumnInfo(name = "notificationTime")
     private Date notificationTime;
-    @ColumnInfo(name ="active")
+    private Date endDate;
     private boolean active;
 
 
@@ -63,12 +58,21 @@ public class TaskModel {
         this.notificationTime = notificationTime;
         this.active = true;
     }
-
+    @Ignore
     public TaskModel(@NonNull String taskName, CategoryModel model, String description, Date notificationTime, boolean active) {
         this.taskName = taskName;
         this.model = model;
         this.description = description;
         this.notificationTime = notificationTime;
+        this.active = active;
+    }
+
+    public TaskModel(String taskName, CategoryModel model, String description, Date notificationTime, Date endDate, boolean active) {
+        this.taskName = taskName;
+        this.model = model;
+        this.description = description;
+        this.notificationTime = notificationTime;
+        this.endDate = endDate;
         this.active = active;
     }
 
@@ -118,5 +122,13 @@ public class TaskModel {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

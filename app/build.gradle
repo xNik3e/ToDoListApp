@@ -20,6 +20,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+    }
+    packagingOptions{
+        exclude 'META-INF/rxjava.properties'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -33,24 +37,20 @@ dependencies {
     def nav_version = "2.3.5"
     def fragment_version = "1.4.1"
 
-
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-
-    // optional - RxJava2 support for Room
-    implementation "androidx.room:room-rxjava2:$room_version"
-
-    // optional - RxJava3 support for Room
-    implementation "androidx.room:room-rxjava3:$room_version"
-
+    // Room components
+    implementation "androidx.room:room-runtime:2.4.2"
+    annotationProcessor "androidx.room:room-compiler:2.4.2"
+    androidTestImplementation "androidx.room:room-testing:2.4.2"
     // optional - Guava support for Room, including Optional and ListenableFuture
-    implementation "androidx.room:room-guava:$room_version"
+    implementation "androidx.room:room-guava:2.4.2"
 
-    // optional - Test helpers
-    testImplementation "androidx.room:room-testing:$room_version"
+    implementation "com.google.guava:guava:31.0.1-android"
 
-    // optional - Paging 3 Integration
-    implementation "androidx.room:room-paging:2.5.0-alpha02"
+    // To use CallbackToFutureAdapter
+    implementation "androidx.concurrent:concurrent-futures:1.1.0"
+
+    // Kotlin
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.6.0"
 
     // image loading library
     implementation 'com.github.bumptech.glide:glide:4.12.0'

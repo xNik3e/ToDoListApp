@@ -47,7 +47,9 @@ public class MainRepository {
     }
 
     public void insertAllCategories(List<CategoryModel> models) {
-        mCategoryDao.insertAll(models);
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mCategoryDao.insertAll(models);
+        });
     }
 
     public void updateCategory(CategoryModel model) {
@@ -73,7 +75,7 @@ public class MainRepository {
 
     public LiveData<List<TaskModel>> getFinishedTasks() {
         return mTaskDao.getFinishedTasks();
-    }   
+    }
 
     public void updateTask(TaskModel task) {
         mTaskDao.updateTask(task);

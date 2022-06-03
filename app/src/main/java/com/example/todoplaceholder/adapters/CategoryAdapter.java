@@ -1,66 +1,71 @@
 package com.example.todoplaceholder.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.models.CategoryModel;
 
 import java.util.List;
 
-public class CategoryAdapter extends BaseAdapter {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-    Context context;
-    List<CategoryModel> models;
+    private Context context;
+    private List<CategoryModel> categories;
 
-    public CategoryAdapter(Context context, List<CategoryModel> models) {
+    public CategoryAdapter(Context context, List<CategoryModel> categories) {
         this.context = context;
-        this.models = models;
+        this.categories = categories;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.category_item_view, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public int getCount() {
-        return models.size();
-    }
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        CategoryModel model = categories.get(position);
+        if(model.isActive()){
+            Drawable drawable = context.getResources().getDrawable(R.drawable.background_transparent);
+            Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTint(wrappedDrawable, model.getBaseColor());
+            holder.category.setBackground(drawable);
 
-    @Override
-    public Object getItem(int i) {
-        return models.get(i);
-    }
+            GradientDrawable gd = (GradientDrawable) holder.category.getBackground();
+            gd.setStroke(2, model.getShadowColor());
 
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        CategoryModel model = models.get(i);
-        ViewHolder holder;
-        if(view == null){
-            holder = new ViewHolder();
-            view = LayoutInflater.from(context).inflate(R.layout.category_item_view_bigpicture, viewGroup, false);
-            holder.inner_circle = view.findViewById(R.id.inner_circle);
-            holder.outer_circle = view.findViewById(R.id.outer_circle);
-            holder.name = view.findViewById(R.id.category_name);
-
-            view.setTag(holder);
+            holder.category.setTextColor(context.getResources().getColor(R.color.accentColor));
         }else{
-            holder = (ViewHolder) view.getTag();
+            holder.category.setBackground(context.getResources().getDrawable(R.drawable.background_transparent));
         }
-        holder.name.setText(model.getCategoryName());
-        holder.outer_circle.setBackgroundColor(model.getShadowColor());
-        holder.inner_circle.setBackgroundColor(model.getBaseColor());
-
-        return view;
+        holder.category.setText(model.getCategoryName());
     }
 
-    private static class ViewHolder{
-        View outer_circle, inner_circle;
-        TextView name;
+    @Override
+    public int getItemCount() {
+        return categories.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView category;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            category = itemView.findViewById(R.id.category_name);
+        }
     }
 }

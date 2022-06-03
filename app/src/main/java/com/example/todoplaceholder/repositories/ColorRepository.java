@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -15,7 +16,7 @@ public class ColorRepository {
     private static final String PREF_NAME = "com.example.todoplaceholder_preferences";
     private static final String KEY = "colorPref";
     private static SharedPreferences preferences;
-    private static MutableLiveData<Integer> colorData;
+    private int colorData;
     private static ColorRepository INSTANCE;
 
     public static ColorRepository getInstance(){
@@ -24,7 +25,7 @@ public class ColorRepository {
         return INSTANCE;
     }
 
-    public LiveData<Integer> getColorData(Context context){
+    public int getColorData(Context context){
         retrieveColorData(context);
         return colorData;
     }
@@ -38,7 +39,7 @@ public class ColorRepository {
 
     private void retrieveColorData(Context context){
         preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        int color = preferences.getInt(KEY, Resources.getSystem().getColor(R.color.defaultColor));
-        colorData.setValue(color);
+        int color = preferences.getInt(KEY, 0);
+        colorData=color;
     }
 }

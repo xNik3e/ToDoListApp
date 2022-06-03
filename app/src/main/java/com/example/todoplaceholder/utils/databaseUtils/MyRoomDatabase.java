@@ -2,15 +2,15 @@ package com.example.todoplaceholder.utils.databaseUtils;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.models.TaskModel;
+import com.example.todoplaceholder.utils.databaseUtils.converters.CategoryModelConverter;
+import com.example.todoplaceholder.utils.databaseUtils.converters.DateConverter;
 import com.example.todoplaceholder.utils.databaseUtils.daos.CategoryDao;
 import com.example.todoplaceholder.utils.databaseUtils.daos.TaskDao;
 
@@ -21,8 +21,10 @@ import java.util.concurrent.Executors;
         entities = {CategoryModel.class, TaskModel.class},
         version = 1
 )
-@TypeConverters({Converters.class})
-public abstract class MyRoomDatabase extends androidx.room.RoomDatabase {
+@TypeConverters({
+        DateConverter.class,
+        CategoryModelConverter.class})
+public abstract class MyRoomDatabase extends RoomDatabase {
 
     public abstract CategoryDao categoryDao();
     public abstract TaskDao taskDao();
@@ -37,7 +39,6 @@ public abstract class MyRoomDatabase extends androidx.room.RoomDatabase {
             synchronized (MyRoomDatabase.class){
                 if(INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), MyRoomDatabase.class, "room_database")
-                            .addTypeConverter(Converters.class)
                             .build();
                 }
             }

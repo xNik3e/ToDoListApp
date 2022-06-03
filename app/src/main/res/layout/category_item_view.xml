@@ -12,6 +12,7 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:singleLine="true"
+        android:id="@+id/category_name"
         android:text="Personal"
         android:textColor="@color/categoryColor"
         android:textSize="@dimen/categoryItemSize"
