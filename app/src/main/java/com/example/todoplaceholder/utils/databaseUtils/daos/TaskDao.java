@@ -14,7 +14,6 @@ import java.util.List;
 
 @Dao
 public interface TaskDao {
-
     @Insert(onConflict = OnConflictStrategy.ABORT)
     void insert(TaskModel task);
 
@@ -32,5 +31,6 @@ public interface TaskDao {
 
     @Update
     void updateTask(TaskModel model);
+
 
 }

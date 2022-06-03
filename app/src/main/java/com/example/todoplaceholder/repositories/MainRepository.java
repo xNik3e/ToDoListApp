@@ -20,7 +20,7 @@ public class MainRepository {
     private LiveData<List<CategoryModel>> mCategoryList;
     private LiveData<List<TaskModel>> mTaskList;
 
-    public MainRepository(Application application){
+    public MainRepository(Application application) {
         MyRoomDatabase db = MyRoomDatabase.getInstance(application);
         mCategoryDao = db.categoryDao();
         mTaskDao = db.taskDao();
@@ -28,33 +28,55 @@ public class MainRepository {
 
     //TODO Queries handler
     //Category
-    public LiveData<List<CategoryModel>> getAllCategories(){
+    public LiveData<List<CategoryModel>> getAllCategories() {
         return mCategoryDao.getCategories();
     }
 
-    public LiveData<List<CategoryModel>> getCategoriesByName(String name){
+    public LiveData<List<CategoryModel>> getCategoriesByName(String name) {
         return mCategoryDao.getCategoriesByName(name);
     }
 
-    public void insert(CategoryModel model){
+    public void insert(CategoryModel model) {
         MyRoomDatabase.databaseWriteExecutor.execute(() -> {
             mCategoryDao.insert(model);
         });
     }
 
-    public void deleteAll(){
+    public void deleteAllCategories() {
         mCategoryDao.deleteAll();
     }
 
-    public void insertAllCategories(List<CategoryModel> models){
+    public void insertAllCategories(List<CategoryModel> models) {
         mCategoryDao.insertAll(models);
     }
 
-    public void updateCategory(CategoryModel model) {mCategoryDao.updateCategory(model);}
+    public void updateCategory(CategoryModel model) {
+        mCategoryDao.updateCategory(model);
+    }
 
     //Task
-    public void insert(TaskModel task){ mTaskDao.insert(task);}
+    public void insertTask(TaskModel task) {
+        mTaskDao.insert(task);
+    }
 
-    public void insertAllTasks(List<TaskModel> models){mTaskDao.insertAll(models);}
+    public void insertAllTasks(List<TaskModel> models) {
+        mTaskDao.insertAll(models);
+    }
+
+    public void deleteAllTasks() {
+        mTaskDao.deleteAll();
+    }
+
+    public LiveData<List<TaskModel>> getActiveTasks() {
+        return mTaskDao.getActiveTasks();
+    }
+
+    public LiveData<List<TaskModel>> getFinishedTasks() {
+        return mTaskDao.getFinishedTasks();
+    }   
+
+    public void updateTask(TaskModel task) {
+        mTaskDao.updateTask(task);
+    }
 
 }

@@ -9,11 +9,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import com.example.todoplaceholder.R;
+import com.example.todoplaceholder.viewmodels.MainViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import com.kizitonwose.colorpreference.ColorPreference;
@@ -22,9 +24,12 @@ import com.larswerkman.lobsterpicker.LobsterPicker;
 import com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
+    private MainViewModel mainViewModel;
+
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
         addPreferencesFromResource(R.xml.settings_preference);
+        mainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
 
         findPreference(getResources().getString(R.string.pref_key)).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -57,6 +62,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         ((ColorPreferenceCompat) preference).setValue(lobsterPicker.getColor());
+                        mainViewModel.setBaseColor(lobsterPicker.getColor());
                     }
                 })
                 .setNegativeButton("CLOSE", null)

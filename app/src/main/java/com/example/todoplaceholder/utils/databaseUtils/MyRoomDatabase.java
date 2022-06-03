@@ -19,8 +19,7 @@ import java.util.concurrent.Executors;
 
 @Database(
         entities = {CategoryModel.class, TaskModel.class},
-        version = 1,
-        exportSchema = false
+        version = 1
 )
 @TypeConverters({Converters.class})
 public abstract class MyRoomDatabase extends androidx.room.RoomDatabase {
@@ -38,7 +37,6 @@ public abstract class MyRoomDatabase extends androidx.room.RoomDatabase {
             synchronized (MyRoomDatabase.class){
                 if(INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), MyRoomDatabase.class, "room_database")
-                            .addCallback(sRoomDatabaseCallback)
                             .addTypeConverter(Converters.class)
                             .build();
                 }
@@ -47,12 +45,7 @@ public abstract class MyRoomDatabase extends androidx.room.RoomDatabase {
         return INSTANCE;
     }
 
-    private static RoomDatabase.Callback sRoomDatabaseCallback = new Callback() {
-        @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
-        }
-    };
+
 
 
 }
