@@ -2,10 +2,12 @@ package com.example.todoplaceholder.utils.databaseUtils;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.models.TaskModel;
@@ -39,6 +41,7 @@ public abstract class MyRoomDatabase extends RoomDatabase {
             synchronized (MyRoomDatabase.class){
                 if(INSTANCE == null){
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), MyRoomDatabase.class, "room_database")
+                            .addCallback(rdc)
                             .build();
                 }
             }
@@ -46,7 +49,15 @@ public abstract class MyRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    private static RoomDatabase.Callback rdc = new RoomDatabase.Callback(){
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            databaseWriteExecutor.execute(() -> {
+                CategoryDao dao = INSTANCE.categoryDao();
+                dao.insertAll(CategoryModel.populateData());
+            });
 
-
-
+        }
+    };
 }

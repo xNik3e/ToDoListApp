@@ -24,21 +24,35 @@ public class MainRepository {
         MyRoomDatabase db = MyRoomDatabase.getInstance(application);
         mCategoryDao = db.categoryDao();
         mTaskDao = db.taskDao();
+        mCategoryList = mCategoryDao.getCategories();
+        mTaskList = mTaskDao.getAllTasks();
     }
 
-    //TODO Queries handler
-    //Category
+    //TODO CATEGORIES
+
     public LiveData<List<CategoryModel>> getAllCategories() {
-        return mCategoryDao.getCategories();
+        return mCategoryList;
     }
 
-    public LiveData<List<CategoryModel>> getCategoriesByName(String name) {
-        return mCategoryDao.getCategoriesByName(name);
-    }
-
-    public void insert(CategoryModel model) {
+    public void insertCategory(CategoryModel model) {
         MyRoomDatabase.databaseWriteExecutor.execute(() -> {
             mCategoryDao.insert(model);
+        });
+    }
+
+    public void insertAllCategories(List<CategoryModel> list) {
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mCategoryDao.insertAll(list);
+        });
+    }
+
+    public CategoryModel getCategoryByName(String name) {
+        return mCategoryDao.getCategoryByName(name);
+    }
+
+    public void updateCategory(CategoryModel model) {
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mCategoryDao.updateCategory(model);
         });
     }
 
@@ -46,39 +60,71 @@ public class MainRepository {
         mCategoryDao.deleteAll();
     }
 
-    public void insertAllCategories(List<CategoryModel> models) {
-        MyRoomDatabase.databaseWriteExecutor.execute(() -> {
-            mCategoryDao.insertAll(models);
-        });
+    public void deleteCategory(String name) {
+        mCategoryDao.deleteCategory(name);
     }
 
-    public void updateCategory(CategoryModel model) {
-        mCategoryDao.updateCategory(model);
-    }
+    //TODO TASKS
 
-    //Task
-    public void insertTask(TaskModel task) {
-        mTaskDao.insert(task);
-    }
-
-    public void insertAllTasks(List<TaskModel> models) {
-        mTaskDao.insertAll(models);
+    public LiveData<List<TaskModel>> getAllTasks() {
+        return mTaskList;
     }
 
     public void deleteAllTasks() {
         mTaskDao.deleteAll();
     }
 
-    public LiveData<List<TaskModel>> getActiveTasks() {
+    public void updateTask(TaskModel task) {
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mTaskDao.updateTask(task);
+        });
+    }
+
+    public void insertTask(TaskModel task) {
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mTaskDao.insert(task);
+        });
+    }
+
+    public void insertAllTasks(List<TaskModel> tasks) {
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mTaskDao.insertAll(tasks);
+        });
+    }
+
+    public List<TaskModel> getAllActiveTasks() {
         return mTaskDao.getActiveTasks();
     }
 
-    public LiveData<List<TaskModel>> getFinishedTasks() {
+    public List<TaskModel> getAllFinishedTasks() {
         return mTaskDao.getFinishedTasks();
     }
 
-    public void updateTask(TaskModel task) {
-        mTaskDao.updateTask(task);
-    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

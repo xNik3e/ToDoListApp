@@ -15,6 +15,10 @@ import androidx.room.PrimaryKey;
 import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.utils.view_services.App;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Entity(tableName = "category_table")
 public class CategoryModel {
 
@@ -24,6 +28,7 @@ public class CategoryModel {
     @NonNull
     private String categoryName;
 
+    @Ignore
     private boolean isActive;
 
     private int colorId;
@@ -33,7 +38,7 @@ public class CategoryModel {
     private int shadowColor;
 
 
-
+    @Ignore
     public CategoryModel(@NonNull String categoryName, boolean isActive, int colorId) {
         this.categoryName = categoryName;
         this.isActive = isActive;
@@ -41,7 +46,6 @@ public class CategoryModel {
         createColorResources();
     }
 
-    @Ignore
     public CategoryModel(String categoryName, int colorId) {
         this.categoryName = categoryName;
         this.colorId = colorId;
@@ -54,6 +58,18 @@ public class CategoryModel {
         this.colorId = 0;
         isActive = false;
         createColorResources();
+    }
+
+    public static List<CategoryModel> populateData() {
+        List<String> names = Arrays.asList(App.getContext().getResources().getStringArray(R.array.CATEGORY_NAME_INIT));
+        List<String> colorIds = Arrays.asList(App.getContext().getResources().getStringArray(R.array.CATEGORY_COLOR_ID_INIT));
+
+        List<CategoryModel> tempModels = new ArrayList<>();
+        for (int i = 0; i < names.size(); i++) {
+            CategoryModel tempModel = new CategoryModel(names.get(i), Integer.parseInt(colorIds.get(i)));
+            tempModels.add(tempModel);
+        }
+        return tempModels;
     }
 
     private void createColorResources(){

@@ -76,8 +76,8 @@
             tools:listitem="@layout/search_item_layout"/>
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/vg8"
                 app:layout_constraintEnd_toStartOf="@id/vg92"
                 app:layout_constraintTop_toBottomOf="@id/line_break"
@@ -88,7 +88,9 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:id="@+id/text_nothing"
-                android:textSize="@dimen/titleSize"/>
+                android:textSize="@dimen/titleSize"
+                app:drawableTopCompat="@drawable/no_search_icon"
+                app:drawableTint="@color/white" />
 
 
         <androidx.constraintlayout.widget.Guideline

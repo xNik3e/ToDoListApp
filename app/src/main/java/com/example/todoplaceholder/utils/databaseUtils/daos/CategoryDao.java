@@ -24,11 +24,14 @@ public interface CategoryDao {
     @Query("DELETE FROM category_table")
     void deleteAll();
 
+    @Query("DELETE FROM category_table WHERE categoryName = :catName")
+    void deleteCategory(String catName);
+
     @Query("SELECT * FROM category_table ORDER BY id")
     LiveData<List<CategoryModel>> getCategories();
 
     @Query("SELECT * FROM CATEGORY_TABLE WHERE categoryName = :catName")
-    LiveData<List<CategoryModel>> getCategoriesByName(String catName);
+    CategoryModel getCategoryByName(String catName);
 
     @Update
     void updateCategory(CategoryModel model);

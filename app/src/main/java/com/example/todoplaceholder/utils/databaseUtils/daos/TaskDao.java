@@ -23,11 +23,14 @@ public interface TaskDao {
     @Query("DELETE FROM task_table")
     void deleteAll();
 
+    @Query("SELECT * FROM task_table")
+    LiveData<List<TaskModel>> getAllTasks();
+
     @Query("SELECT * FROM task_table WHERE active = 1")
-    LiveData<List<TaskModel>> getActiveTasks();
+    List<TaskModel> getActiveTasks();
 
     @Query("SELECT * FROM task_table WHERE active = 0")
-    LiveData<List<TaskModel>> getFinishedTasks();
+    List<TaskModel> getFinishedTasks();
 
     @Update
     void updateTask(TaskModel model);

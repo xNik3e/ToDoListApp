@@ -23,7 +23,7 @@ public class TaskModel {
     private Date notificationTime;
     private Date endDate;
     private boolean active;
-
+    private Date createdAt;
 
 
     @Ignore
@@ -33,7 +33,9 @@ public class TaskModel {
         this.description = null;
         this.notificationTime = null;
         this.active = true;
+        this.createdAt = new Date(System.currentTimeMillis());
     }
+
     @Ignore
     public TaskModel(String taskName, CategoryModel model) {
         this.taskName = taskName;
@@ -41,7 +43,9 @@ public class TaskModel {
         this.description = null;
         this.notificationTime = null;
         this.active = true;
+        this.createdAt = new Date(System.currentTimeMillis());
     }
+
     @Ignore
     public TaskModel(String taskName, CategoryModel model, String description) {
         this.taskName = taskName;
@@ -49,7 +53,9 @@ public class TaskModel {
         this.description = description;
         this.notificationTime = null;
         this.active = true;
+        this.createdAt = new Date(System.currentTimeMillis());
     }
+
     @Ignore
     public TaskModel(String taskName, CategoryModel model, String description, Date notificationTime) {
         this.taskName = taskName;
@@ -57,7 +63,9 @@ public class TaskModel {
         this.description = description;
         this.notificationTime = notificationTime;
         this.active = true;
+        this.createdAt = new Date(System.currentTimeMillis());
     }
+
     @Ignore
     public TaskModel(@NonNull String taskName, CategoryModel model, String description, Date notificationTime, boolean active) {
         this.taskName = taskName;
@@ -65,6 +73,7 @@ public class TaskModel {
         this.description = description;
         this.notificationTime = notificationTime;
         this.active = active;
+        this.createdAt = new Date(System.currentTimeMillis());
     }
 
     public TaskModel(String taskName, CategoryModel model, String description, Date notificationTime, Date endDate, boolean active) {
@@ -74,6 +83,7 @@ public class TaskModel {
         this.notificationTime = notificationTime;
         this.endDate = endDate;
         this.active = active;
+        this.createdAt = new Date(System.currentTimeMillis());
     }
 
     public String getTaskName() {
@@ -130,5 +140,13 @@ public class TaskModel {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

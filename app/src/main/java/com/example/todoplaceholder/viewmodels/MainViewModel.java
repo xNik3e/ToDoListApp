@@ -19,86 +19,63 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
 public class MainViewModel extends AndroidViewModel {
 
     private MutableLiveData<Integer> baseColor = new MutableLiveData<Integer>();
-    private MutableLiveData<List<CategoryModel>> categoryModels = new MutableLiveData<List<CategoryModel>>();
-    private MutableLiveData<List<TaskModel>> taskModels = new MutableLiveData<List<TaskModel>>();
+    private final LiveData<List<CategoryModel>> categoryModels;
+    private final LiveData<List<TaskModel>> taskModels;
 
     private MainRepository mRepository;
     private ColorRepository colorRepository;
 
-    public MainViewModel(Application application){
+    public MainViewModel(Application application) {
         super(application);
         mRepository = new MainRepository(application);
         colorRepository = ColorRepository.getInstance();
-        LiveData<List<CategoryModel>> tempCategoryModels;
-        tempCategoryModels = mRepository.getAllCategories();
-        if(tempCategoryModels.getValue()!= null && !tempCategoryModels.getValue().isEmpty())
-            categoryModels.setValue(tempCategoryModels.getValue());
-        else
-            fillCategories(application);
         baseColor.setValue(colorRepository.getColorData(application));
+        categoryModels = mRepository.getAllCategories();
+        taskModels = mRepository.getAllTasks();
     }
 
-    private void fillCategories(Context context) {
-        List<String> names = Arrays.asList(context.getResources().getStringArray(R.array.CATEGORY_NAME_INIT));
-        List<String> colorIds = Arrays.asList(context.getResources().getStringArray(R.array.CATEGORY_COLOR_ID_INIT));
+    //TODO COLOR HANDLER
 
-        List<CategoryModel> tempModels = new ArrayList<>();
-        for(int i = 0; i < names.size(); i++){
-            CategoryModel tempModel = new CategoryModel(names.get(i), Integer.parseInt(colorIds.get(i)));
-            tempModels.add(tempModel);
-        }
-        setCategoryModels(tempModels);
-    }
-
-    //COLOR HANDLER
-
-    public void setBaseColor(int color){
+    public void setBaseColor(int color) {
         baseColor.setValue(color);
     }
-    public LiveData<Integer> getBaseColor(){
+
+    public LiveData<Integer> getBaseColor() {
         return baseColor;
     }
 
-    //CATEGORY HANDLERS
+    //TODO CATEGORY HANDLERS
 
-    public void setCategoryModels(List<CategoryModel> list){
-        mRepository.insertAllCategories(list);
-    }
-    public void addCategoryModel(CategoryModel model){
-        mRepository.insert(model);
-    }
-
-    public LiveData<List<CategoryModel>> getCategoriesByName(String name){
-        categoryModels = (MutableLiveData<List<CategoryModel>>) mRepository.getCategoriesByName(name);
+    public LiveData<List<CategoryModel>> getCategoryModels() {
         return categoryModels;
     }
 
-    public LiveData<List<CategoryModel>> getCategoryModels(){
-        return categoryModels;
+    public void insertAllCategories(List<CategoryModel> models) {
+        mRepository.insertAllCategories(models);
     }
 
-    public void removeAllCategories(){
-        mRepository.deleteAllCategories();
+    public void insertCategory(CategoryModel model){
+        mRepository.insertCategory(model);
+    }
+
+    public CategoryModel getCategoryByName(String name){
+        return mRepository.getCategoryByName(name);
     }
 
     public void updateCategory(CategoryModel model){
         mRepository.updateCategory(model);
     }
-
-    //TASK HANDLERS
-    public void setTaskModels(List<TaskModel> list){
-        mRepository.insertAllTasks(list);
+    public void deleteAllCategories(){
+        mRepository.deleteAllCategories();
     }
 
-    public void insertTask(TaskModel task){mRepository.insertTask(task);}
+    public void deleteCategory(String name){
+        mRepository.deleteCategory(name);
+    }
 
-    public void deleteAllTasks(){mRepository.deleteAllTasks();}
+    //TODO TASK HANDLERS
 
-    public LiveData<List<TaskModel>> getActiveTasks(){return mRepository.getActiveTasks();}
-    public LiveData<List<TaskModel>> getFinishedTasks(){return mRepository.getFinishedTasks();}
-    public void updateTask(TaskModel task){mRepository.updateTask(task);}
 }

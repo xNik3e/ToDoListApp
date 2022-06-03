@@ -16,21 +16,19 @@
         android:textColor="@color/accentColor"
         android:textSize="@dimen/addNewItemSize" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
 
-        <GridView
-            android:id="@+id/grid_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:horizontalSpacing="12dp"
-            android:numColumns="2"
-            android:padding="6dp"
-            android:layout_marginTop="8dp"
-            android:verticalSpacing="16dp"
-            tools:listitem="@layout/category_item_view_bigpicture" />
-    </ScrollView>
+    <com.example.todoplaceholder.utils.view_services.ExpandableHeightGridView
+        android:id="@+id/grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:horizontalSpacing="12dp"
+        android:isScrollContainer="true"
+        android:numColumns="2"
+        android:padding="6dp"
+        android:verticalSpacing="16dp"
+        tools:listitem="@layout/category_item_view_bigpicture" />
+
+
 </LinearLayout>

@@ -82,18 +82,21 @@ public class todoFragment extends Fragment {
             }
         });
 
+        categoryAdapter = new CategoryAdapter(context, categoryModelList);
+        categoryRV.setAdapter(categoryAdapter);
+
         mainViewModel.getCategoryModels().observe(getActivity(), new Observer<List<CategoryModel>>() {
             @Override
             public void onChanged(List<CategoryModel> categoryModels) {
                 if(categoryModels != null && !categoryModels.isEmpty()){
                     categoryModelList.clear();
                     categoryModelList.addAll(categoryModels);
+                    categoryAdapter.notifyDataSetChanged();
                 }
             }
         });
 
-        categoryAdapter = new CategoryAdapter(context, categoryModelList);
-        categoryRV.setAdapter(categoryAdapter);
+
 
     }
 
