@@ -51,8 +51,8 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
     private MainViewModel mainViewModel;
     private boolean isEditing;
 
-    public addNewCategoryFragment() {
-        // Required empty public constructor
+    public addNewCategoryFragment(MainViewModel model) {
+        this.mainViewModel = model;
     }
 
 
@@ -73,10 +73,7 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
         categoryModels = mainViewModel.getCategoryModels().getValue();
-
-
         colorRV = view.findViewById(R.id.recycler_view_color);
         titleLabel = view.findViewById(R.id.title_label);
         addButton = view.findViewById(R.id.addButton);
@@ -95,8 +92,7 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
 
         colorAdapter = new ColorAdapter(context, colorModels);
         colorRV.setAdapter(colorAdapter);
-
-
+        
         mainViewModel.getColorModelList().observe(getActivity(), new Observer<List<ColorModel>>() {
             @Override
             public void onChanged(List<ColorModel> models) {

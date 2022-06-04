@@ -73,15 +73,14 @@ public class MainActivity extends AppCompatActivity implements BottomShelfInterf
         NavController navController = Navigation.findNavController(this, R.id.container);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+
         TODOFRAGMENT = new todoFragment();
         SEARCHFRAGMENT = new SearchFragment();
-        CATEGORIESFRAGMENT = new CategoriesFragment();
+        CATEGORIESFRAGMENT = new CategoriesFragment(mViewModel);
         MYSETTINGSFRAGMENT = new mySettingsFragment();
         newTaskFragment = new addNewTaskFragment();
         newCategoryFragment = new addNewCategoryFragment();
-
-        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-
 
 
         mViewModel.getBaseColor().observe(this, new Observer<Integer>() {

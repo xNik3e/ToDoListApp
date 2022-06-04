@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.example.todoplaceholder.MainActivity;
 import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.adapters.CategoryBigPictureAdapter;
 import com.example.todoplaceholder.models.CategoryModel;
@@ -35,8 +36,8 @@ public class CategoriesFragment extends Fragment {
     private addNewCategoryFragment newCategoryFragment;
 
 
-    public CategoriesFragment() {
-        // Required empty public constructor
+    public CategoriesFragment(MainViewModel model) {
+        this.mainViewModel = model;
     }
 
     @Override
@@ -55,8 +56,6 @@ public class CategoriesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
         gridView = view.findViewById(R.id.grid_view);
         adapter = new CategoryBigPictureAdapter(context, categoryModelList);
@@ -81,7 +80,7 @@ public class CategoriesFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putInt("POSITION", position);
                 newCategoryFragment.setArguments(bundle);
-                newCategoryFragment.show(getParentFragmentManager(), "EDIT");
+                newCategoryFragment.show(getChildFragmentManager(), "EDIT");
             }
         });
 
