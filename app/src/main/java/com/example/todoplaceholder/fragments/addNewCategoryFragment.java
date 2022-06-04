@@ -46,15 +46,15 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
     private ImageView deleteTrigger;
     private ColorAdapter colorAdapter;
     private List<ColorModel> colorModels = new ArrayList<>();
-    private static List<CategoryModel> categoryModels = new ArrayList<>();
-    private CategoryModel tempModel;
+    private List<CategoryModel> categoryModels = new ArrayList<>();
     private MainViewModel mainViewModel;
     private boolean isEditing;
+    private int index;
 
-    public addNewCategoryFragment(MainViewModel model) {
+    public addNewCategoryFragment(MainViewModel model, List<CategoryModel> modelList) {
         this.mainViewModel = model;
+        this.categoryModels.addAll(modelList);
     }
-
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -73,26 +73,23 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        categoryModels = mainViewModel.getCategoryModels().getValue();
+        String tag =this.getTag();
+        isEditing = !tag.equals("ADD");
+
+        Bundle bundle = getArguments();
+        if(bundle != null)
+            index = bundle.getInt("POSITION", 0);
+
         colorRV = view.findViewById(R.id.recycler_view_color);
         titleLabel = view.findViewById(R.id.title_label);
         addButton = view.findViewById(R.id.addButton);
         nameContainer = view.findViewById(R.id.name_container);
-
         nameEditText = view.findViewById(R.id.name);
         deleteTrigger = view.findViewById(R.id.delete_trigger);
 
-        mainViewModel.getBaseColor().observe(getActivity(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                int color = integer;
-                setUIColors(color);
-            }
-        });
-
         colorAdapter = new ColorAdapter(context, colorModels);
         colorRV.setAdapter(colorAdapter);
-        
+
         mainViewModel.getColorModelList().observe(getActivity(), new Observer<List<ColorModel>>() {
             @Override
             public void onChanged(List<ColorModel> models) {
@@ -107,17 +104,63 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
             }
         });
 
+        if(isEditing){
+            deleteTrigger.setVisibility(View.VISIBLE);
+            titleLabel.setText("Edit category");
+            addButton.setText("Apply");
+            setColorPosition(categoryModels.get(index).getColorId());
+            setUIColors(categoryModels.get(index).getBaseColor());
+            nameContainer.getEditText().setText(categoryModels.get(index).getCategoryName(), TextView.BufferType.EDITABLE);
+        }else{
+            deleteTrigger.setVisibility(View.GONE);
+            titleLabel.setText("Add new category");
+            addButton.setText("Add");
+        }
+
+//        mainViewModel.getBaseColor().observe(getActivity(), new Observer<Integer>() {
+//            @Override
+//            public void onChanged(Integer integer) {
+//                if(!isEditing){
+//                    int color = integer;
+//                    setUIColors(color);
+//                }
+//            }
+//        });
+
+
         mainViewModel.getCategoryModels().observe(getActivity(), new Observer<List<CategoryModel>>() {
             @Override
-            public void onChanged(List<CategoryModel> cModels) {
-                categoryModels.clear();
-                categoryModels.addAll(cModels);
+            public void onChanged(List<CategoryModel> modelList) {
+                if(categoryModels.size() < modelList.size())
+                {
+                    categoryModels.clear();
+                    categoryModels.addAll(modelList);
+                }
             }
         });
 
-        String tag =this.getTag();
-        isEditing = !tag.equals("ADD");
-        executeAction(isEditing);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isEditing){
+
+                }else{
+                    if(getPosition(colorModels) == -1)
+                        Toast.makeText(context, "Choose color", Toast.LENGTH_SHORT).show();
+                    else{
+                        if(nameEditText.getText().length() == 0)
+                            Toast.makeText(context, "Name field should not be empty!", Toast.LENGTH_SHORT).show();
+                        else{
+                            CategoryModel tempModel = new CategoryModel(nameEditText.getText().toString(), getPosition(colorModels)+1);
+                            mainViewModel.insertCategory(tempModel);
+                            dismiss();
+                        }
+                    }
+                }
+            }
+        });
+
     }
 
 
@@ -141,17 +184,14 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
         mainViewModel.setColorList(ColorModel.populateColorList());
-        nameContainer.getEditText().setText("");
+        nameEditText.setText("");
     }
 
     public void executeAction(boolean isEditing) {
         if(isEditing){
-            deleteTrigger.setVisibility(View.VISIBLE);
-            titleLabel.setText("Edit category");
-            addButton.setText("Apply");
-            int index = getArguments().getInt("POSITION", 0);
-            tempModel = mainViewModel.getCategoryModels().getValue().get(index);
-            nameContainer.getEditText().setText(tempModel.getCategoryName());
+
+
+
             addButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -162,49 +202,25 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
                             Toast.makeText(context, "Name field should not be empty!", Toast.LENGTH_SHORT).show();
                         else{
 
-                            tempModel.setColorId(getPosition(colorModels)+1);
-                            tempModel.setCategoryName(nameEditText.getText().toString());
-                            tempModel.createColorResources();
+                            categoryModels.get(index).setColorId(getPosition(colorModels)+1);
+                            categoryModels.get(index).setCategoryName(nameEditText.getText().toString());
+                            categoryModels.get(index).createColorResources();
 
-                            mainViewModel.updateCategory(tempModel);
+                            mainViewModel.updateCategory(categoryModels.get(index));
                             dismiss();
                         }
                     }
                 }
             });
-
-
         }else{
-            deleteTrigger.setVisibility(View.GONE);
-            titleLabel.setText("Add new category");
-            addButton.setText("Add");
-            addButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(getPosition(colorModels) == -1)
-                        Toast.makeText(context, "Choose color", Toast.LENGTH_SHORT).show();
-                    else{
-                        if(nameEditText.getText().length() == 0)
-                            Toast.makeText(context, "Name field should not be empty!", Toast.LENGTH_SHORT).show();
-                        else{
-                            CategoryModel tempModel = new CategoryModel(nameEditText.getText().toString(), getPosition(colorModels)+1);
-                            mainViewModel.insertCategory(tempModel);
-                            dismiss();
-                        }
-                    }
-                }
-            });
+
         }
     }
 
     private void setColorPosition(int colorId) {
-        colorModels = mainViewModel.getColorModelList().getValue();
-        for(ColorModel model : colorModels){
-            model.setActive(false);
-        }
+        colorModels = ColorModel.populateColorList();
         colorModels.get(colorId-1).setActive(true);
-        mainViewModel.setColorList(colorModels);
+        colorAdapter.notifyDataSetChanged();
+
     }
-
-
 }

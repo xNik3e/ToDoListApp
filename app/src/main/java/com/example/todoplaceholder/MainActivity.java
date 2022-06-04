@@ -75,12 +75,20 @@ public class MainActivity extends AppCompatActivity implements BottomShelfInterf
 
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
+        mViewModel.getCategoryModels().observe(this, new Observer<List<CategoryModel>>() {
+            @Override
+            public void onChanged(List<CategoryModel> categoryModels) {
+                categoryModelList.clear();
+                categoryModelList.addAll(categoryModels);
+            }
+        });
+
         TODOFRAGMENT = new todoFragment();
         SEARCHFRAGMENT = new SearchFragment();
         CATEGORIESFRAGMENT = new CategoriesFragment(mViewModel);
         MYSETTINGSFRAGMENT = new mySettingsFragment();
         newTaskFragment = new addNewTaskFragment();
-        newCategoryFragment = new addNewCategoryFragment();
+        newCategoryFragment = new addNewCategoryFragment(mViewModel, categoryModelList);
 
 
         mViewModel.getBaseColor().observe(this, new Observer<Integer>() {

@@ -61,8 +61,6 @@ public class CategoriesFragment extends Fragment {
         adapter = new CategoryBigPictureAdapter(context, categoryModelList);
         gridView.setAdapter(adapter);
 
-        newCategoryFragment = new addNewCategoryFragment();
-
         mainViewModel.getCategoryModels().observe(getActivity(), new Observer<List<CategoryModel>>() {
             @Override
             public void onChanged(List<CategoryModel> categoryModels) {
@@ -73,6 +71,8 @@ public class CategoriesFragment extends Fragment {
                 }
             }
         });
+
+        newCategoryFragment = new addNewCategoryFragment(mainViewModel, categoryModelList);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
