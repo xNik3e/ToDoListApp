@@ -61,7 +61,9 @@ public class MainRepository {
     }
 
     public void deleteCategory(String name) {
-        mCategoryDao.deleteCategory(name);
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mCategoryDao.deleteCategory(name);
+        });
     }
 
     //TODO TASKS

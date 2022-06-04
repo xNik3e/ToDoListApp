@@ -39,7 +39,7 @@ import org.checkerframework.checker.units.qual.C;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements BottomShelfInterface, ColorAdapter.ChangeSelectionInterface {
+public class MainActivity extends AppCompatActivity{
 
     private MainViewModel mViewModel;
 
@@ -179,13 +179,4 @@ public class MainActivity extends AppCompatActivity implements BottomShelfInterf
         }
     }
 
-    @Override
-    public void invertSelection(int position) {
-        colorModels = mViewModel.getColorModelList().getValue();
-        for(ColorModel model : colorModels){
-            model.setActive(false);
-        }
-        colorModels.get(position).setActive(true);
-        mViewModel.setColorList(colorModels);
-    }
 }

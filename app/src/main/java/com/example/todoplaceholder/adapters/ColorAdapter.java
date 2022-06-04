@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoplaceholder.R;
+import com.example.todoplaceholder.interfaces.BottomShelfInterface;
 import com.example.todoplaceholder.models.ColorModel;
 
 import java.util.List;
@@ -21,12 +22,13 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
 
     private Context context;
     private List<ColorModel> modelList;
-    private ChangeSelectionInterface selectionInterface;
+    private BottomShelfInterface anInterface;
 
-    public ColorAdapter(Context context, List<ColorModel> modelList) {
+
+    public ColorAdapter(Context context, List<ColorModel> modelList, BottomShelfInterface bottomShelfInterface) {
         this.context = context;
         this.modelList = modelList;
-        selectionInterface = (ChangeSelectionInterface) context;
+        this.anInterface = bottomShelfInterface;
     }
 
 
@@ -66,13 +68,12 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    selectionInterface.invertSelection(getAdapterPosition());
+                    anInterface.invertSelectedColor(getAdapterPosition());
                 }
             });
         }
     }
 
-    public interface ChangeSelectionInterface{
-        void invertSelection(int position);
-    }
+
+
 }

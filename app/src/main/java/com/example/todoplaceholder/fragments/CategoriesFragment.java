@@ -67,6 +67,7 @@ public class CategoriesFragment extends Fragment {
                 if(categoryModels != null && !categoryModels.isEmpty()){
                     categoryModelList.clear();
                     categoryModelList.addAll(categoryModels);
+                    newCategoryFragment = new addNewCategoryFragment(mainViewModel, categoryModelList);
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -83,6 +84,8 @@ public class CategoriesFragment extends Fragment {
                 newCategoryFragment.show(getChildFragmentManager(), "EDIT");
             }
         });
+
+
 
     }
 }
