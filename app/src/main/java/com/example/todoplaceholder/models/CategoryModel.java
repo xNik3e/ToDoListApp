@@ -72,7 +72,7 @@ public class CategoryModel {
         return tempModels;
     }
 
-    private void createColorResources(){
+    public void createColorResources(){
        switch (colorId){
            case 1:
                 this.baseColor = App.getContext().getResources().getColor(R.color.category1Main);

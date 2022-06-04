@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.models.CategoryModel;
+import com.example.todoplaceholder.models.ColorModel;
 import com.example.todoplaceholder.models.TaskModel;
 import com.example.todoplaceholder.repositories.ColorRepository;
 import com.example.todoplaceholder.repositories.MainRepository;
@@ -24,6 +25,8 @@ public class MainViewModel extends AndroidViewModel {
     private MutableLiveData<Integer> baseColor = new MutableLiveData<Integer>();
     private final LiveData<List<CategoryModel>> categoryModels;
     private final LiveData<List<TaskModel>> taskModels;
+    private MutableLiveData<List<ColorModel>> colorList = new MutableLiveData<>();
+
 
     private MainRepository mRepository;
     private ColorRepository colorRepository;
@@ -35,6 +38,7 @@ public class MainViewModel extends AndroidViewModel {
         baseColor.setValue(colorRepository.getColorData(application));
         categoryModels = mRepository.getAllCategories();
         taskModels = mRepository.getAllTasks();
+        colorList.setValue(ColorModel.populateColorList());
     }
 
     //TODO COLOR HANDLER
@@ -45,6 +49,13 @@ public class MainViewModel extends AndroidViewModel {
 
     public LiveData<Integer> getBaseColor() {
         return baseColor;
+    }
+
+    public void setColorList(List<ColorModel> models){
+        colorList.setValue(models);
+    }
+    public LiveData<List<ColorModel>> getColorModelList(){
+        return colorList;
     }
 
     //TODO CATEGORY HANDLERS

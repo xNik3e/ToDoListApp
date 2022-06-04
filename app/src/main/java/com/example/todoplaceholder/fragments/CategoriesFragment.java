@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.example.todoplaceholder.R;
@@ -30,6 +31,8 @@ public class CategoriesFragment extends Fragment {
     private MainViewModel mainViewModel;
     private List<CategoryModel> categoryModelList = new ArrayList<>();
     private CategoryBigPictureAdapter adapter;
+
+    private addNewCategoryFragment newCategoryFragment;
 
 
     public CategoriesFragment() {
@@ -59,6 +62,8 @@ public class CategoriesFragment extends Fragment {
         adapter = new CategoryBigPictureAdapter(context, categoryModelList);
         gridView.setAdapter(adapter);
 
+        newCategoryFragment = new addNewCategoryFragment();
+
         mainViewModel.getCategoryModels().observe(getActivity(), new Observer<List<CategoryModel>>() {
             @Override
             public void onChanged(List<CategoryModel> categoryModels) {
@@ -70,6 +75,15 @@ public class CategoriesFragment extends Fragment {
             }
         });
 
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("POSITION", position);
+                newCategoryFragment.setArguments(bundle);
+                newCategoryFragment.show(getParentFragmentManager(), "EDIT");
+            }
+        });
 
     }
 }

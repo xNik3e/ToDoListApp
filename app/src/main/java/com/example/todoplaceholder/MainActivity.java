@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.todoplaceholder.adapters.ColorAdapter;
 import com.example.todoplaceholder.fragments.CategoriesFragment;
 import com.example.todoplaceholder.fragments.SearchFragment;
 import com.example.todoplaceholder.fragments.addNewCategoryFragment;
@@ -27,6 +28,7 @@ import com.example.todoplaceholder.fragments.mySettingsFragment;
 import com.example.todoplaceholder.fragments.todoFragment;
 import com.example.todoplaceholder.interfaces.BottomShelfInterface;
 import com.example.todoplaceholder.models.CategoryModel;
+import com.example.todoplaceholder.models.ColorModel;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,7 +39,7 @@ import org.checkerframework.checker.units.qual.C;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements BottomShelfInterface {
+public class MainActivity extends AppCompatActivity implements BottomShelfInterface, ColorAdapter.ChangeSelectionInterface {
 
     private MainViewModel mViewModel;
 
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements BottomShelfInterf
     private addNewTaskFragment newTaskFragment;
     private addNewCategoryFragment newCategoryFragment;
 
+    private List<ColorModel> colorModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements BottomShelfInterf
         newCategoryFragment = new addNewCategoryFragment();
 
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+
+
 
         mViewModel.getBaseColor().observe(this, new Observer<Integer>() {
             @Override
@@ -126,12 +131,13 @@ public class MainActivity extends AppCompatActivity implements BottomShelfInterf
                         newTaskFragment.show(getSupportFragmentManager(), "TAG");
                         break;
                     case 3:
-                        newCategoryFragment.show(getSupportFragmentManager(), "TAG");
+                        newCategoryFragment.show(getSupportFragmentManager(), "ADD");
 
                 }
             }
         });
     }
+
 
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -150,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements BottomShelfInterf
 
 
         fab.setBackgroundTintList(ColorStateList.valueOf(appColor));
-
         bottomNavigationView.setItemTextColor(new ColorStateList(states, colors));
         bottomNavigationView.setItemIconTintList(new ColorStateList(states, colors));
     }
@@ -165,5 +170,15 @@ public class MainActivity extends AppCompatActivity implements BottomShelfInterf
         } else {
             //do nothing
         }
+    }
+
+    @Override
+    public void invertSelection(int position) {
+        colorModels = mViewModel.getColorModelList().getValue();
+        for(ColorModel model : colorModels){
+            model.setActive(false);
+        }
+        colorModels.get(position).setActive(true);
+        mViewModel.setColorList(colorModels);
     }
 }
