@@ -18,6 +18,7 @@ import android.widget.GridView;
 import com.example.todoplaceholder.MainActivity;
 import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.adapters.CategoryBigPictureAdapter;
+import com.example.todoplaceholder.interfaces.OnDismissInterface;
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.utils.view_services.ExpandableHeightGridView;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
@@ -32,7 +33,7 @@ public class CategoriesFragment extends Fragment {
     private MainViewModel mainViewModel;
     private List<CategoryModel> categoryModelList = new ArrayList<>();
     private CategoryBigPictureAdapter adapter;
-
+    private OnDismissInterface onDismissInterface;
     private addNewCategoryFragment newCategoryFragment;
 
 
@@ -67,13 +68,11 @@ public class CategoriesFragment extends Fragment {
                 if(categoryModels != null && !categoryModels.isEmpty()){
                     categoryModelList.clear();
                     categoryModelList.addAll(categoryModels);
-                    newCategoryFragment = new addNewCategoryFragment(mainViewModel, categoryModelList);
+                    newCategoryFragment = new addNewCategoryFragment(mainViewModel, categoryModelList, onDismissInterface);
                     adapter.notifyDataSetChanged();
                 }
             }
         });
-
-        newCategoryFragment = new addNewCategoryFragment(mainViewModel, categoryModelList);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -85,7 +84,12 @@ public class CategoriesFragment extends Fragment {
             }
         });
 
-
+        onDismissInterface = new OnDismissInterface() {
+            @Override
+            public void onDismissDialogAction() {
+                newCategoryFragment = new addNewCategoryFragment(mainViewModel, categoryModelList);
+            }
+        };
 
     }
 }

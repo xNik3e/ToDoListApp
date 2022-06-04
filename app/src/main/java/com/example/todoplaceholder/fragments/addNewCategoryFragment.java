@@ -19,7 +19,8 @@ import android.widget.Toast;
 
 import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.adapters.ColorAdapter;
-import com.example.todoplaceholder.interfaces.BottomShelfInterface;
+import com.example.todoplaceholder.interfaces.ColorAdapterChangeColorInterface;
+import com.example.todoplaceholder.interfaces.OnDismissInterface;
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.models.ColorModel;
 import com.example.todoplaceholder.utils.Globals;
@@ -45,13 +46,20 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
     private MainViewModel mainViewModel;
     private boolean isEditing;
     private int index;
-    private BottomShelfInterface bottomShelfInterface;
+    private ColorAdapterChangeColorInterface colorAdapterChangeColorInterface;
     private String name;
+    private OnDismissInterface dismissInterface;
+
+    public addNewCategoryFragment(MainViewModel model, List<CategoryModel> modelList, OnDismissInterface onDismissInterface) {
+        this.mainViewModel = model;
+        this.categoryModels.addAll(modelList);
+        this.dismissInterface = onDismissInterface;
+    }
 
     public addNewCategoryFragment(MainViewModel model, List<CategoryModel> modelList) {
         this.mainViewModel = model;
         this.categoryModels.addAll(modelList);
-
+        this.dismissInterface = null;
     }
 
     @Override
@@ -80,7 +88,6 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
             name = categoryModels.get(index).getCategoryName();
         }
 
-
         colorRV = view.findViewById(R.id.recycler_view_color);
         titleLabel = view.findViewById(R.id.title_label);
         addButton = view.findViewById(R.id.addButton);
@@ -88,7 +95,7 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
         nameEditText = view.findViewById(R.id.name);
         deleteTrigger = view.findViewById(R.id.delete_trigger);
 
-        bottomShelfInterface = new BottomShelfInterface() {
+        colorAdapterChangeColorInterface = new ColorAdapterChangeColorInterface() {
             @Override
             public void invertSelectedColor(int position) {
                 invertSelection(position);
@@ -106,7 +113,7 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
             }
         });
 
-        colorAdapter = new ColorAdapter(context, colorModelList, bottomShelfInterface);
+        colorAdapter = new ColorAdapter(context, colorModelList, colorAdapterChangeColorInterface);
         colorRV.setAdapter(colorAdapter);
 
         if (isEditing) {
@@ -142,7 +149,16 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 if (isEditing) {
+                    if (nameContainer.getEditText().getText().length() == 0) {
+                        Toast.makeText(context, "Name field should not be empty!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        categoryModels.get(index).setCategoryName(nameEditText.getText().toString());
+                        categoryModels.get(index).setColorId(getActiveColor());
+                        categoryModels.get(index).createColorResources();
 
+                        mainViewModel.updateCategory(categoryModels.get(index));
+                        dismiss();
+                    }
                 } else {
                     if (!isAnythingSelected()) {
                         Toast.makeText(context, "Please, select color!", Toast.LENGTH_SHORT).show();
@@ -180,6 +196,8 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
         super.onDismiss(dialog);
         colorModelList = ColorModel.populateColorList();
         nameContainer.getEditText().setText("");
+        if(dismissInterface != null)
+            dismissInterface.onDismissDialogAction();
     }
 
     private boolean isAnythingSelected() {

@@ -3,7 +3,6 @@ package com.example.todoplaceholder.adapters;
 
 
 import android.content.Context;
-import android.view.ContentInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoplaceholder.R;
-import com.example.todoplaceholder.interfaces.BottomShelfInterface;
+import com.example.todoplaceholder.interfaces.ColorAdapterChangeColorInterface;
 import com.example.todoplaceholder.models.ColorModel;
 
 import java.util.List;
@@ -22,13 +21,13 @@ public class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ViewHolder> 
 
     private Context context;
     private List<ColorModel> modelList;
-    private BottomShelfInterface anInterface;
+    private ColorAdapterChangeColorInterface anInterface;
 
 
-    public ColorAdapter(Context context, List<ColorModel> modelList, BottomShelfInterface bottomShelfInterface) {
+    public ColorAdapter(Context context, List<ColorModel> modelList, ColorAdapterChangeColorInterface colorAdapterChangeColorInterface) {
         this.context = context;
         this.modelList = modelList;
-        this.anInterface = bottomShelfInterface;
+        this.anInterface = colorAdapterChangeColorInterface;
     }
 
 

@@ -14,27 +14,22 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.todoplaceholder.adapters.ColorAdapter;
 import com.example.todoplaceholder.fragments.CategoriesFragment;
 import com.example.todoplaceholder.fragments.SearchFragment;
 import com.example.todoplaceholder.fragments.addNewCategoryFragment;
 import com.example.todoplaceholder.fragments.addNewTaskFragment;
 import com.example.todoplaceholder.fragments.mySettingsFragment;
 import com.example.todoplaceholder.fragments.todoFragment;
-import com.example.todoplaceholder.interfaces.BottomShelfInterface;
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.models.ColorModel;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
-
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.ArrayList;
 import java.util.List;
