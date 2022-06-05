@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.adapters.CategoryAdapter;
@@ -38,14 +39,15 @@ public class todoFragment extends Fragment {
     private TextInputEditText searchEditText;
     private int appColor;
     private CategoryAdapter categoryAdapter;
+    private TextView nothingHere;
 
     private List<CategoryModel> categoryModelList = new ArrayList<>();
     private List<TaskModel> taskModels = new ArrayList<>();
 
     private MainViewModel mainViewModel;
 
-    public todoFragment() {
-        // Required empty public constructor
+    public todoFragment(){
+
     }
 
     @Override
@@ -71,6 +73,7 @@ public class todoFragment extends Fragment {
         todoRV = v.findViewById(R.id.recycler_view_todo);
         searchContainer = v.findViewById(R.id.search_container);
         searchEditText = v.findViewById(R.id.search);
+        nothingHere = v.findViewById(R.id.text_nothing);
 
         mainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
@@ -95,9 +98,6 @@ public class todoFragment extends Fragment {
                 }
             }
         });
-
-
-
     }
 
     private void setUIColors() {
@@ -106,6 +106,7 @@ public class todoFragment extends Fragment {
 
         searchContainer.setBoxStrokeColorStateList(new ColorStateList(Globals.boxStates(), Globals.boxColors(appColor)));
         searchContainer.setDefaultHintTextColor(new ColorStateList(Globals.hintStates(), Globals.hintColors(appColor)));
+        nothingHere.setTextColor(appColor);
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             searchEditText.setTextCursorDrawable(null);}*/
     }

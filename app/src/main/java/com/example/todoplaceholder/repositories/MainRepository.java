@@ -102,6 +102,9 @@ public class MainRepository {
         return mTaskDao.getFinishedTasks();
     }
 
+    public TaskModel selectTaskById(int taskID){
+        return mTaskDao.getTaskById(taskID);
+    }
 
 }
 

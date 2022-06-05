@@ -53,16 +53,16 @@
         tools:listitem="@layout/category_item_view" />
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/TextInputLayoutStyle"
         android:id="@+id/search_container"
+        style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
-        android:focusable="true"
-        android:focusableInTouchMode="false"
-        android:visibility="visible"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginEnd="6dp"
+        android:focusable="true"
+        android:focusableInTouchMode="false"
         android:textColorHint="@color/hintColor"
+        android:visibility="visible"
         app:boxStrokeColor="@color/defaultColor"
         app:endIconMode="clear_text"
         app:endIconTint="@color/categoryColor"
@@ -80,24 +80,39 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toEndOf="@id/vg6"
-            app:layout_constraintEnd_toStartOf="@id/vg96"
-            app:layout_constraintTop_toBottomOf="@id/hg44"
-            app:layout_constraintBottom_toTopOf="@id/hg92"
-            android:scrollbars="none"
-            android:id="@+id/recycler_view_todo"
-            android:fadingEdgeLength="5dp"
-            android:requiresFadingEdge="vertical"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="10dp"
-            tools:listitem="@layout/todo_item_card"
-            />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_todo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:fadingEdgeLength="5dp"
+        android:requiresFadingEdge="vertical"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/hg92"
+        app:layout_constraintEnd_toStartOf="@id/vg96"
+        app:layout_constraintStart_toEndOf="@id/vg6"
+        app:layout_constraintTop_toBottomOf="@id/hg44"
+        tools:listitem="@layout/todo_item_card" />
 
+    <TextView
+        android:id="@+id/text_nothing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Nothing's here"
+        android:textColor="@color/defaultColor"
+        android:textSize="@dimen/titleSize"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:drawableTint="@color/white"
+        app:drawableTopCompat="@drawable/no_search_icon"
+        app:layout_constraintBottom_toTopOf="@id/hg92"
+        app:layout_constraintEnd_toStartOf="@id/vg96"
+        app:layout_constraintStart_toEndOf="@id/vg6"
+        app:layout_constraintTop_toBottomOf="@id/hg44" />
 
 
     <androidx.constraintlayout.widget.Guideline

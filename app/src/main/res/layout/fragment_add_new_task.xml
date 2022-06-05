@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textAlignment="center"
         android:padding="24dp"
         android:text="@string/add_new_task"
+        android:textAlignment="center"
         android:textColor="@color/accentColor"
         android:textSize="@dimen/addNewItemSize" />
 
@@ -42,7 +42,7 @@
             tools:listitem="@layout/category_item_view" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/search_container"
+            android:id="@+id/title_container"
             style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             app:layout_constraintTop_toBottomOf="@id/recycler_view_category">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/search"
+                android:id="@+id/mTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Add your task title"
@@ -83,86 +83,113 @@
             app:endIconTint="@color/categoryColor"
             app:layout_constraintEnd_toStartOf="@id/vg92"
             app:layout_constraintStart_toEndOf="@id/vg8"
-            app:layout_constraintTop_toBottomOf="@id/search_container">
+            app:layout_constraintTop_toBottomOf="@id/title_container">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Add your task description"
-                android:minLines="4"/>
+                android:minLines="4" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/date_container"
             style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
-            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            app:startIconDrawable="@drawable/ic_calendar"
-            app:startIconTint="@color/defaultColor"
             android:layout_marginEnd="6dp"
             android:textColorHint="@color/hintColor"
+            app:boxStrokeColor="@color/defaultColor"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/categoryColor"
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+
+            app:layout_constraintTop_toBottomOf="@id/description_container"
+            app:startIconDrawable="@drawable/ic_calendar"
+            app:startIconTint="@color/defaultColor">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/date"
+                android:editable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Choose task end date"
+                android:inputType="" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/notification_container"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:onClick="chooseDate"
+            android:textColorHint="@color/hintColor"
+            android:visibility="visible"
             app:boxStrokeColor="@color/defaultColor"
             app:counterTextColor="@color/activeCardBackground"
             app:endIconMode="clear_text"
             app:endIconTint="@color/categoryColor"
+            app:layout_constraintBottom_toBottomOf="@id/checkAlarm"
             app:layout_constraintEnd_toStartOf="@id/checkAlarm"
             app:layout_constraintStart_toEndOf="@id/vg8"
-            android:onClick="chooseDate"
             app:layout_constraintTop_toTopOf="@id/checkAlarm"
-            app:layout_constraintBottom_toBottomOf="@id/checkAlarm">
+            app:startIconDrawable="@drawable/ic_alarm"
+            app:startIconTint="@color/defaultColor">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/date"
-                android:layout_height="wrap_content"
-                android:hint="Choose notification date"
-                android:editable="false"
+                android:id="@+id/notification"
                 android:layout_width="match_parent"
-                />
+                android:layout_height="wrap_content"
+                android:editable="false"
+                android:hint="Choose notification date" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <CheckBox
+            android:id="@+id/checkAlarm"
+            style="@style/Widget.App.CheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Set alarm"
-            android:layoutDirection="rtl"
-            android:textColor="@color/accentColor"
-            style="@style/Widget.App.CheckBox"
-            android:id="@+id/checkAlarm"
-            android:checked="false"
-            app:layout_constraintTop_toBottomOf="@id/description_container"
-            app:layout_constraintRight_toLeftOf="@id/vg92"
             android:layout_marginTop="12dp"
-            />
+            android:checked="false"
+            android:layoutDirection="rtl"
+            android:text="Set alarm"
+            android:textColor="@color/accentColor"
+            app:layout_constraintRight_toLeftOf="@id/vg92"
+            app:layout_constraintTop_toBottomOf="@id/date_container" />
 
 
         <TextView
+            android:id="@+id/addButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/vg8"
-            app:layout_constraintEnd_toStartOf="@id/vg92"
-            android:text="Add"
-            app:layout_constraintTop_toBottomOf="@id/checkAlarm"
-            android:textAlignment="center"
-            android:padding="16dp"
-            android:id="@+id/addButton"
-            android:clickable="true"
             android:layout_marginTop="24dp"
             android:background="@drawable/add_button"
             android:backgroundTint="@color/defaultColor"
-            android:textColor="@color/accentColor" />
+            android:clickable="true"
+            android:padding="16dp"
+            android:text="Add"
+            android:textAlignment="center"
+            android:textColor="@color/accentColor"
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintTop_toBottomOf="@id/checkAlarm" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="1dp"
-            app:layout_constraintTop_toBottomOf="@id/addButton"
-            app:layout_constraintStart_toEndOf="@id/vg8"
+            android:layout_marginTop="24dp"
             app:layout_constraintEnd_toStartOf="@id/vg92"
-            android:layout_marginTop="24dp"/>
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintTop_toBottomOf="@id/addButton" />
 
 
         <androidx.constraintlayout.widget.Guideline

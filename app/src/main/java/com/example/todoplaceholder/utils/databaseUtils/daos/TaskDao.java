@@ -32,6 +32,9 @@ public interface TaskDao {
     @Query("SELECT * FROM task_table WHERE active = 0")
     List<TaskModel> getFinishedTasks();
 
+    @Query("SELECT * FROM task_table WHERE id = :taskid")
+    TaskModel getTaskById(int taskid);
+
     @Update
     void updateTask(TaskModel model);
 

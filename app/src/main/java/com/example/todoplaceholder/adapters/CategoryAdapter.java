@@ -1,8 +1,11 @@
 package com.example.todoplaceholder.adapters;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,17 +41,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoryModel model = categories.get(position);
         if(model.isActive()){
-            Drawable drawable = context.getResources().getDrawable(R.drawable.background_transparent);
-            Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(wrappedDrawable, model.getBaseColor());
+            GradientDrawable drawable = new GradientDrawable();
+            drawable.setStroke(5, model.getShadowColor());
+            drawable.setCornerRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics()));
+            drawable.setColor(model.getBaseColor());
+
             holder.category.setBackground(drawable);
-
-            GradientDrawable gd = (GradientDrawable) holder.category.getBackground();
-            gd.setStroke(2, model.getShadowColor());
-
             holder.category.setTextColor(context.getResources().getColor(R.color.accentColor));
         }else{
             holder.category.setBackground(context.getResources().getDrawable(R.drawable.background_transparent));
+            holder.category.setTextColor(context.getResources().getColor(R.color.categoryColor));
         }
         holder.category.setText(model.getCategoryName());
     }
@@ -66,6 +68,23 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             super(itemView);
 
             category = itemView.findViewById(R.id.category_name);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if(categories.get(position).isActive()){
+                        categories.get(position).setActive(false);
+                    }else{
+                        for(CategoryModel m : categories){
+                            m.setActive(false);
+                        }
+                        categories.get(position).setActive(true);
+
+                    }
+                    notifyDataSetChanged();
+                }
+            });
         }
     }
 }

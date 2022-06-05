@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity{
         SEARCHFRAGMENT = new SearchFragment();
         CATEGORIESFRAGMENT = new CategoriesFragment(mViewModel);
         MYSETTINGSFRAGMENT = new mySettingsFragment();
-        newTaskFragment = new addNewTaskFragment();
+        newTaskFragment = new addNewTaskFragment(mViewModel, categoryModelList);
         newCategoryFragment = new addNewCategoryFragment(mViewModel, categoryModelList);
 
 
