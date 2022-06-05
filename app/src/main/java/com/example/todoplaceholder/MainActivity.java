@@ -26,12 +26,14 @@ import com.example.todoplaceholder.fragments.mySettingsFragment;
 import com.example.todoplaceholder.fragments.todoFragment;
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.models.ColorModel;
+import com.example.todoplaceholder.models.DateModel;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
@@ -60,6 +62,11 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         //UI setup
+
+        DateModel model = new DateModel(new Date(System.currentTimeMillis()));
+
+
+
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 

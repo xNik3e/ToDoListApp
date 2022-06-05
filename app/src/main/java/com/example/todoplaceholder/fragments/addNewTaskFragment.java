@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.adapters.CategoryAdapter;
+import com.example.todoplaceholder.interfaces.CategoryAdapterNotifier;
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.utils.Globals;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
@@ -40,10 +41,10 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
     private TextInputEditText title, description, date, notification;
     private CheckBox checkBox;
     private TextView addButton;
-
+    private CategoryAdapterNotifier adapterNotifier;
     private CategoryAdapter categoryAdapter;
 
-    private int appColor;
+    private int appColor = 0;
 
     public addNewTaskFragment(MainViewModel MVM, List<CategoryModel> cModelList) {
         this.mainViewModel = MVM;
@@ -90,8 +91,23 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
             }
         });
 
-        categoryAdapter = new CategoryAdapter(context, categoryModels);
+        categoryAdapter = new CategoryAdapter(context, categoryModels, adapterNotifier);
         categoryRV.setAdapter(categoryAdapter);
+
+        adapterNotifier = new CategoryAdapterNotifier() {
+            @Override
+            public void notifyAboutChange(int position, boolean isActive) {
+                if(isActive){
+                    addButton.setBackgroundTintList(ColorStateList.valueOf(categoryModels.get(position).getBaseColor()));
+                }else{
+                    if(appColor != 0){
+                        addButton.setBackgroundTintList(ColorStateList.valueOf(appColor));
+                    }else{
+                        addButton.setBackgroundTintList(ColorStateList.valueOf(mainViewModel.getBaseColor().getValue()));
+                    }
+                }
+            }
+        };
     }
 
     public void chooseDate(View view) {

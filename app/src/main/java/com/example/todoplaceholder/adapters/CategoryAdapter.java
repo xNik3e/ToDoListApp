@@ -16,6 +16,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoplaceholder.R;
+import com.example.todoplaceholder.interfaces.CategoryAdapterNotifier;
 import com.example.todoplaceholder.models.CategoryModel;
 
 import java.util.List;
@@ -24,11 +25,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     private Context context;
     private List<CategoryModel> categories;
+    private CategoryAdapterNotifier categoryAdapterNotifier;
 
     public CategoryAdapter(Context context, List<CategoryModel> categories) {
         this.context = context;
         this.categories = categories;
+        this.categoryAdapterNotifier = null;
     }
+
+    public CategoryAdapter(Context context, List<CategoryModel> categories, CategoryAdapterNotifier notifier) {
+        this.context = context;
+        this.categories = categories;
+        this.categoryAdapterNotifier = notifier;
+    }
+
+
 
     @NonNull
     @Override
@@ -81,6 +92,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                         }
                         categories.get(position).setActive(true);
 
+                    }
+                    if(categoryAdapterNotifier != null){
+                        categoryAdapterNotifier.notifyAboutChange(getAdapterPosition(), categories.get(getAdapterPosition()).isActive());
                     }
                     notifyDataSetChanged();
                 }
