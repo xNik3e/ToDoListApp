@@ -1,5 +1,6 @@
 package com.example.todoplaceholder.utils.utils;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -8,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.aminography.primecalendar.PrimeCalendar;
 import com.aminography.primecalendar.civil.CivilCalendar;
@@ -23,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class DateTimePickerHandler {
 
@@ -32,7 +36,7 @@ public class DateTimePickerHandler {
     private long dateFinal = 0;
     private PrimeDatePicker datePicker = null;
     private FragmentManager fragmentManager;
-    private String dateString;
+    private MutableLiveData<String> dateString = new MutableLiveData<>();
     private int appColor;
 
     public DateTimePickerHandler(FragmentManager manager, int color) {
@@ -41,8 +45,15 @@ public class DateTimePickerHandler {
     }
 
 
+    public void resetValues() {
+        setDateFinal(0L);
+    }
 
-    public void createDateTimePicker(FragmentManager manager){
+    public LiveData<String> getDateString() {
+        return dateString;
+    }
+
+    public void createDateTimePicker(String format, long endDate) {
         SingleDayPickCallback callback = new SingleDayPickCallback() {
             @Override
             public void onSingleDayPicked(PrimeCalendar singleDay) {
@@ -50,7 +61,11 @@ public class DateTimePickerHandler {
                 long dateValue = singleDay.getTimeInMillis();
                 calendarDate = new Date(dateValue);
 
-                CmtpTimeDialogFragment timePicker = CmtpTimeDialogFragment.newInstance();
+                hourValue = -1;
+                minuteValue = -1;
+                setDateString(format);
+
+                CmtpTimeDialogFragment timePicker = CmtpTimeDialogFragment.newInstance("Pick Time", "Set Midnight");
 
                 if (dateFinal != 0) {
                     Calendar c = Calendar.getInstance();
@@ -67,34 +82,60 @@ public class DateTimePickerHandler {
                     public void onTimePicked(@NonNull CmtpTime24 cmtpTime24) {
                         hourValue = cmtpTime24.getHour();
                         minuteValue = cmtpTime24.getMinute();
-                        setDateString();
+                        setDateString(format);
                     }
                 });
+
 
             }
         };
 
         PrimeCalendar today = new CivilCalendar();
+        PrimeCalendar dateEnd = new CivilCalendar();
         today.setTimeInMillis(System.currentTimeMillis());
+
+        if(endDate != -1)
+            dateEnd.setTimeInMillis(endDate);
+
 
         if (dateFinal != 0) {
             PrimeCalendar pickedDay = new CivilCalendar();
             pickedDay.setTimeInMillis(dateFinal);
 
-            datePicker = PrimeDatePicker.Companion.dialogWith(today)
-                    .pickSingleDay(callback)
-                    .initiallyPickedSingleDay(pickedDay)
-                    .firstDayOfWeek(Calendar.MONDAY)
-                    .minPossibleDate(today)
-                    .applyTheme(getDarkTheme(appColor))
-                    .build();
+            if(endDate != -1){
+                datePicker = PrimeDatePicker.Companion.dialogWith(today)
+                        .pickSingleDay(callback)
+                        .initiallyPickedSingleDay(pickedDay)
+                        .firstDayOfWeek(Calendar.MONDAY)
+                        .minPossibleDate(today)
+                        .maxPossibleDate(dateEnd)
+                        .applyTheme(getDarkTheme(appColor)).build();
+            }else{
+                datePicker = PrimeDatePicker.Companion.dialogWith(today)
+                        .pickSingleDay(callback)
+                        .initiallyPickedSingleDay(pickedDay)
+                        .firstDayOfWeek(Calendar.MONDAY)
+                        .minPossibleDate(today)
+                        .applyTheme(getDarkTheme(appColor)).build();
+            }
+
         } else {
-            datePicker = PrimeDatePicker.Companion.dialogWith(today)
-                    .pickSingleDay(callback)
-                    .firstDayOfWeek(Calendar.MONDAY)
-                    .minPossibleDate(today)
-                    .applyTheme(getDarkTheme(appColor))
-                    .build();
+            if(endDate != -1){
+                datePicker = PrimeDatePicker.Companion.dialogWith(today)
+                        .pickSingleDay(callback)
+                        .firstDayOfWeek(Calendar.MONDAY)
+                        .minPossibleDate(today)
+                        .maxPossibleDate(dateEnd)
+                        .applyTheme(getDarkTheme(appColor))
+                        .build();
+            }else{
+                datePicker = PrimeDatePicker.Companion.dialogWith(today)
+                        .pickSingleDay(callback)
+                        .firstDayOfWeek(Calendar.MONDAY)
+                        .minPossibleDate(today)
+                        .applyTheme(getDarkTheme(appColor))
+                        .build();
+            }
         }
 
 
@@ -165,7 +206,7 @@ public class DateTimePickerHandler {
 
     }
 
-    private void setDateString() {
+    private void setDateString(String format) {
         Calendar c = Calendar.getInstance();
         c.setTime(calendarDate);
 
@@ -177,18 +218,15 @@ public class DateTimePickerHandler {
             c.set(Calendar.MINUTE, minuteValue);
         }
         this.dateFinal = c.getTimeInMillis();
+        SimpleDateFormat smf;
+        if (format == null)
+            smf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm");
+        else
+            smf = new SimpleDateFormat(format);
 
-        SimpleDateFormat smf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm");
-
-        dateString = smf.toString();
+        String result = smf.format(new Date(dateFinal));
+        dateString.setValue(result);
     }
-
-
-
-
-
-
-
 
     public Date getCalendarDate() {
         return calendarDate;
@@ -230,11 +268,5 @@ public class DateTimePickerHandler {
         this.datePicker = datePicker;
     }
 
-    public String getDateString() {
-        return dateString;
-    }
 
-    public void setDateString(String dateString) {
-        this.dateString = dateString;
-    }
 }

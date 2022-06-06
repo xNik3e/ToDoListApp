@@ -8,7 +8,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.graphics.ColorUtils;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,39 +18,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.aminography.primecalendar.PrimeCalendar;
-import com.aminography.primecalendar.civil.CivilCalendar;
-import com.aminography.primedatepicker.calendarview.PrimeCalendarView;
-import com.aminography.primedatepicker.picker.PrimeDatePicker;
-import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback;
 import com.aminography.primedatepicker.picker.theme.DarkThemeFactory;
 import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.adapters.CategoryAdapter;
 import com.example.todoplaceholder.interfaces.CategoryAdapterNotifier;
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.utils.Globals;
-import com.example.todoplaceholder.utils.view_services.App;
+import com.example.todoplaceholder.utils.utils.DateTimePickerHandler;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.michaldrabik.classicmaterialtimepicker.CmtpTimeDialogFragment;
-import com.michaldrabik.classicmaterialtimepicker.OnTime24PickedListener;
-import com.michaldrabik.classicmaterialtimepicker.model.CmtpTime24;
 
-import org.checkerframework.checker.units.qual.C;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class addNewTaskFragment extends BottomSheetDialogFragment {
@@ -66,16 +48,10 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
     private TextView addButton;
     private CategoryAdapterNotifier adapterNotifier;
     private CategoryAdapter categoryAdapter;
-    private long time;
+    private DateTimePickerHandler endDateDateTimePickerHandler, notificationDateDateTimePickerHandler;
 
-    private Date calendarDate;
-    private int minuteValue;
-    private int hourValue;
-    private long dateFinal = 0;
 
     private int appColor = 0;
-
-    private PrimeDatePicker datePicker = null;
 
     public addNewTaskFragment(MainViewModel MVM, List<CategoryModel> cModelList) {
         this.mainViewModel = MVM;
@@ -113,7 +89,6 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
         checkBox = view.findViewById(R.id.checkAlarm);
         addButton = view.findViewById(R.id.addButton);
 
-
         mainViewModel.getBaseColor().observe(getActivity(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
@@ -140,13 +115,39 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
             }
         };
 
+        endDateDateTimePickerHandler = new DateTimePickerHandler(getChildFragmentManager(), appColor);
+        notificationDateDateTimePickerHandler = new DateTimePickerHandler(getChildFragmentManager(), appColor);
+
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
+                if(isChecked && dateContainer.getEditText().getText().length() == 0){
+                    Toast.makeText(context, "Cannot set alarm when end date is empty!", Toast.LENGTH_SHORT).show();
+                    checkBox.setChecked(false);
+                }
+                else if(isChecked) {
                     notificationContainer.setVisibility(View.VISIBLE);
+                    notificationDateDateTimePickerHandler.resetValues();
+                    notificationContainer.getEditText().setText("");
                 } else {
                     notificationContainer.setVisibility(View.GONE);
+                    notificationDateDateTimePickerHandler.resetValues();
+                    notificationContainer.getEditText().setText("");
+
+                }
+            }
+        });
+
+
+
+        date.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    if(!checkBox.isChecked()){
+                        endDateDateTimePickerHandler.createDateTimePicker(null, -1);
+                        checkBox.setChecked(false);
+                    }
                 }
             }
         });
@@ -154,69 +155,41 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SingleDayPickCallback callback = new SingleDayPickCallback() {
-                    @Override
-                    public void onSingleDayPicked(PrimeCalendar singleDay) {
-                        calendarDate = null;
-                        long dateValue = singleDay.getTimeInMillis();
-                        calendarDate = new Date(dateValue);
+                endDateDateTimePickerHandler.createDateTimePicker(null, -1);
+            }
+        });
 
-                        CmtpTimeDialogFragment timePicker = CmtpTimeDialogFragment.newInstance();
-
-                        if (dateFinal != 0) {
-                            Calendar c = Calendar.getInstance();
-                            c.setTime(new Date(dateFinal));
-                            timePicker.setInitialTime24(c.get(Calendar.HOUR), c.get(Calendar.MINUTE));
-                        } else {
-                            timePicker.setInitialTime24(LocalDateTime.now().getHour(), LocalDateTime.now().getMinute());
-                        }
-
-                        timePicker.show(getChildFragmentManager(), "TIME_PICKER");
-
-                        timePicker.setOnTime24PickedListener(new OnTime24PickedListener() {
-                            @Override
-                            public void onTimePicked(@NonNull CmtpTime24 cmtpTime24) {
-                                hourValue = cmtpTime24.getHour();
-                                minuteValue = cmtpTime24.getMinute();
-                                setDateContainer();
-                            }
-                        });
-
+        notification.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    if(checkBox.isChecked()){
+                        notificationDateDateTimePickerHandler.createDateTimePicker("EEE, dd/MM HH:mm", endDateDateTimePickerHandler.getDateFinal());
                     }
-                };
-
-                PrimeCalendar today = new CivilCalendar();
-                today.setTimeInMillis(System.currentTimeMillis());
-
-                if (dateFinal != 0) {
-                    PrimeCalendar pickedDay = new CivilCalendar();
-                    pickedDay.setTimeInMillis(dateFinal);
-
-                    datePicker = PrimeDatePicker.Companion.dialogWith(today)
-                            .pickSingleDay(callback)
-                            .initiallyPickedSingleDay(pickedDay)
-                            .firstDayOfWeek(Calendar.MONDAY)
-                            .minPossibleDate(today)
-                            .applyTheme(getDarkTheme(appColor))
-                            .build();
-                } else {
-                    datePicker = PrimeDatePicker.Companion.dialogWith(today)
-                            .pickSingleDay(callback)
-                            .firstDayOfWeek(Calendar.MONDAY)
-                            .minPossibleDate(today)
-                            .applyTheme(getDarkTheme(appColor))
-                            .build();
                 }
 
+            }
+        });
 
-                datePicker.show(getChildFragmentManager(), "SOME_TAG");
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                notificationDateDateTimePickerHandler.createDateTimePicker("EEE, dd/MM HH:mm", endDateDateTimePickerHandler.getDateFinal());
+            }
+        });
 
-                datePicker.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        datePicker = null;
-                    }
-                });
+
+        endDateDateTimePickerHandler.getDateString().observe(getActivity(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                dateContainer.getEditText().setText(s);
+            }
+        });
+
+        notificationDateDateTimePickerHandler.getDateString().observe(getActivity(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                notificationContainer.getEditText().setText(s);
             }
         });
 
@@ -235,7 +208,11 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
                             if (checkBox.isChecked() && notificationContainer.getEditText().getText().length() == 0) {
                                 Toast.makeText(context, "Choose notification time!", Toast.LENGTH_SHORT).show();
                             } else {
-                                //
+                                if(compareDates(endDateDateTimePickerHandler.getDateFinal(), notificationDateDateTimePickerHandler.getDateFinal())){
+                                    Toast.makeText(context, "Notification date should not exceed task end date!!!", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    //
+                                }
                             }
                         }
                     }
@@ -246,31 +223,21 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
         dateContainer.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dateFinal = 0;
                 dateContainer.getEditText().setText("");
+                endDateDateTimePickerHandler.resetValues();
+                checkBox.setChecked(false);
+            }
+        });
+
+        notificationContainer.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                notificationContainer.getEditText().setText("");
+                notificationDateDateTimePickerHandler.resetValues();
             }
         });
 
 
-    }
-
-    private void setDateContainer() {
-        Calendar c = Calendar.getInstance();
-        c.setTime(calendarDate);
-
-        if (hourValue == -1) {
-            c.set(Calendar.HOUR, 0);
-            c.set(Calendar.MINUTE, 0);
-        } else {
-            c.set(Calendar.HOUR, hourValue);
-            c.set(Calendar.MINUTE, minuteValue);
-        }
-        this.dateFinal = c.getTimeInMillis();
-
-        SimpleDateFormat smf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm");
-        Toast.makeText(context, smf.format(dateFinal), Toast.LENGTH_SHORT).show();
-
-        dateContainer.getEditText().setText(smf.format(dateFinal));
     }
 
 
@@ -281,6 +248,9 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
             m.setActive(false);
         }
         mainViewModel.insertAllCategories(categoryModels);
+        dateContainer.getEditText().setText("");
+        titleContainer.getEditText().setText("");
+        descriptionContainer.getEditText().setText("");
     }
 
     private void setUIColors() {
@@ -364,4 +334,10 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
         };
 
     }
+
+    private boolean compareDates(long endDate, long notificationDate){
+        return endDate < notificationDate;
+    }
+
+
 }
