@@ -18,22 +18,50 @@
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
     </style>
+
     <style name="TitleTextStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
         <item name="android:textColor">@color/accentColor</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20sp</item>
     </style>
+
     <style name="BodyTextStyle" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
         <item name="android:textColor">#c7c7c7</item>
         <item name="android:textSize">14sp</item>
     </style>
+
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/defaultColorBackup</item>
         <item name="rippleColor">#4690ED</item>
     </style>
+
     <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">#757575</item>
         <item name="rippleColor">#a4a4a4</item>
+    </style>
+
+
+    <style name="CmtpDialogFrameStyle" parent="CmtpDialogTheme" />
+
+    <style name="CmtpDialogNegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/categoryColor</item>
+    </style>
+
+    <style name="CmtpDialogPositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/defaultColor</item>
+    </style>
+
+    <style name="CmtpDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="cmtpDialogFrameStyle">@style/CmtpDialogFrameStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/CmtpDialogPositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/CmtpDialogNegativeButtonStyle</item>
+        <item name="android:windowBackground">@drawable/calendar_card</item>
+    </style>
+
+    <style name="CmtpViewTheme">
+        <item name="cmtpTextFrameDrawable">@drawable/background_colored</item>
+        <item name="cmtpTextSize">16sp</item>
+        <item name="cmtpTextColor">@color/accentColor</item>
     </style>
 
 </resources>

@@ -89,4 +89,5 @@ public class MainViewModel extends AndroidViewModel {
 
     //TODO TASK HANDLERS
 
+    public LiveData<List<TaskModel>> getTaskModels(){return taskModels;}
 }

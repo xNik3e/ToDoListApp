@@ -108,7 +108,6 @@
             app:endIconTint="@color/categoryColor"
             app:layout_constraintEnd_toStartOf="@id/vg92"
             app:layout_constraintStart_toEndOf="@id/vg8"
-
             app:layout_constraintTop_toBottomOf="@id/description_container"
             app:startIconDrawable="@drawable/ic_calendar"
             app:startIconTint="@color/defaultColor">
@@ -132,7 +131,7 @@
             android:layout_marginEnd="6dp"
             android:onClick="chooseDate"
             android:textColorHint="@color/hintColor"
-            android:visibility="visible"
+            android:visibility="gone"
             app:boxStrokeColor="@color/defaultColor"
             app:counterTextColor="@color/activeCardBackground"
             app:endIconMode="clear_text"

@@ -25,6 +25,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="27dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="27dp"
                 android:background="@drawable/category_indicator"
                 android:backgroundTint="@color/defaultColor" />
@@ -35,21 +36,20 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/category_indicator"
                 android:layout_alignTop="@id/category_indicator"
-                android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_toEndOf="@id/category_indicator"
                 android:singleLine="true"
-                android:textStyle="bold"
                 android:text="TEST"
                 android:textColor="@color/defaultColor"
-                android:textSize="@dimen/itemTitle" />
+                android:textSize="@dimen/itemTitle"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/alarm_image_view"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignBottom="@id/category_indicator"
-                android:layout_marginStart="24dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
                 android:layout_toEndOf="@id/category_indicator"
                 android:layout_toRightOf="@id/category_indicator"
@@ -63,7 +63,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/alarm_image_view"
                 android:layout_alignBottom="@id/category_indicator"
-                android:layout_marginStart="2dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="4dp"
                 android:layout_toStartOf="@id/placeholder"
@@ -75,16 +74,28 @@
                 android:textColor="@color/accentColor"
                 android:textSize="@dimen/itemDescription" />
 
+            <TextView
+                android:id="@+id/creationDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="6dp"
+                android:singleLine="true"
+                android:text="Created at: "
+                android:textColor="@color/accentColor"
+                android:textSize="@dimen/categoryItemSize" />
+
             <View
+                android:id="@+id/placeholder"
                 android:layout_width="78dp"
                 android:layout_height="32dp"
-                android:id="@+id/placeholder"
-                android:visibility="invisible"
-                android:clickable="false"
-                android:focusable="false"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="14dp"/>
+                android:layout_marginEnd="14dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:visibility="invisible" />
 
 
             <androidx.cardview.widget.CardView
@@ -111,16 +122,16 @@
 
 
             <TextView
+                android:id="@+id/done_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Done!"
-                android:visibility="gone"
-                android:gravity="center"
                 android:layout_alignStart="@id/placeholder"
                 android:layout_alignEnd="@id/placeholder"
                 android:layout_centerVertical="true"
-                android:id="@+id/done_message"
-                android:textColor="@color/confirmation"/>
+                android:gravity="center"
+                android:text="Done!"
+                android:textColor="@color/confirmation"
+                android:visibility="gone" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
