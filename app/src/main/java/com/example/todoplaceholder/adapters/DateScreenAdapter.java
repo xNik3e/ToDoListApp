@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoplaceholder.R;
+import com.example.todoplaceholder.interfaces.OnCalendarDateChange;
 import com.example.todoplaceholder.models.DateModel;
 
 import java.text.SimpleDateFormat;
@@ -23,10 +24,12 @@ public class DateScreenAdapter extends RecyclerView.Adapter<DateScreenAdapter.Vi
 
     private Context context;
     private List<DateModel> dateModels;
+    private OnCalendarDateChange onCalendarDateChange;
 
-    public DateScreenAdapter(Context context, List<DateModel> dateModels) {
+    public DateScreenAdapter(Context context, List<DateModel> dateModels, OnCalendarDateChange interfaceCalendar) {
         this.context = context;
         this.dateModels = dateModels;
+        this.onCalendarDateChange =  interfaceCalendar;
     }
 
     @NonNull
@@ -53,6 +56,10 @@ public class DateScreenAdapter extends RecyclerView.Adapter<DateScreenAdapter.Vi
         }
     }
 
+    public List<DateModel> getDateModels(){
+        return dateModels;
+    }
+
     @Override
     public int getItemCount() {
         return dateModels.size();
@@ -76,14 +83,17 @@ public class DateScreenAdapter extends RecyclerView.Adapter<DateScreenAdapter.Vi
                     int position = getAdapterPosition();
 
                     if(dateModels.get(position).isActive()){
-                        dateModels.get(position).setActive(false);
+                        //
                     }else{
                         for(DateModel m: dateModels){
                             m.setActive(false);
                         }
                         dateModels.get(position).setActive(true);
                     }
+
+                    onCalendarDateChange.forceTaskAdapterChange();
                     notifyDataSetChanged();
+
                 }
             });
 

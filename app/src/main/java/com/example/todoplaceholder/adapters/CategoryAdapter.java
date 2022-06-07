@@ -60,7 +60,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             holder.category.setBackground(drawable);
             holder.category.setTextColor(context.getResources().getColor(R.color.accentColor));
         }else{
-            holder.category.setBackground(context.getResources().getDrawable(R.drawable.background_transparent));
+            GradientDrawable drawable = new GradientDrawable();
+            drawable.setStroke(4, model.getShadowColor());
+            drawable.setCornerRadius(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics()));
+            holder.category.setBackground(drawable);
+            //holder.category.setBackground(context.getResources().getDrawable(R.drawable.background_transparent));
             holder.category.setTextColor(context.getResources().getColor(R.color.categoryColor));
         }
         holder.category.setText(model.getCategoryName());

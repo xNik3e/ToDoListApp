@@ -53,7 +53,7 @@ public abstract class MyRoomDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            databaseWriteExecutor.execute(() -> {
+            databaseWriteExecutor.execute(() ->  {
                 CategoryDao dao = INSTANCE.categoryDao();
                 dao.insertAll(CategoryModel.populateData());
             });

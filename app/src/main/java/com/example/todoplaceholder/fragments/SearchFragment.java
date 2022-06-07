@@ -90,6 +90,8 @@ public class SearchFragment extends Fragment {
         });
 
 
+
+
         searchItemAdapter = new SearchItemAdapter(context, taskModelList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         searchItemRV.setLayoutManager(linearLayoutManager);

@@ -8,19 +8,22 @@ import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.PropertyKey;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 
 @Entity(tableName = "task_table")
-public class TaskModel {
+public class TaskModel implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
 
     private String taskName;
+
     private CategoryModel model;
+
     private String description;
     private Date notificationTime;
     private Date endDate;

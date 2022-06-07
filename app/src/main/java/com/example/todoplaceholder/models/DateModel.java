@@ -28,6 +28,7 @@ public class DateModel{
     public DateModel(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
+        this.isActive= false;
         this.day = calendar.get(Calendar.DAY_OF_MONTH);
         this.month = calendar.get(Calendar.MONTH) + 1;
         this.year = calendar.get(Calendar.YEAR);
@@ -37,6 +38,7 @@ public class DateModel{
     public DateModel(int day, int month, int year) {
         this.day = day;
         this.month = month;
+        this.isActive= false;
         this.year = year;
         this.date = new GregorianCalendar(year, month - 1, day).getTime();
     }
@@ -102,6 +104,9 @@ public class DateModel{
                 .forEach(tempModels::add);
 
         tempModels.sort(Comparator.comparing(DateModel::getDate));
+
+        if(tempModels.size() > 0)
+            tempModels.get(0).setActive(true);
 
         return  tempModels;
     }

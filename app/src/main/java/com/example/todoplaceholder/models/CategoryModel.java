@@ -15,12 +15,13 @@ import androidx.room.PrimaryKey;
 import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.utils.view_services.App;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Entity(tableName = "category_table")
-public class CategoryModel {
+public class CategoryModel implements Serializable{
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -36,6 +37,8 @@ public class CategoryModel {
     private int baseColor;
     @Ignore
     private int shadowColor;
+
+
 
 
     @Ignore

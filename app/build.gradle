@@ -71,8 +71,6 @@ dependencies {
     //gson
     implementation 'com.google.code.gson:gson:2.8.9'
 
-    //palette
-    implementation 'androidx.palette:palette:1.0.0'
 
     //preferences
     implementation "androidx.preference:preference:1.2.0"
@@ -100,6 +98,8 @@ dependencies {
     //swipable RV
     implementation 'com.github.tsuryo:Swipeable-RecyclerView:1.1'
 
+    //circularActivity
+    implementation 'com.github.tombayley:ActivityCircularReveal:1.0.2'
 
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'

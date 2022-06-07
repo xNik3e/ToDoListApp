@@ -24,9 +24,12 @@ import com.michaldrabik.classicmaterialtimepicker.model.CmtpTime24;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class DateTimePickerHandler {
 
@@ -34,6 +37,9 @@ public class DateTimePickerHandler {
     private int minuteValue;
     private int hourValue;
     private long dateFinal = 0;
+
+    private static final String midnightTime = "00:00am";
+
     private PrimeDatePicker datePicker = null;
     private FragmentManager fragmentManager;
     private MutableLiveData<String> dateString = new MutableLiveData<>();
@@ -58,7 +64,11 @@ public class DateTimePickerHandler {
             @Override
             public void onSingleDayPicked(PrimeCalendar singleDay) {
                 calendarDate = null;
-                long dateValue = singleDay.getTimeInMillis();
+                GregorianCalendar tempC = new GregorianCalendar(singleDay.getYear(), singleDay.getMonth(), singleDay.getDayOfMonth());
+                tempC.set(Calendar.HOUR_OF_DAY, 0);
+                tempC.set(Calendar.MINUTE, 0);
+
+                long dateValue = tempC.getTimeInMillis();
                 calendarDate = new Date(dateValue);
 
                 hourValue = -1;
@@ -207,14 +217,21 @@ public class DateTimePickerHandler {
     }
 
     private void setDateString(String format) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(calendarDate);
+
+        GregorianCalendar tempC = (GregorianCalendar) Calendar.getInstance();
+        GregorianCalendar c = (GregorianCalendar) Calendar.getInstance();
+
+        tempC.setTime(calendarDate);
+
+        c.set(Calendar.YEAR, tempC.get(Calendar.YEAR));
+        c.set(Calendar.MONTH, tempC.get(Calendar.MONTH));
+        c.set(Calendar.DAY_OF_MONTH, tempC.get(Calendar.DAY_OF_MONTH));
 
         if (hourValue == -1) {
-            c.set(Calendar.HOUR, 0);
+            c.set(Calendar.HOUR_OF_DAY, 0);
             c.set(Calendar.MINUTE, 0);
         } else {
-            c.set(Calendar.HOUR, hourValue);
+            c.set(Calendar.HOUR_OF_DAY, hourValue);
             c.set(Calendar.MINUTE, minuteValue);
         }
         this.dateFinal = c.getTimeInMillis();
