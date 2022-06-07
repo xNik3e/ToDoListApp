@@ -40,7 +40,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         TaskModel model = taskModels.get(position);
+        holder.title.setText(model.getTaskName());
+        holder.description.setText(model.getDescription());
+        holder.title.setTextColor(UIColor);
+        holder.categoryIndicator.setBackgroundTintList(ColorStateList.valueOf(UIColor));
+        holder.buttonCheck.setCardBackgroundColor(UIColor);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd");
+        SimpleDateFormat esdf = new SimpleDateFormat("EEE, MMM dd HH:mm");
+
+        holder.creationDate.setText("Created at: " + sdf.format(model.getCreatedAt()));
+        holder.expirationDate.setText("Expiring at: " + esdf.format(model.getEndDate()));
+
         if(model.getNotificationTime() != null){
             holder.alarmImage.setVisibility(View.VISIBLE);
         }else{
@@ -60,18 +73,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
             holder.title.setTextColor(color);
             holder.categoryIndicator.setBackgroundTintList(ColorStateList.valueOf(color));
             holder.buttonCheck.setCardBackgroundColor(color);
-        }else{
-            holder.title.setTextColor(UIColor);
-            holder.categoryIndicator.setBackgroundTintList(ColorStateList.valueOf(UIColor));
-            holder.buttonCheck.setCardBackgroundColor(UIColor);
         }
 
-        holder.title.setText(model.getTaskName());
-        holder.description.setText(model.getDescription());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd");
-
-        holder.creationDate.setText("Created at: " + sdf.format(model.getCreatedAt()));
 
     }
 
@@ -97,7 +101,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         View categoryIndicator;
-        TextView title, creationDate, doneMessage;
+        TextView title, creationDate, doneMessage, expirationDate;
         ImageView alarmImage;
         AlwaysMarqueeTextView description;
         CardView buttonCheck;
@@ -112,7 +116,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
             alarmImage = view.findViewById(R.id.alarm_image_view);
             description = view.findViewById(R.id.description);
             buttonCheck = view.findViewById(R.id.button_check);
-
+            expirationDate = view.findViewById(R.id.expirationDate);
 
             buttonCheck.setOnClickListener(new View.OnClickListener() {
                 @Override

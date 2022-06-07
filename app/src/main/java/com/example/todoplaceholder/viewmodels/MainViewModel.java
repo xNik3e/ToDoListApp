@@ -26,6 +26,7 @@ public class MainViewModel extends AndroidViewModel {
     private final LiveData<List<CategoryModel>> categoryModels;
     private final LiveData<List<TaskModel>> taskModels;
     private MutableLiveData<List<ColorModel>> colorList = new MutableLiveData<>();
+    private final int colorData;
 
 
     private MainRepository mRepository;
@@ -39,6 +40,7 @@ public class MainViewModel extends AndroidViewModel {
         categoryModels = mRepository.getAllCategories();
         taskModels = mRepository.getAllTasks();
         colorList.setValue(ColorModel.populateColorList());
+        colorData = colorRepository.getColorData(application);
     }
 
     //TODO COLOR HANDLER
@@ -46,6 +48,8 @@ public class MainViewModel extends AndroidViewModel {
     public void setBaseColor(int color) {
         baseColor.setValue(color);
     }
+
+    public int getBaseColorNOW(){return colorData;}
 
     public LiveData<Integer> getBaseColor() {
         return baseColor;
@@ -90,4 +94,12 @@ public class MainViewModel extends AndroidViewModel {
     //TODO TASK HANDLERS
 
     public LiveData<List<TaskModel>> getTaskModels(){return taskModels;}
+
+    public void insertTask(TaskModel task){
+        mRepository.insertTask(task);
+    }
+
+    public void deleteTask(String name){
+        mRepository.deleteTask(name);
+    }
 }

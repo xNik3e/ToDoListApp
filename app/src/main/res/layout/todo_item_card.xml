@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="20dp">
+   >
 
     <androidx.cardview.widget.CardView
         android:id="@+id/whole_container"
@@ -36,7 +36,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/category_indicator"
                 android:layout_alignTop="@id/category_indicator"
-                android:layout_marginTop="8dp"
                 android:layout_toEndOf="@id/category_indicator"
                 android:singleLine="true"
                 android:text="TEST"
@@ -48,21 +47,22 @@
                 android:id="@+id/alarm_image_view"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_alignBottom="@id/category_indicator"
+                android:layout_below="@id/title"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
                 android:layout_toEndOf="@id/category_indicator"
                 android:layout_toRightOf="@id/category_indicator"
                 android:src="@drawable/ic_alarm"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:tint="@color/accentColor" />
 
             <com.example.todoplaceholder.utils.view_services.AlwaysMarqueeTextView
                 android:id="@+id/description"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/alarm_image_view"
-                android:layout_alignBottom="@id/category_indicator"
+                android:layout_below="@id/title"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="4dp"
                 android:layout_toStartOf="@id/placeholder"
@@ -78,11 +78,24 @@
                 android:id="@+id/creationDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignEnd="@id/placeholder"
+                android:layout_marginTop="6dp"
+                android:singleLine="true"
+                android:text="Created at: "
+                android:textColor="@color/accentColor"
+                android:textSize="@dimen/categoryItemSize" />
+
+            <TextView
+                android:id="@+id/expirationDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
                 android:layout_marginStart="24dp"
                 android:layout_marginBottom="6dp"
                 android:singleLine="true"
-                android:text="Created at: "
+                android:text="Expiring at: "
                 android:textColor="@color/accentColor"
                 android:textSize="@dimen/categoryItemSize" />
 

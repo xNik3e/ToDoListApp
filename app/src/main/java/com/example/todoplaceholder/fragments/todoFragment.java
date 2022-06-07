@@ -7,10 +7,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
@@ -23,15 +26,21 @@ import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.adapters.CategoryAdapter;
 import com.example.todoplaceholder.adapters.TaskAdapter;
 import com.example.todoplaceholder.models.CategoryModel;
+import com.example.todoplaceholder.models.DateModel;
 import com.example.todoplaceholder.models.TaskModel;
 import com.example.todoplaceholder.utils.Globals;
+import com.example.todoplaceholder.utils.utils.SpaceItemDecoration;
+import com.example.todoplaceholder.utils.view_services.App;
 import com.example.todoplaceholder.utils.view_services.SwipeToDeleteCallback;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.tsuryo.swipeablerv.SwipeLeftRightCallback;
+import com.tsuryo.swipeablerv.SwipeableRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class todoFragment extends Fragment {
@@ -39,7 +48,8 @@ public class todoFragment extends Fragment {
 
     private Context context;
     private View topBackground;
-    private RecyclerView calendarRV, categoryRV, todoRV;
+    private RecyclerView calendarRV, categoryRV;
+    private SwipeableRecyclerView todoRV;
     private TextInputLayout searchContainer;
     private TextInputEditText searchEditText;
     private int appColor;
@@ -88,20 +98,94 @@ public class todoFragment extends Fragment {
 
         mainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
+        taskAdapter = new TaskAdapter(context, taskModelList, mainViewModel.getBaseColorNOW());
+
         mainViewModel.getBaseColor().observe(getActivity(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 appColor = integer;
                 setUIColors();
+                taskAdapter.notifyDataSetChanged();
             }
         });
 
         categoryAdapter = new CategoryAdapter(context, categoryModelList);
         categoryRV.setAdapter(categoryAdapter);
 
-        taskAdapter = new TaskAdapter(context, taskModelList, appColor);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+
+        todoRV.setLayoutManager(linearLayoutManager);
+        todoRV.addItemDecoration(new SpaceItemDecoration(36));
         todoRV.setAdapter(taskAdapter);
 
+        todoRV.setLeftBg(R.color.error);
+        todoRV.setLeftImage(R.drawable.ic_delete_white);
+        todoRV.setLeftText("DELETE");
+        todoRV.setTextColor(App.getContext().getResources().getColor(R.color.accentColor));
+        todoRV.setTextSize(48);
+
+        todoRV.setListener(new SwipeLeftRightCallback.Listener() {
+            @Override
+            public void onSwipedLeft(int position) {
+                //nothing
+            }
+
+            @Override
+            public void onSwipedRight(int position) {
+                final TaskModel model = taskAdapter.getData().get(position);
+
+                nameToDelete = model.getTaskName();
+                taskAdapter.removeItem(position);
+
+                isDeleted = true;
+
+                snackbar = Snackbar.make(coordinatorLayout, "Item was deleted", Snackbar.LENGTH_LONG);
+
+                snackbar.setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        taskAdapter.restoreItem(model, position);
+                        todoRV.scrollToPosition(position);
+                        isDeleted = false;
+                    }
+                });
+                snackbar.setActionTextColor(appColor);
+                snackbar.show();
+
+                final Runnable r = new Runnable() {
+                    @Override
+                    public void run() {
+                        if(isDeleted) {
+                            mainViewModel.deleteTask(nameToDelete);
+                            isDeleted = false;
+                        }
+                    }
+                };
+
+                Handler handler = new Handler();
+                handler.postDelayed(r, 4000);
+            }
+        });
+
+
+        mainViewModel.getTaskModels().observe(getActivity(), new Observer<List<TaskModel>>() {
+            @Override
+            public void onChanged(List<TaskModel> taskModels) {
+                taskModelList.clear();
+                taskModelList.addAll(taskModels);
+
+                if (taskModels.isEmpty()) {
+                    coordinatorLayout.setVisibility(View.GONE);
+                    nothingHere.setVisibility(View.VISIBLE);
+                } else {
+                    coordinatorLayout.setVisibility(View.VISIBLE);
+                    nothingHere.setVisibility(View.GONE);
+                }
+                List<DateModel> tempTestDates = DateModel.createDateList(taskModelList);
+                taskAdapter.notifyDataSetChanged();
+            }
+        });
 
         mainViewModel.getCategoryModels().observe(getActivity(), new Observer<List<CategoryModel>>() {
             @Override
@@ -114,21 +198,11 @@ public class todoFragment extends Fragment {
             }
         });
 
-        mainViewModel.getTaskModels().observe(getActivity(), new Observer<List<TaskModel>>() {
-            @Override
-            public void onChanged(List<TaskModel> tasks) {
-                taskModelList.clear();
-                taskModelList.addAll(tasks);
-            }
-        });
+
     }
 
     private void setUIColors() {
         topBackground.setBackgroundColor(appColor);
-        searchContainer.setBoxStrokeColor(appColor);
-
-        searchContainer.setBoxStrokeColorStateList(new ColorStateList(Globals.boxStates(), Globals.boxColors(appColor)));
-        searchContainer.setDefaultHintTextColor(new ColorStateList(Globals.hintStates(), Globals.hintColors(appColor)));
         nothingHere.setTextColor(appColor);
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             searchEditText.setTextCursorDrawable(null);}*/
@@ -147,6 +221,7 @@ public class todoFragment extends Fragment {
                 isDeleted = true;
 
                 snackbar = Snackbar.make(coordinatorLayout, "Item was deleted", Snackbar.LENGTH_LONG);
+
                 snackbar.setAction("UNDO", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -163,17 +238,7 @@ public class todoFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeToDeleteCallback);
         itemTouchHelper.attachToRecyclerView(todoRV);
 
-        final Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                mainViewModel.deleteCategory(nameToDelete);
-                isDeleted = false;
-            }
-        };
 
-        if(isDeleted){
-            Handler handler = new Handler();
-            handler.postDelayed(r, 4500);
-        }
+
     }
 }

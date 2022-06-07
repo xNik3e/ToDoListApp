@@ -52,48 +52,22 @@
         app:layout_constraintTop_toBottomOf="@id/hg27"
         tools:listitem="@layout/category_item_view" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/search_container"
-        style="@style/TextInputLayoutStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginEnd="6dp"
-        android:focusable="true"
-        android:focusableInTouchMode="false"
-        android:textColorHint="@color/hintColor"
-        android:visibility="visible"
-        app:boxStrokeColor="@color/defaultColor"
-        app:endIconMode="clear_text"
-        app:endIconTint="@color/categoryColor"
-        app:layout_constraintBottom_toTopOf="@id/hg44"
-        app:layout_constraintEnd_toEndOf="@id/vg96"
-        app:layout_constraintStart_toStartOf="@id/vg6"
-        app:layout_constraintTop_toBottomOf="@id/hg32">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Search task by title"
-            android:inputType="text" />
-
-    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="0dp"
         android:id="@+id/coordinatorLayout"
+        android:visibility="visible"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/hg92"
         app:layout_constraintEnd_toStartOf="@id/vg96"
         app:layout_constraintStart_toEndOf="@id/vg6"
-        app:layout_constraintTop_toBottomOf="@id/hg44">
+        app:layout_constraintTop_toBottomOf="@id/hg34">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.tsuryo.swipeablerv.SwipeableRecyclerView
                 android:id="@+id/recycler_view_todo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -111,8 +85,6 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-
-
     <TextView
         android:id="@+id/text_nothing"
         android:layout_width="wrap_content"
@@ -122,13 +94,13 @@
         android:textColor="@color/defaultColor"
         android:textSize="@dimen/titleSize"
         android:textStyle="bold"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:drawableTint="@color/white"
         app:drawableTopCompat="@drawable/no_search_icon"
         app:layout_constraintBottom_toTopOf="@id/hg92"
         app:layout_constraintEnd_toStartOf="@id/vg96"
         app:layout_constraintStart_toEndOf="@id/vg6"
-        app:layout_constraintTop_toBottomOf="@id/hg44" />
+        app:layout_constraintTop_toBottomOf="@id/hg34" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -167,11 +139,11 @@
         app:layout_constraintGuide_percent="0.322" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/hg44"
+        android:id="@+id/hg34"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.44" />
+        app:layout_constraintGuide_percent="0.34" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/hg92"

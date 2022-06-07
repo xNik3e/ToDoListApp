@@ -8,7 +8,9 @@ import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.PropertyKey;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 @Entity(tableName = "task_table")
@@ -24,6 +26,9 @@ public class TaskModel {
     private Date endDate;
     private boolean active;
     private Date createdAt;
+
+    @Ignore
+    private Date simpleDate;
 
 
     @Ignore
@@ -84,6 +89,9 @@ public class TaskModel {
         this.endDate = endDate;
         this.active = active;
         this.createdAt = new Date(System.currentTimeMillis());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(endDate);
+        this.simpleDate = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).getTime();
     }
 
     public String getTaskName() {
@@ -148,5 +156,13 @@ public class TaskModel {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Date getSimpleDate() {
+        return simpleDate;
+    }
+
+    public void setSimpleDate(Date simpleDate) {
+        this.simpleDate = simpleDate;
     }
 }

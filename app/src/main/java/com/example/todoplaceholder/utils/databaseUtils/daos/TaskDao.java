@@ -23,6 +23,9 @@ public interface TaskDao {
     @Query("DELETE FROM task_table")
     void deleteAll();
 
+    @Query("DELETE FROM task_table WHERE taskName = :taskName")
+    void deleteTask(String taskName);
+
     @Query("SELECT * FROM task_table")
     LiveData<List<TaskModel>> getAllTasks();
 

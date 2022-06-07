@@ -106,6 +106,11 @@ public class MainRepository {
         return mTaskDao.getTaskById(taskID);
     }
 
+    public void deleteTask(String taskName){
+        MyRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mTaskDao.deleteTask(taskName);
+        });
+    }
 }
 
 

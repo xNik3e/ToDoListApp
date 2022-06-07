@@ -38,7 +38,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Vi
         TaskModel task = modelList.get(position);
 
         if(task.getModel() == null){
-            holder.container.setVisibility(View.GONE);
+            holder.container.setVisibility(View.INVISIBLE);
         }else{
             holder.container.setVisibility(View.VISIBLE);
             holder.circle.setBackgroundColor(task.getModel().getBaseColor());
@@ -52,6 +52,20 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Vi
             holder.taskName.setPaintFlags(holder.taskName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
 
+    }
+
+    public List<TaskModel> getData(){
+        return modelList;
+    }
+
+    public void removeItem(int position) {
+        modelList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(TaskModel model, int position) {
+        modelList.add(position, model);
+        notifyItemInserted(position);
     }
 
     @Override

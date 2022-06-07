@@ -50,8 +50,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
-            android:layout_width="0dp"
             android:id="@+id/line_break"
+            android:layout_width="0dp"
             android:layout_height="3dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/category_indicator"
@@ -60,37 +60,52 @@
             app:layout_constraintStart_toEndOf="@id/vg8"
             app:layout_constraintTop_toBottomOf="@id/search_container" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="0dp"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            android:layout_height="0dp"
-            android:id="@+id/recycler_view_search"
-            app:layout_constraintTop_toBottomOf="@id/line_break"
-            app:layout_constraintBottom_toTopOf="@id/hg92"
-            app:layout_constraintStart_toEndOf="@id/vg8"
-            app:layout_constraintEnd_toStartOf="@id/vg92"
-            android:fadingEdge="vertical"
-            android:fadingEdgeLength="25dp"
-            android:scrollbars="none"
-            tools:listitem="@layout/search_item_layout"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/vg8"
-                app:layout_constraintEnd_toStartOf="@id/vg92"
-                app:layout_constraintTop_toBottomOf="@id/line_break"
-                app:layout_constraintBottom_toTopOf="@id/hg92"
-                android:text="Nothing's here"
-                android:visibility="visible"
-                android:textColor="@color/defaultColor"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:id="@+id/text_nothing"
-                android:textSize="@dimen/titleSize"
-                app:drawableTopCompat="@drawable/no_search_icon"
-                app:drawableTint="@color/white" />
+        <com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/hg92"
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintTop_toBottomOf="@id/line_break">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.tsuryo.swipeablerv.SwipeableRecyclerView
+                    android:id="@+id/recycler_view_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:fadingEdge="vertical"
+                    android:fadingEdgeLength="25dp"
+                    android:scrollbars="none"
+                    tools:listitem="@layout/search_item_layout" />
+
+            </RelativeLayout>
+
+
+        </com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
+
+        <TextView
+            android:id="@+id/text_nothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Nothing's here"
+            android:textColor="@color/defaultColor"
+            android:textSize="@dimen/titleSize"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:drawableTint="@color/white"
+            app:drawableTopCompat="@drawable/no_search_icon"
+            app:layout_constraintBottom_toTopOf="@id/hg92"
+            app:layout_constraintEnd_toStartOf="@id/vg92"
+            app:layout_constraintStart_toEndOf="@id/vg8"
+            app:layout_constraintTop_toBottomOf="@id/line_break" />
 
 
         <androidx.constraintlayout.widget.Guideline

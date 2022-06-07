@@ -1,7 +1,9 @@
 package com.example.todoplaceholder.utils.view_services;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
@@ -11,6 +13,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,20 +23,21 @@ public abstract class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
 
     Context context;
     private Paint mClearPaint;
-    private ColorDrawable mBackground;
+    private Drawable mBackground;
     private int backgroundColor;
     private Drawable deleteDrawable;
+    private Drawable wrappedDrawable;
     private int intrinsicWidth;
     private int intrinsicHeight;
 
     public SwipeToDeleteCallback(Context context) {
         this.context = context;
-        mBackground = new ColorDrawable();
-        backgroundColor = App.getContext().getResources().getColor(R.color.error);
+        mBackground = App.getContext().getResources().getDrawable(R.drawable.deletion_card);
         mClearPaint = new Paint();
         mClearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         deleteDrawable = ContextCompat.getDrawable(context, R.drawable.ic_delete);
-        deleteDrawable.setColorFilter(App.getContext().getResources().getColor(R.color.accentColor), PorterDuff.Mode.MULTIPLY);
+        wrappedDrawable = DrawableCompat.wrap(deleteDrawable);
+        DrawableCompat.setTint(wrappedDrawable, Color.WHITE);
         intrinsicWidth = deleteDrawable.getIntrinsicWidth();
         intrinsicHeight = deleteDrawable.getIntrinsicHeight();
     }
@@ -63,19 +67,17 @@ public abstract class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
             return;
         }
 
-        mBackground.setColor(backgroundColor);
-        mBackground.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+        mBackground.setBounds(itemView.getLeft() + (int) dX, itemView.getTop(), itemView.getLeft(), itemView.getBottom());
         mBackground.draw(c);
 
         int deleteIconTop = itemView.getTop() + (itemHeight - intrinsicHeight) / 2;
-        int deleteIconMargin = (itemHeight - intrinsicHeight) / 2;
-        int deleteIconLeft = itemView.getRight() - deleteIconMargin - intrinsicWidth;
-        int deleteIconRight = itemView.getRight() - deleteIconMargin;
+        int deleteIconRight = itemView.getLeft()  + intrinsicWidth;
+        int deleteIconLeft = itemView.getLeft();
         int deleteIconBottom = deleteIconTop + intrinsicHeight;
 
 
-        deleteDrawable.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom);
-        deleteDrawable.draw(c);
+        wrappedDrawable.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom);
+        wrappedDrawable.draw(c);
 
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
     }

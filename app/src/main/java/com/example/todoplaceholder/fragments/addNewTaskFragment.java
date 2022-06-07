@@ -26,6 +26,7 @@ import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.adapters.CategoryAdapter;
 import com.example.todoplaceholder.interfaces.CategoryAdapterNotifier;
 import com.example.todoplaceholder.models.CategoryModel;
+import com.example.todoplaceholder.models.TaskModel;
 import com.example.todoplaceholder.utils.Globals;
 import com.example.todoplaceholder.utils.utils.DateTimePickerHandler;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
@@ -33,8 +34,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class addNewTaskFragment extends BottomSheetDialogFragment {
 
@@ -121,11 +126,10 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked && dateContainer.getEditText().getText().length() == 0){
+                if (isChecked && dateContainer.getEditText().getText().length() == 0) {
                     Toast.makeText(context, "Cannot set alarm when end date is empty!", Toast.LENGTH_SHORT).show();
                     checkBox.setChecked(false);
-                }
-                else if(isChecked) {
+                } else if (isChecked) {
                     notificationContainer.setVisibility(View.VISIBLE);
                     notificationDateDateTimePickerHandler.resetValues();
                     notificationContainer.getEditText().setText("");
@@ -139,12 +143,11 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
         });
 
 
-
         date.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(b){
-                    if(!checkBox.isChecked()){
+                if (b) {
+                    if (!checkBox.isChecked()) {
                         endDateDateTimePickerHandler.createDateTimePicker(null, -1);
                         checkBox.setChecked(false);
                     }
@@ -162,8 +165,8 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
         notification.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(b){
-                    if(checkBox.isChecked()){
+                if (b) {
+                    if (checkBox.isChecked()) {
                         notificationDateDateTimePickerHandler.createDateTimePicker("EEE, dd/MM HH:mm", endDateDateTimePickerHandler.getDateFinal());
                     }
                 }
@@ -208,10 +211,32 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
                             if (checkBox.isChecked() && notificationContainer.getEditText().getText().length() == 0) {
                                 Toast.makeText(context, "Choose notification time!", Toast.LENGTH_SHORT).show();
                             } else {
-                                if(compareDates(endDateDateTimePickerHandler.getDateFinal(), notificationDateDateTimePickerHandler.getDateFinal())){
+                                if (compareDates(endDateDateTimePickerHandler.getDateFinal(), notificationDateDateTimePickerHandler.getDateFinal())) {
                                     Toast.makeText(context, "Notification date should not exceed task end date!!!", Toast.LENGTH_SHORT).show();
-                                }else{
+                                } else {
                                     //
+                                    TaskModel tempTask = new TaskModel(titleContainer.getEditText().getText().toString());
+                                    tempTask.setActive(true);
+                                    tempTask.setDescription(descriptionContainer.getEditText().getText().toString());
+                                    List<CategoryModel> tempModels = new ArrayList<>();
+                                    tempModels = categoryModels.stream()
+                                            .filter(CategoryModel::isActive)
+                                            .collect(Collectors.toList());
+
+                                    if(tempModels.size() != 1)
+                                        tempTask.setModel(null);
+                                    else
+                                        tempTask.setModel(tempModels.get(0));
+
+                                    tempTask.setEndDate(new Date(endDateDateTimePickerHandler.getDateFinal()));
+                                    if(checkBox.isChecked())
+                                        tempTask.setNotificationTime(new Date(notificationDateDateTimePickerHandler.getDateFinal()));
+                                    else
+                                        tempTask.setNotificationTime(null);
+
+                                    mainViewModel.insertTask(tempTask);
+                                    Toast.makeText(context, "Task inserted to database", Toast.LENGTH_SHORT).show();
+                                    dismiss();
                                 }
                             }
                         }
@@ -279,63 +304,8 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
 
     }
 
-    private DarkThemeFactory getDarkTheme(int appColor) {
-        return new DarkThemeFactory() {
-            @Override
-            public int getDialogBackgroundColor() {
-                return super.getColor(R.color.cardBackground);
-            }
 
-            @Override
-            public int getCalendarViewBackgroundColor() {
-                return super.getColor(R.color.cardBackground);
-            }
-
-            @Override
-            public int getCalendarViewPickedDayBackgroundColor() {
-                return appColor;
-            }
-
-            @Override
-            public int getCalendarViewMonthLabelTextColor() {
-                return appColor;
-            }
-
-            @Override
-            public int getCalendarViewTodayLabelTextColor() {
-                return super.getColor(R.color.defaultColor);
-            }
-
-            @Override
-            public SparseIntArray getCalendarViewWeekLabelTextColors() {
-                SparseIntArray tempArray = new SparseIntArray(7);
-                int darkerColor = ColorUtils.blendARGB(appColor, Color.BLACK, 0.4f);
-
-                tempArray.put(Calendar.SATURDAY, appColor);
-                tempArray.put(Calendar.SUNDAY, appColor);
-                tempArray.put(Calendar.MONDAY, darkerColor);
-                tempArray.put(Calendar.TUESDAY, darkerColor);
-                tempArray.put(Calendar.WEDNESDAY, darkerColor);
-                tempArray.put(Calendar.THURSDAY, darkerColor);
-                tempArray.put(Calendar.FRIDAY, darkerColor);
-                return tempArray;
-            }
-
-            @Override
-            public int getSelectionBarBackgroundColor() {
-                return appColor;
-            }
-
-            @Override
-            public int getGotoViewBackgroundColor() {
-                return appColor;
-            }
-
-        };
-
-    }
-
-    private boolean compareDates(long endDate, long notificationDate){
+    private boolean compareDates(long endDate, long notificationDate) {
         return endDate < notificationDate;
     }
 
