@@ -112,5 +112,8 @@ public class MainViewModel extends AndroidViewModel {
     public void insertAllTasks(List<TaskModel> tasks) {
         mRepository.insertAllTasks(tasks);
     }
+    public void updateTask(TaskModel task){
+        mRepository.updateTask(task);
+    }
 
 }

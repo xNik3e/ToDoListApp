@@ -27,6 +27,7 @@ import com.example.todoplaceholder.adapters.DateScreenAdapter;
 import com.example.todoplaceholder.adapters.TaskAdapter;
 import com.example.todoplaceholder.interfaces.CategoryAdapterNotifier;
 import com.example.todoplaceholder.interfaces.OnCalendarDateChange;
+import com.example.todoplaceholder.interfaces.TaskDeActivatorInterface;
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.models.DateModel;
 import com.example.todoplaceholder.models.TaskModel;
@@ -40,12 +41,10 @@ import com.tsuryo.swipeablerv.SwipeLeftRightCallback;
 import com.tsuryo.swipeablerv.SwipeableRecyclerView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class todoFragment extends Fragment {
@@ -67,6 +66,7 @@ public class todoFragment extends Fragment {
     private String nameToDelete;
     private OnCalendarDateChange onCalendarDateChangeInterface;
     private CategoryAdapterNotifier categoryAdapterNotifier;
+    private TaskDeActivatorInterface deActivatorInterface;
 
     private List<CategoryModel> categoryModelList = new ArrayList<>();
     private List<TaskModel> taskModelList = new ArrayList<>();
@@ -141,7 +141,15 @@ public class todoFragment extends Fragment {
             }
         };
 
-        taskAdapter = new TaskAdapter(context, sortedTaskModelList, mainViewModel.getBaseColorNOW());
+        deActivatorInterface = new TaskDeActivatorInterface() {
+            @Override
+            public void finishTask(TaskModel tempTaskModel) {
+                tempTaskModel.setActive(false);
+                mainViewModel.updateTask(tempTaskModel);
+            }
+        };
+
+        taskAdapter = new TaskAdapter(context, sortedTaskModelList, mainViewModel.getBaseColorNOW(), deActivatorInterface);
         categoryAdapter = new CategoryAdapter(context, categoryModelList, categoryAdapterNotifier);
         dateAdapter = new DateScreenAdapter(context, dateModelList, onCalendarDateChangeInterface);
 

@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +38,12 @@ import com.tsuryo.swipeablerv.SwipeableRecyclerView;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class SearchFragment extends Fragment {
+import me.xdrop.fuzzywuzzy.FuzzySearch;
+import me.xdrop.fuzzywuzzy.model.BoundExtractedResult;
+
+public class SearchFragment extends Fragment implements TextWatcher {
 
     private Context context;
     private MainViewModel mainViewModel;
@@ -47,6 +53,7 @@ public class SearchFragment extends Fragment {
     private SwipeableRecyclerView searchItemRV;
     private TextView nothingHere;
     private List<TaskModel> taskModelList = new ArrayList<>();
+    private List<TaskModel> backupTaskModelList = new ArrayList<>();
     private SearchItemAdapter searchItemAdapter;
     private String nameToDelete;
     private boolean isDeleted;
@@ -83,6 +90,8 @@ public class SearchFragment extends Fragment {
         coordinatorLayout = view.findViewById(R.id.coordinatorLayout);
 
         mainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
+
+        search.addTextChangedListener(this);
 
         mainViewModel.getBaseColor().observe(getActivity(), new Observer<Integer>() {
             @Override
@@ -194,6 +203,7 @@ public class SearchFragment extends Fragment {
         taskModelList.clear();
         taskModelList.addAll(activeTasks);
         taskModelList.addAll(inActiveTasks);
+        backupTaskModelList.addAll(taskModelList);
         searchItemAdapter.notifyDataSetChanged();
     }
 
@@ -204,5 +214,37 @@ public class SearchFragment extends Fragment {
         searchContainer.setDefaultHintTextColor(new ColorStateList(Globals.hintStates(), Globals.hintColors(appColor)));
 
         nothingHere.setTextColor(appColor);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+        if(s.length() >= 2){
+            List<BoundExtractedResult<TaskModel>> match = FuzzySearch.extractAll(s.toString(), backupTaskModelList, TaskModel::getTaskName, 80);
+            List<Integer> indexes = new ArrayList<>();
+            match.stream().map(m -> m.getIndex()).forEach(indexes::add);
+
+            List<TaskModel> searchedModels = new ArrayList<>();
+
+            indexes.forEach(tempI -> {
+                searchedModels.add(backupTaskModelList.get(tempI));
+            });
+            taskModelList.clear();
+            taskModelList.addAll(searchedModels);
+            searchItemAdapter.notifyDataSetChanged();
+        }else{
+            taskModelList.clear();
+            taskModelList.addAll(backupTaskModelList);
+            searchItemAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
     }
 }

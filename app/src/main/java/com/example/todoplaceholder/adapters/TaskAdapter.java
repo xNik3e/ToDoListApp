@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoplaceholder.R;
+import com.example.todoplaceholder.interfaces.TaskDeActivatorInterface;
 import com.example.todoplaceholder.models.TaskModel;
 import com.example.todoplaceholder.utils.view_services.AlwaysMarqueeTextView;
 
@@ -24,11 +25,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
     private Context context;
     private List<TaskModel> taskModels;
     private int UIColor;
+    private TaskDeActivatorInterface deActivatorInterface;
 
-    public TaskAdapter(Context context, List<TaskModel> taskModels, int UIColor) {
+    public TaskAdapter(Context context, List<TaskModel> taskModels, int UIColor, TaskDeActivatorInterface deActivatorInterface) {
         this.context = context;
         this.taskModels = taskModels;
         this.UIColor = UIColor;
+        this.deActivatorInterface = deActivatorInterface;
     }
 
     @NonNull
@@ -121,7 +124,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
             buttonCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    taskModels.get(getAdapterPosition()).setActive(false);
+                    notifyItemChanged(getAdapterPosition());
+                    deActivatorInterface.finishTask(taskModels.get(getAdapterPosition()));
                 }
             });
 
