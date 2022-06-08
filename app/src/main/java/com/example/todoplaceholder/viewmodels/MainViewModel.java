@@ -49,16 +49,19 @@ public class MainViewModel extends AndroidViewModel {
         baseColor.setValue(color);
     }
 
-    public int getBaseColorNOW(){return colorData;}
+    public int getBaseColorNOW() {
+        return colorData;
+    }
 
     public LiveData<Integer> getBaseColor() {
         return baseColor;
     }
 
-    public void setColorList(List<ColorModel> models){
+    public void setColorList(List<ColorModel> models) {
         colorList.setValue(models);
     }
-    public LiveData<List<ColorModel>> getColorModelList(){
+
+    public LiveData<List<ColorModel>> getColorModelList() {
         return colorList;
     }
 
@@ -72,34 +75,42 @@ public class MainViewModel extends AndroidViewModel {
         mRepository.insertAllCategories(models);
     }
 
-    public void insertCategory(CategoryModel model){
+    public void insertCategory(CategoryModel model) {
         mRepository.insertCategory(model);
     }
 
-    public CategoryModel getCategoryByName(String name){
+    public CategoryModel getCategoryByName(String name) {
         return mRepository.getCategoryByName(name);
     }
 
-    public void updateCategory(CategoryModel model){
+    public void updateCategory(CategoryModel model) {
         mRepository.updateCategory(model);
     }
-    public void deleteAllCategories(){
+
+    public void deleteAllCategories() {
         mRepository.deleteAllCategories();
     }
 
-    public void deleteCategory(String name){
+    public void deleteCategory(String name) {
         mRepository.deleteCategory(name);
     }
 
     //TODO TASK HANDLERS
 
-    public LiveData<List<TaskModel>> getTaskModels(){return taskModels;}
+    public LiveData<List<TaskModel>> getTaskModels() {
+        return taskModels;
+    }
 
-    public void insertTask(TaskModel task){
+    public void insertTask(TaskModel task) {
         mRepository.insertTask(task);
     }
 
-    public void deleteTask(String name){
+    public void deleteTask(String name) {
         mRepository.deleteTask(name);
     }
+
+    public void insertAllTasks(List<TaskModel> tasks) {
+        mRepository.insertAllTasks(tasks);
+    }
+
 }

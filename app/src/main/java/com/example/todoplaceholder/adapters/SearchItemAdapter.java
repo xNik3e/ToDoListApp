@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoplaceholder.R;
+import com.example.todoplaceholder.interfaces.SearchToEditScreenInterface;
 import com.example.todoplaceholder.models.TaskModel;
 import com.example.todoplaceholder.utils.view_services.AlwaysMarqueeTextView;
 
@@ -20,10 +21,12 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Vi
 
     private Context context;
     private List<TaskModel> modelList;
+    private SearchToEditScreenInterface search;
 
-    public SearchItemAdapter(Context context, List<TaskModel> modelList) {
+    public SearchItemAdapter(Context context, List<TaskModel> modelList, SearchToEditScreenInterface search) {
         this.context = context;
         this.modelList = modelList;
+        this.search = search;
     }
 
     @NonNull
@@ -89,6 +92,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Vi
                 @Override
                 public void onClick(View view) {
                     //Start an edit activity with specific task id
+                    search.navigate();
                 }
             });
         }

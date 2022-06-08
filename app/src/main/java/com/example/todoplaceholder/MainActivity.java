@@ -27,16 +27,19 @@ import com.example.todoplaceholder.fragments.todoFragment;
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.models.ColorModel;
 import com.example.todoplaceholder.models.DateModel;
+import com.example.todoplaceholder.models.TaskModel;
+import com.example.todoplaceholder.utils.utils.DatabaseValidator;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.j2objc.annotations.ObjectiveCName;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private MainViewModel mViewModel;
 
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity{
     private int appColor;
     private BottomNavigationView bottomNavigationView;
     private List<CategoryModel> categoryModelList = new ArrayList<>();
+    private List<TaskModel> taskModelList = new ArrayList<>();
     private FloatingActionButton fab;
     private int openedTab = 1;
     private todoFragment TODOFRAGMENT;
@@ -56,16 +60,13 @@ public class MainActivity extends AppCompatActivity{
 
     private List<ColorModel> colorModels = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //UI setup
-
-        DateModel model = new DateModel(new Date(System.currentTimeMillis()));
-
-
 
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -75,7 +76,16 @@ public class MainActivity extends AppCompatActivity{
         NavController navController = Navigation.findNavController(this, R.id.container);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+
+        mViewModel.getTaskModels().observe(this, new Observer<List<TaskModel>>() {
+            @Override
+            public void onChanged(List<TaskModel> taskModels) {
+                taskModelList.clear();
+                taskModelList.addAll(taskModels);
+            }
+        });
 
         mViewModel.getCategoryModels().observe(this, new Observer<List<CategoryModel>>() {
             @Override
@@ -92,7 +102,10 @@ public class MainActivity extends AppCompatActivity{
         newTaskFragment = new addNewTaskFragment(mViewModel, categoryModelList);
         newCategoryFragment = new addNewCategoryFragment(mViewModel, categoryModelList);
 
-
+        Intent Visitor = getIntent();
+        if (Visitor != null && Visitor.hasExtra("TO")) {
+            bottomNavigationView.setSelectedItemId(R.id.searchFragment3);
+        }
         mViewModel.getBaseColor().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
@@ -181,4 +194,12 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (bottomNavigationView.getSelectedItemId() != R.id.todoFragment3)
+            bottomNavigationView.setSelectedItemId(R.id.todoFragment3);
+        else {
+            finish();
+        }
+    }
 }

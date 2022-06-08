@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.todoplaceholder.EditActivity;
 import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.adapters.CategoryAdapter;
 import com.example.todoplaceholder.adapters.DateScreenAdapter;
@@ -44,6 +45,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class todoFragment extends Fragment {
@@ -125,13 +127,13 @@ public class todoFragment extends Fragment {
         categoryAdapterNotifier = new CategoryAdapterNotifier() {
             @Override
             public void notifyAboutChange(int position, boolean isActive) {
-                if(isActive){
-                    if(previousSortedTaskModelList.size() != 0){
+                if (isActive) {
+                    if (previousSortedTaskModelList.size() != 0) {
                         sortedTaskModelList.clear();
                         sortedTaskModelList.addAll(previousSortedTaskModelList);
                     }
                     updateTaskByCategory();
-                }else{
+                } else {
                     sortedTaskModelList.clear();
                     sortedTaskModelList.addAll(previousSortedTaskModelList);
                     updateUIWhenCategoryChanges();
@@ -181,7 +183,13 @@ public class todoFragment extends Fragment {
             public void onSwipedLeft(int position) {
                 //EDIT
                 final TaskModel model = taskAdapter.getData().get(position);
-
+                Intent intent = new Intent(getActivity(), EditActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("MODEL", model);
+                bundle.putSerializable("FROM", "FRAGMENT");
+                intent.putExtras(bundle);
+                startActivity(intent);
+                getActivity().finish();
             }
 
             @Override
@@ -209,7 +217,7 @@ public class todoFragment extends Fragment {
                 final Runnable r = new Runnable() {
                     @Override
                     public void run() {
-                        if(isDeleted) {
+                        if (isDeleted) {
                             mainViewModel.deleteTask(nameToDelete);
                             isDeleted = false;
                         }
@@ -258,7 +266,7 @@ public class todoFragment extends Fragment {
         isUpdating.observe(getActivity(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isUpdating) {
-                if(!isUpdating)
+                if (!isUpdating)
                     updateTasksWithDate();
             }
         });
@@ -266,13 +274,13 @@ public class todoFragment extends Fragment {
 
     private void updateTasksWithDate() {
         previousSortedTaskModelList.clear();
-        if(dateModelList.isEmpty()){
+        if (dateModelList.isEmpty()) {
             coordinatorLayout.setVisibility(View.GONE);
             nothingHere.setVisibility(View.VISIBLE);
-        }else{
-            if(coordinatorLayout.getVisibility() == View.VISIBLE){
+        } else {
+            if (coordinatorLayout.getVisibility() == View.VISIBLE) {
                 //
-            }else{
+            } else {
                 coordinatorLayout.setVisibility(View.VISIBLE);
                 nothingHere.setVisibility(View.GONE);
             }
@@ -287,19 +295,18 @@ public class todoFragment extends Fragment {
             Collections.sort(tempTaskModels, new SortByDate());
 
 
-
             sortedTaskModelList.clear();
             sortedTaskModelList.addAll(tempTaskModels);
             updateTaskByCategory();
         }
     }
 
-    private void updateTaskByCategory(){
+    private void updateTaskByCategory() {
 
         boolean isActive = categoryModelList.stream()
-                        .anyMatch(CategoryModel::isActive);
+                .anyMatch(CategoryModel::isActive);
 
-        if(isActive){
+        if (isActive) {
             String categoryName = categoryModelList.stream()
                     .filter(CategoryModel::isActive)
                     .findAny()
@@ -311,7 +318,12 @@ public class todoFragment extends Fragment {
             previousSortedTaskModelList.addAll(sortedTaskModelList);
 
             sortedTaskModelList.stream()
-                    .filter(task -> task.getModel().getCategoryName().equals(categoryName))
+                    .filter(task -> {
+                        if (task.getModel() != null)
+                            return task.getModel().getCategoryName().equals(categoryName);
+                        else
+                            return false;
+                    })
                     .forEach(tempTaskModels::add);
 
             sortedTaskModelList.clear();
@@ -327,7 +339,7 @@ public class todoFragment extends Fragment {
             searchEditText.setTextCursorDrawable(null);}*/
     }
 
-    class SortByDate implements Comparator<TaskModel>{
+    class SortByDate implements Comparator<TaskModel> {
 
         @Override
         public int compare(TaskModel taskModel, TaskModel t1) {
@@ -335,16 +347,17 @@ public class todoFragment extends Fragment {
         }
     }
 
-    private void updateUIWhenCategoryChanges(){
+    private void updateUIWhenCategoryChanges() {
 
-        if(sortedTaskModelList.size() == 0){
+        if (sortedTaskModelList.size() == 0) {
             coordinatorLayout.setVisibility(View.GONE);
             nothingHere.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             coordinatorLayout.setVisibility(View.VISIBLE);
             nothingHere.setVisibility(View.GONE);
         }
         taskAdapter.notifyDataSetChanged();
     }
+
 
 }

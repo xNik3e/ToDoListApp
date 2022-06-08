@@ -1,6 +1,7 @@
 package com.example.todoplaceholder.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
@@ -11,17 +12,17 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
-import android.view.ContentInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.todoplaceholder.EditActivity;
 import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.adapters.SearchItemAdapter;
+import com.example.todoplaceholder.interfaces.SearchToEditScreenInterface;
 import com.example.todoplaceholder.models.TaskModel;
 import com.example.todoplaceholder.utils.Globals;
 import com.example.todoplaceholder.utils.view_services.App;
@@ -33,6 +34,7 @@ import com.tsuryo.swipeablerv.SwipeLeftRightCallback;
 import com.tsuryo.swipeablerv.SwipeableRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
@@ -50,6 +52,7 @@ public class SearchFragment extends Fragment {
     private boolean isDeleted;
     private Snackbar snackbar;
     private CoordinatorLayout coordinatorLayout;
+    private SearchToEditScreenInterface anInterface;
 
 
     public SearchFragment() {
@@ -90,9 +93,17 @@ public class SearchFragment extends Fragment {
         });
 
 
+        anInterface = new SearchToEditScreenInterface() {
+            @Override
+            public void navigate() {
+                Intent intent = new Intent(context, EditActivity.class);
+                intent.putExtra("FROM", "SEARCH");
+                startActivity(intent);
+                getActivity().finish();
+            }
+        };
 
-
-        searchItemAdapter = new SearchItemAdapter(context, taskModelList);
+        searchItemAdapter = new SearchItemAdapter(context, taskModelList, anInterface);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         searchItemRV.setLayoutManager(linearLayoutManager);
         searchItemRV.setAdapter(searchItemAdapter);
@@ -135,7 +146,7 @@ public class SearchFragment extends Fragment {
                 final Runnable r = new Runnable() {
                     @Override
                     public void run() {
-                        if(isDeleted) {
+                        if (isDeleted) {
                             mainViewModel.deleteTask(nameToDelete);
                             isDeleted = false;
                         }
@@ -151,20 +162,39 @@ public class SearchFragment extends Fragment {
         mainViewModel.getTaskModels().observe(getActivity(), new Observer<List<TaskModel>>() {
             @Override
             public void onChanged(List<TaskModel> taskModels) {
-                taskModelList.clear();
-                taskModelList.addAll(taskModels);
-                searchItemAdapter.notifyDataSetChanged();
-                if(taskModels.isEmpty()){
+                if (taskModels.isEmpty()) {
                     coordinatorLayout.setVisibility(View.GONE);
                     nothingHere.setVisibility(View.VISIBLE);
-                }else
-                {
+                } else {
                     coordinatorLayout.setVisibility(View.VISIBLE);
                     nothingHere.setVisibility(View.GONE);
                 }
+                sortTasks(taskModels);
             }
         });
 
+    }
+
+    private void sortTasks(List<TaskModel> models) {
+
+        List<TaskModel> activeTasks = new ArrayList<>();
+        List<TaskModel> inActiveTasks = new ArrayList<>();
+
+        models.stream()
+                .filter(TaskModel::isActive)
+                .forEach(activeTasks::add);
+
+        models.stream()
+                .filter(taskModel -> !taskModel.isActive())
+                .forEach(inActiveTasks::add);
+
+        activeTasks.sort(Comparator.comparing(TaskModel::getEndDate));
+        inActiveTasks.sort(Comparator.comparing(TaskModel::getEndDate));
+
+        taskModelList.clear();
+        taskModelList.addAll(activeTasks);
+        taskModelList.addAll(inActiveTasks);
+        searchItemAdapter.notifyDataSetChanged();
     }
 
     private void setUIColors() {

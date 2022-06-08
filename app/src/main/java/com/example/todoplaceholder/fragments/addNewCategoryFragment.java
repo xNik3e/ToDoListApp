@@ -24,6 +24,7 @@ import com.example.todoplaceholder.interfaces.OnDismissInterface;
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.models.ColorModel;
 import com.example.todoplaceholder.utils.Globals;
+import com.example.todoplaceholder.utils.utils.DatabaseValidator;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
@@ -140,8 +141,18 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, categoryModels.get(index).getCategoryName() + " was deleted!", Toast.LENGTH_SHORT).show();
-                mainViewModel.deleteCategory(categoryModels.get(index).getCategoryName());
-                dismiss();
+                CategoryModel temp = categoryModels.get(index);
+
+                DatabaseValidator.validate(temp, mainViewModel, true);
+                DatabaseValidator.isValidationCompleted().observe(getActivity(), new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(Boolean aBoolean) {
+                        if(aBoolean){
+                            mainViewModel.deleteCategory(categoryModels.get(index).getCategoryName());
+                            dismiss();
+                        }
+                    }
+                });
             }
         });
 
@@ -151,13 +162,25 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
                 if (isEditing) {
                     if (nameContainer.getEditText().getText().length() == 0) {
                         Toast.makeText(context, "Name field should not be empty!", Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         categoryModels.get(index).setCategoryName(nameEditText.getText().toString());
                         categoryModels.get(index).setColorId(getActiveColor());
                         categoryModels.get(index).createColorResources();
 
-                        mainViewModel.updateCategory(categoryModels.get(index));
-                        dismiss();
+                        CategoryModel temp = categoryModels.get(index);
+
+                        DatabaseValidator.validate(temp, mainViewModel, false);
+
+                        DatabaseValidator.isValidationCompleted().observe(getActivity(), new Observer<Boolean>() {
+                            @Override
+                            public void onChanged(Boolean aBoolean) {
+                                if (aBoolean) {
+                                    mainViewModel.updateCategory(categoryModels.get(index));
+                                    dismiss();
+                                }
+                            }
+                        });
+
                     }
                 } else {
                     if (!isAnythingSelected()) {
@@ -196,7 +219,7 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
         super.onDismiss(dialog);
         colorModelList = ColorModel.populateColorList();
         nameContainer.getEditText().setText("");
-        if(dismissInterface != null)
+        if (dismissInterface != null)
             dismissInterface.onDismissDialogAction();
     }
 
@@ -208,10 +231,10 @@ public class addNewCategoryFragment extends BottomSheetDialogFragment {
         return false;
     }
 
-    private int getActiveColor(){
+    private int getActiveColor() {
         int i = 1;
-        for(ColorModel m : colorModelList){
-            if(m.isActive())
+        for (ColorModel m : colorModelList) {
+            if (m.isActive())
                 return i;
             i++;
         }

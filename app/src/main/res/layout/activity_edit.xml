@@ -150,6 +150,35 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/date_container"
+        style="@style/TextInputLayoutStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="6dp"
+        android:onClick="chooseDate"
+        android:textColorHint="@color/hintColor"
+        android:visibility="visible"
+        app:boxStrokeColor="@color/defaultColor"
+        app:counterTextColor="@color/activeCardBackground"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/categoryColor"
+        app:layout_constraintTop_toBottomOf="@id/description_container"
+        app:layout_constraintEnd_toStartOf="@id/hg96"
+        app:layout_constraintStart_toEndOf="@id/hg4"
+        app:startIconDrawable="@drawable/ic_calendar"
+        app:startIconTint="@color/defaultColor">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:hint="Choose notification date" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_photos"
@@ -166,7 +195,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toStartOf="@id/hg96"
         app:layout_constraintStart_toEndOf="@id/hg4"
-        app:layout_constraintTop_toBottomOf="@id/description_container"
+        app:layout_constraintTop_toBottomOf="@id/date_container"
         app:layout_goneMarginTop="12dp"
         tools:listitem="@layout/attach_photo_item_view" />
 
@@ -181,7 +210,7 @@
         android:gravity="center"
         android:text="Attach photo"
         android:textAlignment="center"
-        android:textSize="@dimen/alarmSize"
+        android:textSize="@dimen/categoryItemSize"
         app:drawableEndCompat="@drawable/ic_add"
         app:layout_constraintEnd_toStartOf="@id/hg96"
         app:layout_constraintTop_toBottomOf="@id/recycler_view_photos" />
@@ -201,7 +230,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/date_container"
+        android:id="@+id/notification_container"
         style="@style/TextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -218,11 +247,11 @@
         app:layout_constraintEnd_toStartOf="@id/checkAlarm"
         app:layout_constraintStart_toEndOf="@id/hg4"
         app:layout_constraintTop_toTopOf="@id/checkAlarm"
-        app:startIconDrawable="@drawable/ic_calendar"
+        app:startIconDrawable="@drawable/ic_alarm"
         app:startIconTint="@color/defaultColor">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/date"
+            android:id="@+id/notification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:editable="false"
@@ -238,7 +267,7 @@
         android:layout_marginTop="12dp"
         android:checked="false"
         android:layoutDirection="rtl"
-        android:textSize="@dimen/alarmSize"
+        android:textSize="@dimen/categoryItemSize"
         android:text="Set alarm"
         android:textColor="@color/accentColor"
         app:layout_constraintRight_toLeftOf="@id/hg96"
