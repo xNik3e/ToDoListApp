@@ -42,9 +42,11 @@ import com.tsuryo.swipeablerv.SwipeLeftRightCallback;
 import com.tsuryo.swipeablerv.SwipeableRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -304,11 +306,12 @@ public class todoFragment extends Fragment {
 
             Collections.sort(tempTaskModels, new SortByDate());
 
-
             sortedTaskModelList.clear();
             sortedTaskModelList.addAll(tempTaskModels);
             updateTaskByCategory();
         }
+
+
     }
 
     private void updateTaskByCategory() {

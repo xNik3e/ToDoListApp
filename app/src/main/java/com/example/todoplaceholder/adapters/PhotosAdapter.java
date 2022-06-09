@@ -59,7 +59,6 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
 
             deletePhoto = itemView.findViewById(R.id.delete_photo);
             attachedPhoto = itemView.findViewById(R.id.attached_photo);
-
             attachedPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

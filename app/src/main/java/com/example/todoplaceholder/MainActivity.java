@@ -37,6 +37,7 @@ import com.example.todoplaceholder.models.DateModel;
 import com.example.todoplaceholder.models.TaskModel;
 import com.example.todoplaceholder.utils.utils.DatabaseValidator;
 import com.example.todoplaceholder.utils.utils.NotificationSchedule;
+import com.example.todoplaceholder.utils.view_services.App;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -106,11 +107,11 @@ public class MainActivity extends AppCompatActivity {
         notificationInterface = new NotificationHelperInterface() {
             @Override
             public void notifyMe(String title, String description, int notificationID, long notifTime) {
-                Intent intent = new Intent(MainActivity.this, NotificationSchedule.class);
+                Intent intent = new Intent(App.getContext(), NotificationSchedule.class);
                 intent.putExtra("TITLE", title);
                 intent.putExtra("DESCRIPTION", description);
                 intent.putExtra("NOTIFICATION_ID", notificationID);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(App.getContext(),
                         notificationID,
                         intent,
                         PendingIntent.FLAG_UPDATE_CURRENT);

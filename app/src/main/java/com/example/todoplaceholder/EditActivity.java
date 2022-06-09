@@ -39,6 +39,7 @@ import com.example.todoplaceholder.utils.Globals;
 import com.example.todoplaceholder.utils.utils.DateTimePickerHandler;
 import com.example.todoplaceholder.utils.utils.NotificationSchedule;
 import com.example.todoplaceholder.utils.utils.PhotoHelper;
+import com.example.todoplaceholder.utils.view_services.App;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -301,7 +302,7 @@ public class EditActivity extends AppCompatActivity {
 
                                     model.setEndDate(new Date(endDateDateTimePickerHandler.getDateFinal()));
 
-                                    Intent notifIntent = new Intent(EditActivity.this, NotificationSchedule.class);
+                                    Intent notifIntent = new Intent(App.getContext(), NotificationSchedule.class);
                                     notifIntent.putExtra("TITLE", "Reminder for " + model.getTaskName());
                                     notifIntent.putExtra("DESCRIPTION", model.getDescription());
                                     notifIntent.putExtra("NOTIFICATION_ID", model.getNotificationUniqueID());
@@ -311,7 +312,7 @@ public class EditActivity extends AppCompatActivity {
                                     if (checkBox.isChecked()) {
                                         model.setNotificationTime(new Date(notificationDateDateTimePickerHandler.getDateFinal()));
                                         //NOTIFICATION CREATION
-                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(EditActivity.this, model.getNotificationUniqueID(),
+                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(App.getContext(), model.getNotificationUniqueID(),
                                                 notifIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -321,15 +322,14 @@ public class EditActivity extends AppCompatActivity {
 
                                     } else{
                                         model.setNotificationTime(null);
-                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(EditActivity.this, model.getNotificationUniqueID(),
-                                                notifIntent, PendingIntent.FLAG_NO_CREATE);
+                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(App.getContext(), model.getNotificationUniqueID(),
+                                                notifIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
                                         if(pendingIntent != null){
+                                            pendingIntent.cancel();
                                             alarmManager.cancel(pendingIntent);
                                         }
                                     }
-
-
 
                                     model.setAttachedFileBitmaps(new ArrayList<>());
                                     model.setAttachedFileNames(new ArrayList<>());
