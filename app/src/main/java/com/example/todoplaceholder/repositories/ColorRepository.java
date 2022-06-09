@@ -39,7 +39,7 @@ public class ColorRepository {
 
     private void retrieveColorData(Context context){
         preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        int color = preferences.getInt(KEY, 0);
+        int color = preferences.getInt(KEY, context.getResources().getColor(R.color.defaultColor));
         colorData=color;
     }
 }

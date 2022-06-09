@@ -9,6 +9,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.example.todoplaceholder.utils.utils.PhotoHelper;
+import com.github.javafaker.Faker;
 
 import org.jetbrains.annotations.PropertyKey;
 
@@ -35,6 +36,7 @@ public class TaskModel implements Serializable {
     private Date endDate;
     private boolean active;
     private Date createdAt;
+    private int notificationUniqueID = -1;
 
     private List<String> attachedFileNames = new ArrayList<>();
     @Ignore
@@ -42,6 +44,13 @@ public class TaskModel implements Serializable {
 
     @Ignore
     private Date simpleDate;
+
+    private void setNotifID() {
+        if (this.notificationUniqueID == -1) {
+            Faker faker = new Faker();
+            this.notificationUniqueID = faker.random().nextInt(2000, 2147483000);
+        }
+    }
 
 
     @Ignore
@@ -52,6 +61,7 @@ public class TaskModel implements Serializable {
         this.notificationTime = null;
         this.active = true;
         this.createdAt = new Date(System.currentTimeMillis());
+        setNotifID();
     }
 
     @Ignore
@@ -62,6 +72,7 @@ public class TaskModel implements Serializable {
         this.notificationTime = null;
         this.active = true;
         this.createdAt = new Date(System.currentTimeMillis());
+        setNotifID();
     }
 
     @Ignore
@@ -72,6 +83,7 @@ public class TaskModel implements Serializable {
         this.notificationTime = null;
         this.active = true;
         this.createdAt = new Date(System.currentTimeMillis());
+        setNotifID();
     }
 
     @Ignore
@@ -82,6 +94,7 @@ public class TaskModel implements Serializable {
         this.notificationTime = notificationTime;
         this.active = true;
         this.createdAt = new Date(System.currentTimeMillis());
+        setNotifID();
     }
 
     @Ignore
@@ -92,9 +105,10 @@ public class TaskModel implements Serializable {
         this.notificationTime = notificationTime;
         this.active = active;
         this.createdAt = new Date(System.currentTimeMillis());
+        setNotifID();
     }
 
-    public TaskModel(String taskName, CategoryModel model, String description, Date notificationTime, Date endDate, boolean active, List<String> attachedFileNames) {
+    public TaskModel(String taskName, CategoryModel model, String description, Date notificationTime, Date endDate, boolean active, List<String> attachedFileNames, int notificationUniqueID) {
         this.taskName = taskName;
         this.model = model;
         this.description = description;
@@ -107,6 +121,11 @@ public class TaskModel implements Serializable {
         this.simpleDate = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).getTime();
         this.attachedFileNames = attachedFileNames;
         attachedFileNames.forEach(fileName -> attachedFileBitmaps.add(PhotoHelper.loadImageFromStorage(fileName)));
+        if(this.notificationUniqueID == -1){
+            Faker faker = new Faker();
+            this.notificationUniqueID = faker.random().nextInt(2000, 2147483000);
+        }else
+            this.notificationUniqueID = notificationUniqueID;
     }
     @Ignore
     public TaskModel(String taskName, CategoryModel model, String description, Date notificationTime, Date endDate, boolean active, List<String> attachedFileNames, List<Bitmap> bitmaps) {
@@ -122,6 +141,7 @@ public class TaskModel implements Serializable {
         this.simpleDate = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).getTime();
         this.attachedFileNames = attachedFileNames;
         this.attachedFileBitmaps = bitmaps;
+        setNotifID();
     }
 
     public String getTaskName() {
@@ -208,7 +228,17 @@ public class TaskModel implements Serializable {
         return attachedFileNames;
     }
 
+    public int getNotificationUniqueID() {
+        return notificationUniqueID;
+    }
+
+    public void setNotificationUniqueID(int notificationUniqueID) {
+        this.notificationUniqueID = notificationUniqueID;
+    }
+
     public void setAttachedFileNames(List<String> attachedFileNames) {
         this.attachedFileNames = attachedFileNames;
+
+
     }
 }
