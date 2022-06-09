@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/category_indicator"
                 android:layout_alignTop="@id/category_indicator"
-                android:layout_toEndOf="@id/category_indicator"
+                android:layout_toEndOf="@id/attachments_image_view"
                 android:singleLine="true"
                 android:text="TEST"
                 android:textColor="@color/defaultColor"
@@ -54,6 +54,19 @@
                 android:layout_toEndOf="@id/category_indicator"
                 android:layout_toRightOf="@id/category_indicator"
                 android:src="@drawable/ic_alarm"
+                android:visibility="gone"
+                app:tint="@color/accentColor" />
+
+            <ImageView
+                android:id="@+id/attachments_image_view"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_above="@id/description"
+                android:layout_alignTop="@id/title"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@id/category_indicator"
+                android:layout_toRightOf="@id/category_indicator"
+                android:src="@drawable/ic_attachment"
                 android:visibility="gone"
                 app:tint="@color/accentColor" />
 

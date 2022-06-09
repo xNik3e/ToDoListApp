@@ -20,7 +20,7 @@ import com.example.todoplaceholder.utils.view_services.AlwaysMarqueeTextView;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private Context context;
     private List<TaskModel> taskModels;
@@ -57,27 +57,32 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         holder.creationDate.setText("Created at: " + sdf.format(model.getCreatedAt()));
         holder.expirationDate.setText("Expiring at: " + esdf.format(model.getEndDate()));
 
-        if(model.getNotificationTime() != null){
+        if (model.getNotificationTime() != null) {
             holder.alarmImage.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             holder.alarmImage.setVisibility(View.GONE);
         }
 
-        if(model.isActive()){
+        if (model.getAttachedFileNames() != null && !model.getAttachedFileNames().isEmpty()) {
+            holder.attachmentImage.setVisibility(View.VISIBLE);
+        } else {
+            holder.attachmentImage.setVisibility(View.GONE);
+        }
+
+        if (model.isActive()) {
             holder.buttonCheck.setVisibility(View.VISIBLE);
             holder.doneMessage.setVisibility(View.GONE);
-        }else{
+        } else {
             holder.buttonCheck.setVisibility(View.GONE);
             holder.doneMessage.setVisibility(View.VISIBLE);
         }
 
-        if(model.getModel() != null){
+        if (model.getModel() != null) {
             int color = model.getModel().getBaseColor();
             holder.title.setTextColor(color);
             holder.categoryIndicator.setBackgroundTintList(ColorStateList.valueOf(color));
             holder.buttonCheck.setCardBackgroundColor(color);
         }
-
 
 
     }
@@ -92,7 +97,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         notifyItemInserted(position);
     }
 
-    public List<TaskModel> getData(){
+    public List<TaskModel> getData() {
         return taskModels;
     }
 
@@ -105,7 +110,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
 
         View categoryIndicator;
         TextView title, creationDate, doneMessage, expirationDate;
-        ImageView alarmImage;
+        ImageView alarmImage, attachmentImage;
         AlwaysMarqueeTextView description;
         CardView buttonCheck;
 
@@ -120,6 +125,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
             description = view.findViewById(R.id.description);
             buttonCheck = view.findViewById(R.id.button_check);
             expirationDate = view.findViewById(R.id.expirationDate);
+            attachmentImage = view.findViewById(R.id.attachments_image_view);
 
             buttonCheck.setOnClickListener(new View.OnClickListener() {
                 @Override

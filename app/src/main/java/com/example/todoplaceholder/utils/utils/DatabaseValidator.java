@@ -19,6 +19,7 @@ public class DatabaseValidator {
 
     public static LiveData<Boolean> isValidationCompleted(){return validationProcessCompletion;}
 
+
     public static void validate(CategoryModel categoryModel, MainViewModel viewModel, boolean wasDeleted) {
         validationProcessCompletion.setValue(false);
 
@@ -26,8 +27,7 @@ public class DatabaseValidator {
         List<Integer> indexes = new ArrayList<>();
         List<TaskModel> tasks = viewModel.getTaskModels().getValue();
 
-        IntStream.range(0, tasks.size())
-                .filter(i -> {
+        IntStream.range(0, tasks.size()).filter(i -> {
                     if(tasks.get(i).getModel() == null)
                         return false;
                     else{

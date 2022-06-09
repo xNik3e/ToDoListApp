@@ -104,9 +104,10 @@ public class SearchFragment extends Fragment implements TextWatcher {
 
         anInterface = new SearchToEditScreenInterface() {
             @Override
-            public void navigate() {
+            public void navigate(TaskModel model) {
                 Intent intent = new Intent(context, EditActivity.class);
                 intent.putExtra("FROM", "SEARCH");
+                intent.putExtra("MODELID", model.getId());
                 startActivity(intent);
                 getActivity().finish();
             }
@@ -178,6 +179,8 @@ public class SearchFragment extends Fragment implements TextWatcher {
                     coordinatorLayout.setVisibility(View.VISIBLE);
                     nothingHere.setVisibility(View.GONE);
                 }
+
+
                 sortTasks(taskModels);
             }
         });
@@ -203,6 +206,7 @@ public class SearchFragment extends Fragment implements TextWatcher {
         taskModelList.clear();
         taskModelList.addAll(activeTasks);
         taskModelList.addAll(inActiveTasks);
+        backupTaskModelList.clear();
         backupTaskModelList.addAll(taskModelList);
         searchItemAdapter.notifyDataSetChanged();
     }
@@ -235,8 +239,17 @@ public class SearchFragment extends Fragment implements TextWatcher {
             });
             taskModelList.clear();
             taskModelList.addAll(searchedModels);
+            if(taskModelList.isEmpty()){
+                coordinatorLayout.setVisibility(View.GONE);
+                nothingHere.setVisibility(View.VISIBLE);
+            }else{
+                coordinatorLayout.setVisibility(View.VISIBLE);
+                nothingHere.setVisibility(View.GONE);
+            }
             searchItemAdapter.notifyDataSetChanged();
         }else{
+            coordinatorLayout.setVisibility(View.VISIBLE);
+            nothingHere.setVisibility(View.GONE);
             taskModelList.clear();
             taskModelList.addAll(backupTaskModelList);
             searchItemAdapter.notifyDataSetChanged();

@@ -1,17 +1,23 @@
 package com.example.todoplaceholder.models;
 
+import android.graphics.Bitmap;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.example.todoplaceholder.utils.utils.PhotoHelper;
+
 import org.jetbrains.annotations.PropertyKey;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 
 @Entity(tableName = "task_table")
@@ -29,6 +35,10 @@ public class TaskModel implements Serializable {
     private Date endDate;
     private boolean active;
     private Date createdAt;
+
+    private List<String> attachedFileNames = new ArrayList<>();
+    @Ignore
+    private List<Bitmap> attachedFileBitmaps = new ArrayList<>();
 
     @Ignore
     private Date simpleDate;
@@ -84,7 +94,7 @@ public class TaskModel implements Serializable {
         this.createdAt = new Date(System.currentTimeMillis());
     }
 
-    public TaskModel(String taskName, CategoryModel model, String description, Date notificationTime, Date endDate, boolean active) {
+    public TaskModel(String taskName, CategoryModel model, String description, Date notificationTime, Date endDate, boolean active, List<String> attachedFileNames) {
         this.taskName = taskName;
         this.model = model;
         this.description = description;
@@ -95,6 +105,23 @@ public class TaskModel implements Serializable {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(endDate);
         this.simpleDate = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).getTime();
+        this.attachedFileNames = attachedFileNames;
+        attachedFileNames.forEach(fileName -> attachedFileBitmaps.add(PhotoHelper.loadImageFromStorage(fileName)));
+    }
+    @Ignore
+    public TaskModel(String taskName, CategoryModel model, String description, Date notificationTime, Date endDate, boolean active, List<String> attachedFileNames, List<Bitmap> bitmaps) {
+        this.taskName = taskName;
+        this.model = model;
+        this.description = description;
+        this.notificationTime = notificationTime;
+        this.endDate = endDate;
+        this.active = active;
+        this.createdAt = new Date(System.currentTimeMillis());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(endDate);
+        this.simpleDate = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).getTime();
+        this.attachedFileNames = attachedFileNames;
+        this.attachedFileBitmaps = bitmaps;
     }
 
     public String getTaskName() {
@@ -167,5 +194,21 @@ public class TaskModel implements Serializable {
 
     public void setSimpleDate(Date simpleDate) {
         this.simpleDate = simpleDate;
+    }
+
+    public List<Bitmap> getAttachedFileBitmaps() {
+        return attachedFileBitmaps;
+    }
+
+    public void setAttachedFileBitmaps(List<Bitmap> attachedFileBitmaps) {
+        this.attachedFileBitmaps = attachedFileBitmaps;
+    }
+
+    public List<String> getAttachedFileNames() {
+        return attachedFileNames;
+    }
+
+    public void setAttachedFileNames(List<String> attachedFileNames) {
+        this.attachedFileNames = attachedFileNames;
     }
 }

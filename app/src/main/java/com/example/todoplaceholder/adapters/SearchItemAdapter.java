@@ -92,7 +92,7 @@ public class SearchItemAdapter extends RecyclerView.Adapter<SearchItemAdapter.Vi
                 @Override
                 public void onClick(View view) {
                     //Start an edit activity with specific task id
-                    search.navigate();
+                    search.navigate(modelList.get(getAdapterPosition()));
                 }
             });
         }

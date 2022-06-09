@@ -50,6 +50,16 @@ public class DateTimePickerHandler {
         this.appColor = color;
     }
 
+    public DateTimePickerHandler(FragmentManager manager, int color, long dateFinal) {
+        this.fragmentManager = manager;
+        this.appColor = color;
+        this.dateFinal = dateFinal;
+        this.calendarDate = new Date(dateFinal);
+    }
+
+    public void createFinalString(String format){
+        setDateString(format);
+    }
 
     public void resetValues() {
         setDateFinal(0L);
@@ -285,5 +295,11 @@ public class DateTimePickerHandler {
         this.datePicker = datePicker;
     }
 
+    public int getAppColor() {
+        return appColor;
+    }
 
+    public void setAppColor(int appColor) {
+        this.appColor = appColor;
+    }
 }

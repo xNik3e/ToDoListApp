@@ -96,7 +96,8 @@ public class DateModel{
 
         dates = tempModels.stream()
                 .map(DateModel::getDate)
-                .distinct().collect(Collectors.toList());
+                .distinct()
+                .collect(Collectors.toList());
 
         tempModels.clear();
         dates.stream()

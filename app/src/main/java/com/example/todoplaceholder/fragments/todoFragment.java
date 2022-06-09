@@ -31,6 +31,7 @@ import com.example.todoplaceholder.interfaces.TaskDeActivatorInterface;
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.models.DateModel;
 import com.example.todoplaceholder.models.TaskModel;
+import com.example.todoplaceholder.utils.utils.PhotoHelper;
 import com.example.todoplaceholder.utils.utils.SpaceItemDecoration;
 import com.example.todoplaceholder.utils.view_services.App;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
@@ -193,7 +194,7 @@ public class todoFragment extends Fragment {
                 final TaskModel model = taskAdapter.getData().get(position);
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("MODEL", model);
+                bundle.putInt("MODELID", model.getId());
                 bundle.putSerializable("FROM", "FRAGMENT");
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -226,6 +227,7 @@ public class todoFragment extends Fragment {
                     @Override
                     public void run() {
                         if (isDeleted) {
+                            model.getAttachedFileNames().forEach(PhotoHelper::deleteImageFromStorage);
                             mainViewModel.deleteTask(nameToDelete);
                             isDeleted = false;
                         }

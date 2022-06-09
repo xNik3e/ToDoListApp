@@ -116,4 +116,8 @@ public class MainViewModel extends AndroidViewModel {
         mRepository.updateTask(task);
     }
 
+    public TaskModel getTaskByID(int id){
+        return mRepository.selectTaskById(id);
+    }
+
 }

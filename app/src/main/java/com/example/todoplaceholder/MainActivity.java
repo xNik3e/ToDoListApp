@@ -58,14 +58,14 @@ public class MainActivity extends AppCompatActivity {
     private addNewTaskFragment newTaskFragment;
     private addNewCategoryFragment newCategoryFragment;
 
-    private List<ColorModel> colorModels = new ArrayList<>();
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        appColor = getResources().getColor(R.color.defaultColor);
         //UI setup
 
 
@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 categoryModelList.addAll(categoryModels);
             }
         });
+
 
         TODOFRAGMENT = new todoFragment();
         SEARCHFRAGMENT = new SearchFragment();

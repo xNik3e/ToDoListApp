@@ -13,6 +13,7 @@ import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.models.TaskModel;
 import com.example.todoplaceholder.utils.databaseUtils.converters.CategoryModelConverter;
 import com.example.todoplaceholder.utils.databaseUtils.converters.DateConverter;
+import com.example.todoplaceholder.utils.databaseUtils.converters.StringListConverter;
 import com.example.todoplaceholder.utils.databaseUtils.daos.CategoryDao;
 import com.example.todoplaceholder.utils.databaseUtils.daos.TaskDao;
 
@@ -25,23 +26,25 @@ import java.util.concurrent.Executors;
 )
 @TypeConverters({
         DateConverter.class,
-        CategoryModelConverter.class})
+        CategoryModelConverter.class,
+        StringListConverter.class})
 public abstract class MyRoomDatabase extends RoomDatabase {
 
     public abstract CategoryDao categoryDao();
-    public abstract TaskDao taskDao();
 
+    public abstract TaskDao taskDao();
 
     private static volatile MyRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    public static MyRoomDatabase getInstance(final Context context){
-        if(INSTANCE == null){
-            synchronized (MyRoomDatabase.class){
-                if(INSTANCE == null){
+    public static MyRoomDatabase getInstance(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (MyRoomDatabase.class) {
+                if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), MyRoomDatabase.class, "room_database")
                             .addCallback(rdc)
+                            .allowMainThreadQueries()
                             .build();
                 }
             }
@@ -49,11 +52,11 @@ public abstract class MyRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static RoomDatabase.Callback rdc = new RoomDatabase.Callback(){
+    private static RoomDatabase.Callback rdc = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            databaseWriteExecutor.execute(() ->  {
+            databaseWriteExecutor.execute(() -> {
                 CategoryDao dao = INSTANCE.categoryDao();
                 dao.insertAll(CategoryModel.populateData());
             });
