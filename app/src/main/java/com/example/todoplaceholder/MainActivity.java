@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -12,8 +13,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,11 +30,13 @@ import com.example.todoplaceholder.fragments.addNewCategoryFragment;
 import com.example.todoplaceholder.fragments.addNewTaskFragment;
 import com.example.todoplaceholder.fragments.mySettingsFragment;
 import com.example.todoplaceholder.fragments.todoFragment;
+import com.example.todoplaceholder.interfaces.NotificationHelperInterface;
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.models.ColorModel;
 import com.example.todoplaceholder.models.DateModel;
 import com.example.todoplaceholder.models.TaskModel;
 import com.example.todoplaceholder.utils.utils.DatabaseValidator;
+import com.example.todoplaceholder.utils.utils.NotificationSchedule;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -58,14 +66,14 @@ public class MainActivity extends AppCompatActivity {
     private addNewTaskFragment newTaskFragment;
     private addNewCategoryFragment newCategoryFragment;
 
-
-
+    private NotificationHelperInterface notificationInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         appColor = getResources().getColor(R.color.defaultColor);
+        createNotificationChannel();
         //UI setup
 
 
@@ -95,12 +103,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        notificationInterface = new NotificationHelperInterface() {
+            @Override
+            public void notifyMe(String title, String description, int notificationID, long notifTime) {
+                Intent intent = new Intent(MainActivity.this, NotificationSchedule.class);
+                intent.putExtra("TITLE", title);
+                intent.putExtra("DESCRIPTION", description);
+                intent.putExtra("NOTIFICATION_ID", notificationID);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this,
+                        notificationID,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+
+                AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+                alarmManager.set(AlarmManager.RTC_WAKEUP,
+                        notifTime,
+                        pendingIntent);
+            }
+        };
 
         TODOFRAGMENT = new todoFragment();
         SEARCHFRAGMENT = new SearchFragment();
         CATEGORIESFRAGMENT = new CategoriesFragment(mViewModel);
         MYSETTINGSFRAGMENT = new mySettingsFragment();
-        newTaskFragment = new addNewTaskFragment(mViewModel, categoryModelList);
+        newTaskFragment = new addNewTaskFragment(mViewModel, categoryModelList, notificationInterface);
         newCategoryFragment = new addNewCategoryFragment(mViewModel, categoryModelList);
 
         Intent Visitor = getIntent();
@@ -201,6 +228,19 @@ public class MainActivity extends AppCompatActivity {
             bottomNavigationView.setSelectedItemId(R.id.todoFragment3);
         else {
             finish();
+        }
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "My Reminder Channel";
+            String description = "Channel for TODO reminders";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("myTODOAPP", name, importance);
+            channel.setDescription(description);
+
+            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(MainActivity.this);
+            notificationManagerCompat.createNotificationChannel(channel);
         }
     }
 }
