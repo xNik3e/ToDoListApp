@@ -4,14 +4,20 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -31,6 +37,7 @@ import com.example.todoplaceholder.models.PhotoModels;
 import com.example.todoplaceholder.models.TaskModel;
 import com.example.todoplaceholder.utils.Globals;
 import com.example.todoplaceholder.utils.utils.DateTimePickerHandler;
+import com.example.todoplaceholder.utils.utils.NotificationSchedule;
 import com.example.todoplaceholder.utils.utils.PhotoHelper;
 import com.example.todoplaceholder.viewmodels.MainViewModel;
 import com.google.android.material.textfield.TextInputEditText;
@@ -70,6 +77,7 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+        createNotificationChannel();
 
         Bundle bundle = getIntent().getExtras();
         int modelID = bundle.getInt("MODELID");
@@ -286,10 +294,34 @@ public class EditActivity extends AppCompatActivity {
                                         model.setModel(tempModels.get(0));
 
                                     model.setEndDate(new Date(endDateDateTimePickerHandler.getDateFinal()));
-                                    if (checkBox.isChecked())
+
+                                    Intent notifIntent = new Intent(EditActivity.this, NotificationSchedule.class);
+                                    notifIntent.putExtra("TITLE", "Reminder for " + model.getTaskName());
+                                    notifIntent.putExtra("DESCRIPTION", model.getDescription());
+                                    notifIntent.putExtra("NOTIFICATION_ID", model.getNotificationUniqueID());
+
+                                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                                    if (checkBox.isChecked()) {
                                         model.setNotificationTime(new Date(notificationDateDateTimePickerHandler.getDateFinal()));
-                                    else
+                                        //NOTIFICATION CREATION
+                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(EditActivity.this, model.getNotificationUniqueID(),
+                                                notifIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+
+                                        alarmManager.setExact(AlarmManager.RTC_WAKEUP,
+                                                notificationDateDateTimePickerHandler.getDateFinal(),
+                                                pendingIntent);
+
+                                    } else {
                                         model.setNotificationTime(null);
+                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(EditActivity.this, model.getNotificationUniqueID(),
+                                                notifIntent, PendingIntent.FLAG_NO_CREATE);
+
+                                        if(pendingIntent != null){
+                                            alarmManager.cancel(pendingIntent);
+                                        }
+                                    }
 
 
                                     model.setAttachedFileBitmaps(new ArrayList<>());
@@ -313,8 +345,8 @@ public class EditActivity extends AppCompatActivity {
                                     Toast.makeText(EditActivity.this, "Changes applied", Toast.LENGTH_SHORT).show();
                                     //Intent
                                     Intent intent = new Intent(EditActivity.this, MainActivity.class);
-                                    if(!comesFrom.equals("FRAGMENT"))
-                                       intent.putExtra("TO", "SEARCH");
+                                    if (!comesFrom.equals("FRAGMENT"))
+                                        intent.putExtra("TO", "SEARCH");
                                     startActivity(intent);
                                     finish();
                                 }
@@ -426,6 +458,19 @@ public class EditActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         choosePhotoHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "My Reminder Channel";
+            String description = "Channel for TODO reminders";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("myTODOAPP", name, importance);
+            channel.setDescription(description);
+
+            NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(EditActivity.this);
+            notificationManagerCompat.createNotificationChannel(channel);
+        }
     }
 
 }

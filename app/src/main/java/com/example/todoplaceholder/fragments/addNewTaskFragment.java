@@ -25,6 +25,7 @@ import com.aminography.primedatepicker.picker.theme.DarkThemeFactory;
 import com.example.todoplaceholder.R;
 import com.example.todoplaceholder.adapters.CategoryAdapter;
 import com.example.todoplaceholder.interfaces.CategoryAdapterNotifier;
+import com.example.todoplaceholder.interfaces.NotificationHelperInterface;
 import com.example.todoplaceholder.models.CategoryModel;
 import com.example.todoplaceholder.models.TaskModel;
 import com.example.todoplaceholder.utils.Globals;
@@ -55,12 +56,14 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
     private CategoryAdapter categoryAdapter;
     private DateTimePickerHandler endDateDateTimePickerHandler, notificationDateDateTimePickerHandler;
 
+    private NotificationHelperInterface notificationHelperInterface;
 
     private int appColor = 0;
 
-    public addNewTaskFragment(MainViewModel MVM, List<CategoryModel> cModelList) {
+    public addNewTaskFragment(MainViewModel MVM, List<CategoryModel> cModelList, NotificationHelperInterface anInterface) {
         this.mainViewModel = MVM;
         this.categoryModels = cModelList;
+        this.notificationHelperInterface = anInterface;
         // Required empty public constructor
     }
 
@@ -229,8 +232,13 @@ public class addNewTaskFragment extends BottomSheetDialogFragment {
                                         tempTask.setModel(tempModels.get(0));
 
                                     tempTask.setEndDate(new Date(endDateDateTimePickerHandler.getDateFinal()));
-                                    if(checkBox.isChecked())
+                                    if(checkBox.isChecked()) {
                                         tempTask.setNotificationTime(new Date(notificationDateDateTimePickerHandler.getDateFinal()));
+                                        notificationHelperInterface.notifyMe("Reminder for " + tempTask.getTaskName(),
+                                                tempTask.getDescription(),
+                                                tempTask.getNotificationUniqueID(),
+                                                tempTask.getNotificationTime().getTime());
+                                    }
                                     else
                                         tempTask.setNotificationTime(null);
 
