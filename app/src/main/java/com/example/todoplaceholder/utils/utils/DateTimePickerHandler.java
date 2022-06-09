@@ -43,6 +43,7 @@ public class DateTimePickerHandler {
     private PrimeDatePicker datePicker = null;
     private FragmentManager fragmentManager;
     private MutableLiveData<String> dateString = new MutableLiveData<>();
+    private String dateAsString;
     private int appColor;
 
     public DateTimePickerHandler(FragmentManager manager, int color) {
@@ -55,6 +56,10 @@ public class DateTimePickerHandler {
         this.appColor = color;
         this.dateFinal = dateFinal;
         this.calendarDate = new Date(dateFinal);
+        GregorianCalendar c = (GregorianCalendar) Calendar.getInstance();
+        c.setTime(calendarDate);
+        this.hourValue = c.get(Calendar.HOUR_OF_DAY);
+        this.minuteValue = c.get(Calendar.MINUTE);
     }
 
     public void createFinalString(String format){
@@ -252,6 +257,7 @@ public class DateTimePickerHandler {
             smf = new SimpleDateFormat(format);
 
         String result = smf.format(new Date(dateFinal));
+        dateAsString = result;
         dateString.setValue(result);
     }
 
@@ -301,5 +307,13 @@ public class DateTimePickerHandler {
 
     public void setAppColor(int appColor) {
         this.appColor = appColor;
+    }
+
+    public String getDateAsString() {
+        return dateAsString;
+    }
+
+    public void setDateAsString(String dateAsString) {
+        this.dateAsString = dateAsString;
     }
 }

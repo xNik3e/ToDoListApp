@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-                alarmManager.set(AlarmManager.RTC_WAKEUP,
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP,
                         notifTime,
                         pendingIntent);
             }
