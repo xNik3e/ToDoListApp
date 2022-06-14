@@ -133,7 +133,10 @@ public class MainActivity extends AppCompatActivity {
 
         Intent Visitor = getIntent();
         if (Visitor != null && Visitor.hasExtra("TO")) {
-            bottomNavigationView.setSelectedItemId(R.id.searchFragment3);
+            if(Visitor.getStringExtra("TO").equals("SEARCH"))
+                bottomNavigationView.setSelectedItemId(R.id.searchFragment3);
+            else
+                bottomNavigationView.setSelectedItemId(R.id.mySettingsFragment2);
         }
         mViewModel.getBaseColor().observe(this, new Observer<Integer>() {
             @Override

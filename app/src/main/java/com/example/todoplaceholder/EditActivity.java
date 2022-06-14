@@ -326,7 +326,7 @@ public class EditActivity extends AppCompatActivity {
                                                 notifIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
                                         if(pendingIntent != null){
-                                            pendingIntent.cancel();
+                                            //pendingIntent.cancel();
                                             alarmManager.cancel(pendingIntent);
                                         }
                                     }

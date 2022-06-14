@@ -8,16 +8,19 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class DateModel{
+public class DateModel {
     private int day;
     private int month;
     private int year;
@@ -28,7 +31,7 @@ public class DateModel{
     public DateModel(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        this.isActive= false;
+        this.isActive = false;
         this.day = calendar.get(Calendar.DAY_OF_MONTH);
         this.month = calendar.get(Calendar.MONTH) + 1;
         this.year = calendar.get(Calendar.YEAR);
@@ -38,7 +41,7 @@ public class DateModel{
     public DateModel(int day, int month, int year) {
         this.day = day;
         this.month = month;
-        this.isActive= false;
+        this.isActive = false;
         this.year = year;
         this.date = new GregorianCalendar(year, month - 1, day).getTime();
     }
@@ -83,35 +86,22 @@ public class DateModel{
         isActive = active;
     }
 
-    public static List<DateModel> createDateList(List<TaskModel> taskModels){
-        List<Date> dates = taskModels.stream()
-                .map(TaskModel::getEndDate)
-                .collect(Collectors.toList());
+    public static List<DateModel> createDateList(List<TaskModel> taskModels) {
 
         List<DateModel> tempModels = new ArrayList<>();
 
-        dates.stream()
+        taskModels.stream()
+                .map(TaskModel::getEndDate)
                 .map(DateModel::new)
-                .forEach(tempModels::add);
-
-        dates = tempModels.stream()
                 .map(DateModel::getDate)
                 .distinct()
-                .collect(Collectors.toList());
-
-        tempModels.clear();
-        dates.stream()
                 .map(DateModel::new)
+                .sorted(Comparator.comparing(DateModel::getDate))
                 .forEach(tempModels::add);
 
-        tempModels.sort(Comparator.comparing(DateModel::getDate));
-
-        if(tempModels.size() > 0)
+        if (tempModels.size() > 0)
             tempModels.get(0).setActive(true);
 
-        return  tempModels;
+        return tempModels;
     }
-
-
-
 }
