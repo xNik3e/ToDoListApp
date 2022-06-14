@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cardBackground"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <DatePicker
+        android:id="@+id/date_picker"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:calendarTextColor="@color/accentColor"
+        android:calendarViewShown="true"
+        android:spinnersShown="false" />
+
+    <TimePicker
+        android:id="@+id/time_picker"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4" />
+
+    <TextView
+        android:id="@+id/date_time_set"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_transparent"
+        android:clickable="true"
+        android:gravity="center"
+        android:textSize="@dimen/addNewItemSize"
+        android:padding="8dp"
+        android:text="Set"
+        android:textAlignment="center"
+        android:textColor="@color/defaultColor" />
+
+
+</LinearLayout>

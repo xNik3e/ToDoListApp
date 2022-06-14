@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/todoFragment3"
+        android:icon="@drawable/ic_check"
+        android:title="@string/todo" />
+    <item
+        android:id="@+id/searchFragment3"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search" />
+    <item
+        android:id="@+id/categoriesFragment2"
+        android:icon="@drawable/ic_bookmark"
+        android:title="@string/categories" />
+    <item
+        android:id="@+id/mySettingsFragment2"
+        android:icon="@drawable/ic_more"
+        android:title="@string/settings" />
+</menu>

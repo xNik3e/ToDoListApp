@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/cardBackground"
+    android:gravity="center_horizontal"
+    android:layout_height="match_parent">
+
+    <com.larswerkman.lobsterpicker.LobsterPicker
+        android:id="@+id/lobsterPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+    <com.larswerkman.lobsterpicker.sliders.LobsterShadeSlider
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/shadeSlider"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset to default"
+        android:background="@drawable/background_transparent"
+        android:textColor="@color/defaultColor"
+        android:id="@+id/reset"
+        android:clickable="true"
+        android:layout_marginBottom="8dp"
+        android:padding="8dp"
+        android:layout_marginTop="12sp"/>
+</LinearLayout>

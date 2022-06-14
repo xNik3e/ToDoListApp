@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   >
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/whole_container"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:backgroundTint="@color/cardBackground"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="8dp">
+
+        <RelativeLayout
+            android:id="@+id/front"
+            android:layout_width="match_parent"
+            android:layout_height="125dp">
+
+            <View
+                android:id="@+id/category_indicator"
+                android:layout_width="8dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="27dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="27dp"
+                android:background="@drawable/category_indicator"
+                android:backgroundTint="@color/defaultColor" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/category_indicator"
+                android:layout_alignTop="@id/category_indicator"
+                android:layout_toEndOf="@id/attachments_image_view"
+                android:singleLine="true"
+                android:text="TEST"
+                android:textColor="@color/defaultColor"
+                android:textSize="@dimen/itemTitle"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/alarm_image_view"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_below="@id/title"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="4dp"
+                android:layout_toEndOf="@id/category_indicator"
+                android:layout_toRightOf="@id/category_indicator"
+                android:src="@drawable/ic_alarm"
+                android:visibility="gone"
+                app:tint="@color/accentColor" />
+
+            <ImageView
+                android:id="@+id/attachments_image_view"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_above="@id/description"
+                android:layout_alignTop="@id/title"
+                android:layout_marginEnd="8dp"
+                android:layout_toEndOf="@id/category_indicator"
+                android:layout_toRightOf="@id/category_indicator"
+                android:src="@drawable/ic_attachment"
+                android:visibility="gone"
+                app:tint="@color/accentColor" />
+
+            <com.example.todoplaceholder.utils.view_services.AlwaysMarqueeTextView
+                android:id="@+id/description"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="4dp"
+                android:layout_toStartOf="@id/placeholder"
+                android:layout_toEndOf="@id/alarm_image_view"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="Description"
+                android:textColor="@color/accentColor"
+                android:textSize="@dimen/itemDescription" />
+
+            <TextView
+                android:id="@+id/creationDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignEnd="@id/placeholder"
+                android:layout_marginTop="6dp"
+                android:singleLine="true"
+                android:text="Created at: "
+                android:textColor="@color/accentColor"
+                android:textSize="@dimen/categoryItemSize" />
+
+            <TextView
+                android:id="@+id/expirationDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="6dp"
+                android:singleLine="true"
+                android:text="Expiring at: "
+                android:textColor="@color/accentColor"
+                android:textSize="@dimen/categoryItemSize" />
+
+            <View
+                android:id="@+id/placeholder"
+                android:layout_width="78dp"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="14dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:visibility="invisible" />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/button_check"
+                android:layout_width="64dp"
+                android:layout_height="48dp"
+                android:layout_alignStart="@id/placeholder"
+                android:layout_alignEnd="@id/placeholder"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="visible"
+                app:cardBackgroundColor="@color/defaultColor"
+                app:cardCornerRadius="8dp">
+
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_check"
+                    app:tint="@color/accentColor" />
+
+            </androidx.cardview.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/done_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/placeholder"
+                android:layout_alignEnd="@id/placeholder"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="Done!"
+                android:textColor="@color/confirmation"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

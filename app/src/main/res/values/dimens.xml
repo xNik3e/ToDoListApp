@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="titleSize">27sp</dimen>
+    <dimen name="addNewItemSize">24sp</dimen>
+    <dimen name="categoryNameSize">18sp</dimen>
+    <dimen name="dayOfTheWeek">15sp</dimen>
+    <dimen name="buttonLabel">16sp</dimen>
+    <dimen name="hintSize">28sp</dimen>
+    <dimen name="categoryItemSize">10sp</dimen>
+    <dimen name="alarmSize">9sp</dimen>
+    <dimen name="settingTitle">@dimen/addNewItemSize</dimen>
+    <dimen name="settingsSubtitle">@dimen/hintSize</dimen>
+    <dimen name="searchItemName">@dimen/buttonLabel</dimen>
+    <dimen name="helperString">@dimen/alarmSize</dimen>
+    <dimen name="simplifiedDate">@dimen/dayOfTheWeek</dimen>
+    <dimen name="itemTitle">@dimen/dayOfTheWeek</dimen>
+    <dimen name="itemDescription">@dimen/dayOfTheWeek</dimen>
+    <dimen name="doneString">@dimen/dayOfTheWeek</dimen>
+    <dimen name="deleteString">@dimen/buttonLabel</dimen>
+
+    <dimen name="PhotoSize">64dp</dimen>
+
+</resources>

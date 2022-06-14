@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bkgColor"
+    tools:context=".fragments.todoFragment">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/hg207"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/viewBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/defaultColor"
+            android:orientation="vertical" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:typeface="serif"
+            android:textStyle="bold"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:text="TODO LIST"
+            android:textColor="@color/titleColor"
+            android:textSize="@dimen/titleSize"
+            android:padding="24dp"
+            android:alpha="0.8"/>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:fadingEdgeLength="25dp"
+        android:orientation="horizontal"
+        android:requiresFadingEdge="horizontal"
+        android:scrollbars="none"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/hg246"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/calendar_card_view" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:fadingEdgeLength="25dp"
+        android:orientation="horizontal"
+        android:requiresFadingEdge="horizontal"
+        android:scrollbars="none"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/hg32"
+        app:layout_constraintLeft_toRightOf="@id/vg6"
+        app:layout_constraintRight_toLeftOf="@id/vg96"
+        app:layout_constraintTop_toBottomOf="@id/hg27"
+        tools:listitem="@layout/category_item_view" />
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/hg92"
+        app:layout_constraintEnd_toStartOf="@id/vg96"
+        app:layout_constraintStart_toEndOf="@id/vg6"
+        app:layout_constraintTop_toBottomOf="@id/hg34">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.tsuryo.swipeablerv.SwipeableRecyclerView
+                android:id="@+id/recycler_view_todo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
+                android:fadingEdgeLength="5dp"
+                android:requiresFadingEdge="vertical"
+                android:scrollbars="none"
+                tools:listitem="@layout/todo_item_card" />
+
+        </RelativeLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    <TextView
+        android:id="@+id/text_nothing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Nothing's here"
+        android:textColor="@color/defaultColor"
+        android:textSize="@dimen/titleSize"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:drawableTint="@color/white"
+        app:drawableTopCompat="@drawable/no_search_icon"
+        app:layout_constraintBottom_toTopOf="@id/hg92"
+        app:layout_constraintEnd_toStartOf="@id/vg96"
+        app:layout_constraintStart_toEndOf="@id/vg6"
+        app:layout_constraintTop_toBottomOf="@id/hg34" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hg149"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.149" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hg207"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.207" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hg246"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.246" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hg27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.275" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hg32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.322" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hg34"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.34" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hg92"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.92" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vg6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.06" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vg96"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.944" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
